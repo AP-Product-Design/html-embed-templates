@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AP Design System — Styleguide</title>
+  <link rel="stylesheet" href="ap-design-tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--ap-font-family);
+      background: var(--ap-color-backgrounds-secondary);
+      color: var(--ap-color-text-primary);
+      line-height: 1.5;
+      padding: var(--ap-spacing-700) var(--ap-spacing-screen-margins);
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: var(--ap-font-weight-bold);
+      font-stretch: var(--ap-font-stretch-semi-condensed);
+      margin-bottom: var(--ap-spacing-100);
+    }
+    .subtitle {
+      font-size: var(--ap-text-size-body-base);
+      color: var(--ap-color-text-secondary);
+      margin-bottom: var(--ap-spacing-800);
+    }
+    section {
+      background: var(--ap-color-backgrounds-primary);
+      border: 1px solid var(--ap-color-elements-border-subtle);
+      border-radius: var(--ap-layout-border-radius-md);
+      padding: var(--ap-spacing-700);
+      margin-bottom: var(--ap-spacing-700);
+    }
+    .section-title {
+      font-size: var(--ap-text-size-fixed-sm);
+      font-weight: var(--ap-font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--ap-letter-spacing-wide);
+      color: var(--ap-color-text-secondary);
+      margin-bottom: var(--ap-spacing-600);
+      padding-bottom: var(--ap-spacing-200);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+    }
+    .color-mode-panel {
+      margin-bottom: var(--ap-spacing-700);
+    }
+    .color-mode-panel:last-of-type { margin-bottom: 0; }
+    .mode-label {
+      font-size: var(--ap-text-size-body-sm);
+      font-weight: 700;
+      margin-bottom: var(--ap-spacing-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-bottom: var(--ap-spacing-200);
+      border-bottom: 2px solid var(--ap-color-elements-border-moderate);
+    }
+    .color-section {
+      margin-bottom: var(--ap-spacing-600);
+    }
+    .color-section h3 {
+      font-size: var(--ap-text-size-body-sm);
+      font-weight: 700;
+      margin-bottom: var(--ap-spacing-200);
+      color: var(--ap-color-text-primary);
+    }
+    .color-section h4 {
+      font-size: var(--ap-text-size-x-2);
+      font-weight: 600;
+      margin: var(--ap-spacing-400) 0 var(--ap-spacing-200);
+      color: var(--ap-color-text-secondary);
+    }
+    .color-section h4:first-of-type { margin-top: 0; }
+    .color-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--ap-text-size-body-sm);
+    }
+    .color-table th {
+      text-align: left;
+      font-weight: 600;
+      padding: var(--ap-spacing-200) var(--ap-spacing-300);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      color: var(--ap-color-text-secondary);
+    }
+    .color-table td {
+      padding: var(--ap-spacing-200) var(--ap-spacing-300);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      vertical-align: middle;
+    }
+    .color-table tr:last-child td { border-bottom: 0; }
+    .color-token-name { font-weight: 500; }
+    .color-hex { font-family: ui-monospace, monospace; font-size: 0.8125rem; }
+    .color-swatch-cell { width: 1%; white-space: nowrap; }
+    .color-swatch-inline {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.12);
+      vertical-align: middle;
+    }
+    .token-list { list-style: none; }
+    .token-list li {
+      display: flex;
+      align-items: baseline;
+      gap: var(--ap-spacing-400);
+      padding: var(--ap-spacing-200) 0;
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      font-size: var(--ap-text-size-body-sm);
+    }
+    .token-list li:last-child { border-bottom: 0; }
+    .token-name { font-weight: var(--ap-font-weight-medium); min-width: 220px; }
+    .token-value { color: var(--ap-color-text-secondary); font-family: ui-monospace, monospace; }
+    .text-style-row {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: var(--ap-spacing-600);
+      align-items: baseline;
+      padding: var(--ap-spacing-300) 0;
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      font-size: var(--ap-text-size-body-sm);
+    }
+    .text-style-row:last-child { border-bottom: 0; }
+    .text-style-meta {
+      color: var(--ap-color-text-secondary);
+      font-size: var(--ap-text-size-x-2);
+    }
+    .text-style-sample { overflow: hidden; }
+    .text-styles-group { margin-bottom: var(--ap-spacing-600); }
+    .text-styles-group:last-child { margin-bottom: 0; }
+    .text-styles-group h3 {
+      font-size: var(--ap-text-size-body-sm);
+      font-weight: 700;
+      color: var(--ap-color-text-primary);
+      margin-bottom: var(--ap-spacing-300);
+      padding-bottom: var(--ap-spacing-200);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+    }
+    .responsive-intro {
+      font-size: var(--ap-text-size-body-sm);
+      color: var(--ap-color-text-secondary);
+      margin-bottom: var(--ap-spacing-600);
+      max-width: 60ch;
+    }
+    .breakpoint-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--ap-text-size-body-sm);
+      margin-bottom: var(--ap-spacing-600);
+    }
+    .breakpoint-table:last-of-type { margin-bottom: 0; }
+    .breakpoint-table th {
+      text-align: left;
+      font-weight: 600;
+      padding: var(--ap-spacing-200) var(--ap-spacing-300);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      color: var(--ap-color-text-secondary);
+    }
+    .breakpoint-table th.breakpoint-col { text-align: center; }
+    .breakpoint-table td {
+      padding: var(--ap-spacing-200) var(--ap-spacing-300);
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+    }
+    .breakpoint-table td.breakpoint-col {
+      font-family: ui-monospace, monospace;
+      font-size: 0.8125rem;
+      text-align: center;
+      color: var(--ap-color-text-secondary);
+    }
+    .breakpoint-table tr:last-child td { border-bottom: 0; }
+    .scale-group-title {
+      font-size: var(--ap-text-size-body-sm);
+      font-weight: 700;
+      margin: var(--ap-spacing-500) 0 var(--ap-spacing-200);
+      color: var(--ap-color-text-primary);
+    }
+    .scale-group-title:first-of-type { margin-top: 0; }
+
+    /* Page nav */
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--ap-spacing-200) var(--ap-spacing-400);
+      margin-bottom: var(--ap-spacing-800);
+      padding: var(--ap-spacing-400) 0;
+      border-bottom: 1px solid var(--ap-color-elements-border-subtle);
+      font-size: var(--ap-text-size-body-sm);
+    }
+    .page-nav a {
+      color: var(--ap-color-interactive-text-link-enabled);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .page-nav a:hover { text-decoration: underline; }
+
+    /* Grids section */
+    .grid-breakpoint {
+      margin-bottom: var(--ap-spacing-800);
+    }
+    .grid-breakpoint:last-of-type { margin-bottom: 0; }
+    .grid-breakpoint h3 {
+      font-size: var(--ap-text-size-body-sm);
+      font-weight: 700;
+      color: var(--ap-color-text-primary);
+      margin-bottom: var(--ap-spacing-200);
+    }
+    .grid-breakpoint-meta {
+      font-size: var(--ap-text-size-x-2);
+      color: var(--ap-color-text-secondary);
+      margin-bottom: var(--ap-spacing-500);
+    }
+    .grid-variant {
+      margin-bottom: var(--ap-spacing-600);
+    }
+    .grid-variant-title {
+      font-size: var(--ap-text-size-x-2);
+      font-weight: 600;
+      margin-bottom: var(--ap-spacing-200);
+      color: var(--ap-color-text-secondary);
+    }
+    .grid-viewport {
+      border: 2px solid var(--ap-color-elements-border-moderate);
+      border-radius: var(--ap-layout-border-radius-sm);
+      background: var(--ap-color-backgrounds-secondary);
+      overflow: hidden;
+      margin-bottom: var(--ap-spacing-300);
+    }
+    .grid-viewport--390 { width: 390px; max-width: 100%; }
+    .grid-viewport--768 { width: 768px; max-width: 100%; }
+    .grid-viewport--1024 { width: 1024px; max-width: 100%; }
+    .grid-viewport--1440 { width: 1440px; max-width: 100%; }
+    .grid-viewport__inner {
+      display: flex;
+      min-height: 80px;
+    }
+    .grid-viewport__margin {
+      flex-shrink: 0;
+      background: rgba(0, 42, 105, 0.08);
+    }
+    .grid-viewport__content {
+      flex: 1;
+      display: grid;
+      min-height: 80px;
+    }
+    .grid-viewport__col {
+      background: var(--ap-color-interactive-text-link-enabled);
+      opacity: 0.25;
+      min-height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header style="margin-bottom: var(--ap-spacing-400);">
+      <h1>AP News Design System (Maple)</h1>
+      <p class="subtitle">Design tokens and text styles from Figma</p>
+    </header>
+    <nav class="page-nav" aria-label="Page sections">
+      <a href="#colors">Colors</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#layout">Layout</a>
+      <a href="#text-sizes">Text sizes</a>
+      <a href="#font-weight">Font weight &amp; stretch</a>
+      <a href="#grids">Grids</a>
+    </nav>
+
+    <!-- Colors: Themes (Light + Dark values in one section) -->
+    <section id="colors">
+      <h2 class="section-title">Colors</h2>
+      <p style="font-size: var(--ap-text-size-body-sm); color: var(--ap-color-text-secondary); margin-bottom: var(--ap-spacing-600);">Each token shows Light and Dark theme hex values with swatches.</p>
+
+      <div class="color-mode-panel">
+        <p class="mode-label">Themes</p>
+
+        <div class="color-section">
+          <h3>Backgrounds</h3>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">primary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">secondary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td></tr>
+              <tr><td class="color-token-name">tertiary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">elevated</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td></tr>
+              <tr><td class="color-token-name">header-primary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">header-secondary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td></tr>
+              <tr><td class="color-token-name">overlay</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00000080"></span> <span class="color-hex">#00000080</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00000080"></span> <span class="color-hex">#00000080</span></td></tr>
+              <tr><td class="color-token-name">ap-alert-blue</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0042a9"></span> <span class="color-hex">#0042a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0042a9"></span> <span class="color-hex">#0042a9</span></td></tr>
+              <tr><td class="color-token-name">ap-alert-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Brand</h3>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">ap-accent-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff1818"></span> <span class="color-hex">#ff1818</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff1818"></span> <span class="color-hex">#ff1818</span></td></tr>
+              <tr><td class="color-token-name">ap-adaptive-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff5c58"></span> <span class="color-hex">#ff5c58</span></td></tr>
+              <tr><td class="color-token-name">ap-brand-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff1818"></span> <span class="color-hex">#ff1818</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff1818"></span> <span class="color-hex">#ff1818</span></td></tr>
+              <tr><td class="color-token-name">ap-solid-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Elements</h3>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">border-bold</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">border-moderate</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">border-subtle</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">list-item-disc</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Icons</h3>
+          <h4>Primary</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">hover</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">active</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">disabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">selected</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f4f4f4"></span> <span class="color-hex">#f4f4f4</span></td></tr>
+              <tr><td class="color-token-name">enabled-semi-trans-50</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00000080"></span> <span class="color-hex">#00000080</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff80"></span> <span class="color-hex">#ffffff80</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Secondary</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td></tr>
+              <tr><td class="color-token-name">hover</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">active</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">disabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">selected</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f4f4f4"></span> <span class="color-hex">#f4f4f4</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Inverse</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">hovered</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">active</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td></tr>
+              <tr><td class="color-token-name">disabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Interactive</h3>
+          <h4>Filled (background)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">hover-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td></tr>
+              <tr><td class="color-token-name">active-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">disabled-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Filled (icon)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">hover-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">active-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">disabled-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">selected-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Filled (label)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">hover-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">active-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">disabled-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">selected-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Outlined (background)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff00"></span> <span class="color-hex">#ffffff00</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff00"></span> <span class="color-hex">#ffffff00</span></td></tr>
+              <tr><td class="color-token-name">hover-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">active-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">disabled-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff00"></span> <span class="color-hex">#ffffff00</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">enabled-bg-grey-test</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff80"></span> <span class="color-hex">#ffffff80</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#19191980"></span> <span class="color-hex">#19191980</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Outlined (border)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td></tr>
+              <tr><td class="color-token-name">hover-border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f4f4f4"></span> <span class="color-hex">#f4f4f4</span></td></tr>
+              <tr><td class="color-token-name">active-border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">disabled-border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected-border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Outlined (icon)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">hover-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">active-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">disabled-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected-icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Outlined (label)</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">hover-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">active-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#3a3a3a"></span> <span class="color-hex">#3a3a3a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">disabled-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected-label</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Text link</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0042a9"></span> <span class="color-hex">#0042a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#8bc4fa"></span> <span class="color-hex">#8bc4fa</span></td></tr>
+              <tr><td class="color-token-name">hover</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#002860"></span> <span class="color-hex">#002860</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c8eeff"></span> <span class="color-hex">#c8eeff</span></td></tr>
+              <tr><td class="color-token-name">active</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0042a9"></span> <span class="color-hex">#0042a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#8bc4fa"></span> <span class="color-hex">#8bc4fa</span></td></tr>
+              <tr><td class="color-token-name">disabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#002860"></span> <span class="color-hex">#002860</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c8eeff"></span> <span class="color-hex">#c8eeff</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Text link subtle</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">enabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">hover</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">active</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">disabled</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td></tr>
+              <tr><td class="color-token-name">selected</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Text</h3>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">primary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">secondary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td></tr>
+              <tr><td class="color-token-name">primary-hover</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a8a8a9"></span> <span class="color-hex">#a8a8a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#c4c4c4"></span> <span class="color-hex">#c4c4c4</span></td></tr>
+              <tr><td class="color-token-name">header</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f2f2f2"></span> <span class="color-hex">#f2f2f2</span></td></tr>
+              <tr><td class="color-token-name">subheader</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">inverse-primary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">inverse-secondary</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td></tr>
+              <tr><td class="color-token-name">ap-adaptive-red</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff5c58"></span> <span class="color-hex">#ff5c58</span></td></tr>
+              <tr><td class="color-token-name">error</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff5c58"></span> <span class="color-hex">#ff5c58</span></td></tr>
+              <tr><td class="color-token-name">eyebrow-breaking</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ff5c58"></span> <span class="color-hex">#ff5c58</span></td></tr>
+              <tr><td class="color-token-name">eyebrow-default</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td></tr>
+              <tr><td class="color-token-name">infortmation</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0042a9"></span> <span class="color-hex">#0042a9</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#8bc4fa"></span> <span class="color-hex">#8bc4fa</span></td></tr>
+              <tr><td class="color-token-name">success</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00945a"></span> <span class="color-hex">#00945a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#deffc4"></span> <span class="color-hex">#deffc4</span></td></tr>
+              <tr><td class="color-token-name">warning</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#a0400c"></span> <span class="color-hex">#a0400c</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffac2c"></span> <span class="color-hex">#ffac2c</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="color-section">
+          <h3>Notification</h3>
+          <h4>Feedback</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">feedback-error background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#fff4f0"></span> <span class="color-hex">#fff4f0</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#fff4f0"></span> <span class="color-hex">#fff4f0</span></td></tr>
+              <tr><td class="color-token-name">feedback-error border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#da1026"></span> <span class="color-hex">#da1026</span></td></tr>
+              <tr><td class="color-token-name">feedback-info background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e0f0ff"></span> <span class="color-hex">#e0f0ff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e0f0ff"></span> <span class="color-hex">#e0f0ff</span></td></tr>
+              <tr><td class="color-token-name">feedback-info border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0081e1"></span> <span class="color-hex">#0081e1</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#0081e1"></span> <span class="color-hex">#0081e1</span></td></tr>
+              <tr><td class="color-token-name">feedback-success background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f4fdee"></span> <span class="color-hex">#f4fdee</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#f4fdee"></span> <span class="color-hex">#f4fdee</span></td></tr>
+              <tr><td class="color-token-name">feedback-success border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00945a"></span> <span class="color-hex">#00945a</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#00945a"></span> <span class="color-hex">#00945a</span></td></tr>
+              <tr><td class="color-token-name">feedback-warning background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#fffcea"></span> <span class="color-hex">#fffcea</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#fffcea"></span> <span class="color-hex">#fffcea</span></td></tr>
+              <tr><td class="color-token-name">feedback-warning border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffba00"></span> <span class="color-hex">#ffba00</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffba00"></span> <span class="color-hex">#ffba00</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Status</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">status background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">status border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Announcement</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">announcement background</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#efefef"></span> <span class="color-hex">#efefef</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">announcement border</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#e6e6e7"></span> <span class="color-hex">#e6e6e7</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#666666"></span> <span class="color-hex">#666666</span></td></tr>
+            </tbody>
+          </table>
+          <h4>Other</h4>
+          <table class="color-table">
+            <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+            <tbody>
+              <tr><td class="color-token-name">icon</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">icon-inverse</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+              <tr><td class="color-token-name">neutral-bg</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#515151"></span> <span class="color-hex">#515151</span></td></tr>
+              <tr><td class="color-token-name">text</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#191919"></span> <span class="color-hex">#191919</span></td></tr>
+              <tr><td class="color-token-name">text-inverse</td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td><td class="color-swatch-cell"><span class="color-swatch-inline" style="background:#ffffff"></span> <span class="color-hex">#ffffff</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography — All text styles -->
+    <section id="typography">
+      <h2 class="section-title">Text styles (Figma)</h2>
+      <p class="responsive-intro">Many text styles use the <strong>responsive type scale</strong> (x-base, x1, x2, etc.): they render smaller at SM/MD and larger at LG/XL. Styles in the <strong>Special</strong> group (e.g. Breaking heading, Story page headline SM/MD/LG, List item mobile priority) can have a different font size at each breakpoint—see the &quot;Text sizes (type scale)&quot; section below for SM / MD / LG / XL values.</p>
+
+      <div class="text-styles-group">
+        <h3>Headings</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Breaking heading · breaking-heading (40px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 40px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Breaking heading</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Display XL · x5 (48px) · SemiCondensed Medium · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 48px; font-weight: 500; font-stretch: 75%; letter-spacing: -0.5px;">Display XL</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Display LG · x4 (40px) · SemiCondensed Medium · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 40px; font-weight: 500; font-stretch: 75%; letter-spacing: -0.5px;">Display LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 1 · x3 (32px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 1</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 2 · x2 (24px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 2</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 3 · x1 (20px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 3</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 4 · x-base (16px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 4</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 5 · x-1 (14px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 5</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section heading 6 · x-2 (12px) · Condensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 700; font-stretch: 50%; text-transform: uppercase;">Section heading 6</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Eyebrow · x-2 (12px) · SemiCondensed Medium · UPPER</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 500; font-stretch: 75%; text-transform: uppercase;">Eyebrow</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Story links — Bold (titles 1–6)</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 1 · x3 (32px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 700; font-stretch: 75%;">Story link title 1</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 2 · x2 (24px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700; font-stretch: 75%;">Story link title 2</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 3 · x1 (20px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700; font-stretch: 75%;">Story link title 3</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 4 · x-base (16px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700; font-stretch: 75%;">Story link title 4</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 5 · x-1 (14px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700; font-stretch: 75%;">Story link title 5</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 6 · x-2 (12px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 700; font-stretch: 75%;">Story link title 6</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Story links — Medium (titles 1–6)</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 1 · x3 (32px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 500; font-stretch: 75%;">Story link title 1</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 2 · x2 (24px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 500; font-stretch: 75%;">Story link title 2</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 3 · x1 (20px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500; font-stretch: 75%;">Story link title 3</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 4 · x-base (16px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500; font-stretch: 75%;">Story link title 4</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 5 · x-1 (14px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 75%;">Story link title 5</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story link title 6 · x-2 (12px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 500; font-stretch: 75%;">Story link title 6</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Story links — List items</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item LG · x-base (18px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 18px; font-weight: 500; font-stretch: 75%;">List item LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item MD · x-base (16px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500; font-stretch: 75%;">List item MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item SM · x-1 (14px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 75%;">List item SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item mobile priority LG · mobile-priority-lg (20px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500; font-stretch: 75%;">List item mobile priority LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item mobile priority MD · mobile-priority-md (16px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500; font-stretch: 75%;">List item mobile priority MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">List item mobile priority SM · mobile-priority-sm (14px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 75%;">List item mobile priority SM</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Article</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story page headline LG · story-page-headline-lg (32px) · SemiCondensed Bold · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 700; font-stretch: 75%; letter-spacing: -0.5px;">Story page headline LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story page headline MD · story-page-headline-md (24px) · SemiCondensed Bold · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700; font-stretch: 75%; letter-spacing: -0.5px;">Story page headline MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Story page headline SM · story-page-headline-sm (20px) · SemiCondensed Bold · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700; font-stretch: 75%; letter-spacing: -0.5px;">Story page headline SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Article heading 1 XL · x3 (32px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 700; font-stretch: 75%;">Article heading 1 XL</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Article heading 2 LG · x2 (24px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700; font-stretch: 75%;">Article heading 2 LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Article heading 3 MD · x1 (20px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700; font-stretch: 75%;">Article heading 3 MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Article heading 4 Base · x-base (16px) · SemiCondensed Bold</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700; font-stretch: 75%;">Article heading 4 Base</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Body LG · x1 (20px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 400;">Body LG — The quick brown fox jumps over the lazy dog.</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Body Base · x-base (16px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 400;">Body Base — The quick brown fox jumps over the lazy dog.</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Body SM · x-1 (14px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400;">Body SM — The quick brown fox jumps over the lazy dog.</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Byline · x-1 (14px) · Condensed Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 50%;">By John Doe</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Byline (all caps) · x-1 (14px) · Condensed Medium · UPPER</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 50%; text-transform: uppercase;">By John Doe</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Quote 1 · x1 (20px) · Condensed Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700; font-stretch: 50%;">Quote 1</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Quote 2 · x1 (20px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500;">Quote 2</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Forms</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Form title · x3 (32px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 500; font-stretch: 75%;">Form title</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section label · x1 (20px) · Medium · UPPER</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500; text-transform: uppercase;">Section label</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Form label · x-base (16px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500;">Form label</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Form label eyebrow · x-2 (12px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 400;">Form label eyebrow</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Form input · x-base (16px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 400;">Form input</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Menu item · x-1 (14px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400;">Menu item</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Placeholder text · x-base (16px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 400; color: var(--ap-color-text-secondary);">Placeholder text</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Dialog text · x-1 (14px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400;">Dialog text</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Char counter · x-2 (12px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 400;">0 / 100</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Button text (default) · x-base (16px) · Medium · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500; letter-spacing: -0.5px;">Button text</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Button text (compact) · x-1 (14px) · Medium · -0.5px</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; letter-spacing: -0.5px;">Button text</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Btn text link (default) · x-base (16px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500;">Btn text link</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Btn text link (compact) · x-1 (14px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500;">Btn text link</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Utility</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Main nav link · x-1 (14px) · SemiCondensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700; font-stretch: 75%; text-transform: uppercase;">Main nav link</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Trending nav link · x-1 (14px) · SemiCondensed Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500; font-stretch: 75%;">Trending nav link</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Section nav link · x-1 (14px) · SemiCondensed Bold · UPPER</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700; font-stretch: 75%; text-transform: uppercase;">Section nav link</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Storyline nav link · x-1 (14px) · SemiCondensed</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400; font-stretch: 75%;">Storyline nav link</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Photo credit · x-1 (14px) · SemiCondensed</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400; font-stretch: 75%;">Photo credit</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Caption · x-1 (14px) · SemiCondensed</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400; font-stretch: 75%;">Caption</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label XL · x2 (24px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700;">Label XL</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label LG · x1 (20px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700;">Label LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Base · x-base (16px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700;">Label Base</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label SM · x-1 (14px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700;">Label SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label XS · x-2 (12px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 700;">Label XS</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Description LG · x1 (20px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 400;">Description LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Description MD · x-base (16px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 400;">Description MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Description SM · x-1 (14px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400;">Description SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Timestamp · x-2 (12px) · Medium · 1px · UPPER</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">2 hours ago</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Metadata Reg · x-2 (12px) · Regular · 1px</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 400; letter-spacing: 1px;">Metadata regular</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Metadata Bold · x-2 (12px) · Bold · 1px · UPPER</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Metadata bold</div>
+        </div>
+      </div>
+
+      <div class="text-styles-group">
+        <h3>Core</h3>
+        <div class="text-style-row">
+          <div class="text-style-meta">Body base · x-base (16px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 400;">Core body base</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Body SM · x-1 (14px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 400;">Core body SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Metadata · x-2 (12px) · Regular</div>
+          <div class="text-style-sample" style="font-size: 12px; font-weight: 400; text-transform: uppercase;">Core metadata</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Bold XL · x3 (32px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 700;">Heading XL</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Bold LG · x2 (24px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 700;">Heading LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Bold MD · x1 (20px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700;">Heading MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Bold SM · x-base (16px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700;">Heading SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Medium XL · x3 (32px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 32px; font-weight: 500;">Heading XL</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Medium LG · x2 (24px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 24px; font-weight: 500;">Heading LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Medium MD · x1 (20px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500;">Heading MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Heading Medium Base · x-base (16px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500;">Heading Base</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Bold LG · x1 (20px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 700;">Label LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Bold MD · x-base (16px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 700;">Label MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Bold SM · x-1 (14px) · Bold</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 700;">Label SM</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Medium LG · x1 (20px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 20px; font-weight: 500;">Label LG</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Medium MD · x-base (16px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 16px; font-weight: 500;">Label MD</div>
+        </div>
+        <div class="text-style-row">
+          <div class="text-style-meta">Label Medium SM · x-1 (14px) · Medium</div>
+          <div class="text-style-sample" style="font-size: 14px; font-weight: 500;">Label SM</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacing -->
+    <section id="spacing">
+      <h2 class="section-title">Spacing (Responsive SM)</h2>
+      <ul class="token-list">
+        <li><span class="token-name">spacing-0</span><span class="token-value">var(--ap-spacing-0)</span> 0</li>
+        <li><span class="token-name">spacing-100</span><span class="token-value">var(--ap-spacing-100)</span> 0.25rem</li>
+        <li><span class="token-name">spacing-200</span><span class="token-value">var(--ap-spacing-200)</span> 0.5rem</li>
+        <li><span class="token-name">spacing-300</span><span class="token-value">var(--ap-spacing-300)</span> 0.75rem</li>
+        <li><span class="token-name">spacing-400</span><span class="token-value">var(--ap-spacing-400)</span> 1rem</li>
+        <li><span class="token-name">spacing-500</span><span class="token-value">var(--ap-spacing-500)</span> 1.25rem</li>
+        <li><span class="token-name">spacing-600</span><span class="token-value">var(--ap-spacing-600)</span> 1.5rem</li>
+        <li><span class="token-name">spacing-700</span><span class="token-value">var(--ap-spacing-700)</span> 2rem</li>
+        <li><span class="token-name">spacing-800</span><span class="token-value">var(--ap-spacing-800)</span> 3rem</li>
+        <li><span class="token-name">spacing-900</span><span class="token-value">var(--ap-spacing-900)</span> 4rem</li>
+        <li><span class="token-name">screen-margins</span><span class="token-value">var(--ap-spacing-screen-margins)</span> 1.25rem</li>
+      </ul>
+      <div style="margin-top: var(--ap-spacing-600); display: flex; flex-wrap: wrap; gap: var(--ap-spacing-200); align-items: center;">
+        <div style="width: var(--ap-spacing-100); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+        <div style="width: var(--ap-spacing-200); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+        <div style="width: var(--ap-spacing-300); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+        <div style="width: var(--ap-spacing-400); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+        <div style="width: var(--ap-spacing-500); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+        <div style="width: var(--ap-spacing-600); height: var(--ap-spacing-400); background: var(--ap-color-text-secondary); border-radius: 2px;"></div>
+      </div>
+    </section>
+
+    <!-- Layout -->
+    <section id="layout">
+      <h2 class="section-title">Layout</h2>
+      <h3 style="font-size: var(--ap-text-size-body-sm); font-weight: 700; margin-bottom: var(--ap-spacing-300);">Border radius</h3>
+      <ul class="token-list" style="margin-bottom: var(--ap-spacing-600);">
+        <li><span class="token-name">border-radius-sm</span><span class="token-value">var(--ap-layout-border-radius-sm)</span> 0.1875rem</li>
+        <li><span class="token-name">border-radius-md</span><span class="token-value">var(--ap-layout-border-radius-md)</span> 0.5rem</li>
+        <li><span class="token-name">border-radius-lg</span><span class="token-value">var(--ap-layout-border-radius-lg)</span> 1.5rem</li>
+        <li><span class="token-name">border-radius-xl</span><span class="token-value">var(--ap-layout-border-radius-xl)</span> 2rem</li>
+      </ul>
+      <div style="display: flex; gap: var(--ap-spacing-600); flex-wrap: wrap;">
+        <div style="width: 80px; height: 80px; background: var(--ap-color-backgrounds-tertiary); border-radius: var(--ap-layout-border-radius-sm);"></div>
+        <div style="width: 80px; height: 80px; background: var(--ap-color-backgrounds-tertiary); border-radius: var(--ap-layout-border-radius-md);"></div>
+        <div style="width: 80px; height: 80px; background: var(--ap-color-backgrounds-tertiary); border-radius: var(--ap-layout-border-radius-lg);"></div>
+        <div style="width: 80px; height: 80px; background: var(--ap-color-backgrounds-tertiary); border-radius: var(--ap-layout-border-radius-xl);"></div>
+      </div>
+      <h3 style="font-size: var(--ap-text-size-body-sm); font-weight: 700; margin: var(--ap-spacing-600) 0 var(--ap-spacing-300);">Stroke</h3>
+      <ul class="token-list">
+        <li><span class="token-name">stroke-01</span><span class="token-value">var(--ap-layout-stroke-01)</span> 0.0625rem</li>
+        <li><span class="token-name">stroke-02</span><span class="token-value">var(--ap-layout-stroke-02)</span> 0.125rem</li>
+        <li><span class="token-name">stroke-03</span><span class="token-value">var(--ap-layout-stroke-03)</span> 0.1875rem</li>
+        <li><span class="token-name">stroke-05</span><span class="token-value">var(--ap-layout-stroke-05)</span> 0.3125rem</li>
+        <li><span class="token-name">stroke-07</span><span class="token-value">var(--ap-layout-stroke-07)</span> 0.4375rem</li>
+        <li><span class="token-name">stroke-10</span><span class="token-value">var(--ap-layout-stroke-10)</span> 0.625rem</li>
+      </ul>
+    </section>
+
+    <!-- Text sizes (responsive by breakpoint) -->
+    <section id="text-sizes">
+      <h2 class="section-title">Text sizes (type scale)</h2>
+      <p class="responsive-intro">Text sizes are <strong>responsive</strong>: smaller at SM and MD breakpoints, larger at LG and XL. Styles that use the <strong>x-scale</strong> (x-base, x1, x2, etc.) follow this two-tier scale. Styles in the <strong>Special</strong> group can have a different size at each of the four breakpoints (SM, MD, LG, XL).</p>
+
+      <p class="scale-group-title">X-scale (responsive)</p>
+      <p style="font-size: var(--ap-text-size-x-2); color: var(--ap-color-text-secondary); margin-bottom: var(--ap-spacing-300);">Smaller at SM/MD, larger at LG/XL. Use <code>var(--ap-text-size-x-base)</code> etc.; in production these resolve per breakpoint via media/container queries.</p>
+      <table class="breakpoint-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th class="breakpoint-col">SM</th>
+            <th class="breakpoint-col">MD</th>
+            <th class="breakpoint-col">LG</th>
+            <th class="breakpoint-col">XL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>x-3</td><td class="breakpoint-col">0.625rem</td><td class="breakpoint-col">0.625rem</td><td class="breakpoint-col">0.75rem</td><td class="breakpoint-col">0.75rem</td></tr>
+          <tr><td>x-2 / metadata</td><td class="breakpoint-col">0.75rem</td><td class="breakpoint-col">0.75rem</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">0.875rem</td></tr>
+          <tr><td>x-1 / body-sm</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">1rem</td></tr>
+          <tr><td>x-base / body-base</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">1.125rem</td><td class="breakpoint-col">1.125rem</td></tr>
+          <tr><td>x1 / body-lg</td><td class="breakpoint-col">1.25rem</td><td class="breakpoint-col">1.25rem</td><td class="breakpoint-col">1.4375rem</td><td class="breakpoint-col">1.4375rem</td></tr>
+          <tr><td>x2</td><td class="breakpoint-col">1.5rem</td><td class="breakpoint-col">1.5rem</td><td class="breakpoint-col">1.6875rem</td><td class="breakpoint-col">1.6875rem</td></tr>
+          <tr><td>x3</td><td class="breakpoint-col">2rem</td><td class="breakpoint-col">2rem</td><td class="breakpoint-col">2.25rem</td><td class="breakpoint-col">2.25rem</td></tr>
+          <tr><td>x4</td><td class="breakpoint-col">2.5rem</td><td class="breakpoint-col">2.5rem</td><td class="breakpoint-col">2.8125rem</td><td class="breakpoint-col">2.8125rem</td></tr>
+          <tr><td>x5</td><td class="breakpoint-col">3rem</td><td class="breakpoint-col">3rem</td><td class="breakpoint-col">3.375rem</td><td class="breakpoint-col">3.375rem</td></tr>
+        </tbody>
+      </table>
+
+      <p class="scale-group-title">Special (per-breakpoint sizes)</p>
+      <p style="font-size: var(--ap-text-size-x-2); color: var(--ap-color-text-secondary); margin-bottom: var(--ap-spacing-300);">Each token can have a different value at SM, MD, LG, and XL.</p>
+      <table class="breakpoint-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th class="breakpoint-col">SM</th>
+            <th class="breakpoint-col">MD</th>
+            <th class="breakpoint-col">LG</th>
+            <th class="breakpoint-col">XL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>mobile-priority-sm</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">0.75rem</td><td class="breakpoint-col">0.75rem</td></tr>
+          <tr><td>mobile-priority-md</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">0.875rem</td><td class="breakpoint-col">0.875rem</td></tr>
+          <tr><td>mobile-priority-lg</td><td class="breakpoint-col">1.25rem</td><td class="breakpoint-col">1.25rem</td><td class="breakpoint-col">1rem</td><td class="breakpoint-col">1rem</td></tr>
+          <tr><td>story-page-headline-sm</td><td class="breakpoint-col">1.25rem</td><td class="breakpoint-col">1.5rem</td><td class="breakpoint-col">1.6875rem</td><td class="breakpoint-col">2.25rem</td></tr>
+          <tr><td>story-page-headline-md</td><td class="breakpoint-col">1.5rem</td><td class="breakpoint-col">2rem</td><td class="breakpoint-col">2.25rem</td><td class="breakpoint-col">2.8125rem</td></tr>
+          <tr><td>story-page-headline-lg</td><td class="breakpoint-col">2rem</td><td class="breakpoint-col">2.5rem</td><td class="breakpoint-col">2.8125rem</td><td class="breakpoint-col">3.375rem</td></tr>
+          <tr><td>breaking-heading</td><td class="breakpoint-col">2.5rem</td><td class="breakpoint-col">2.5rem</td><td class="breakpoint-col">3.375rem</td><td class="breakpoint-col">3.375rem</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Font weight & stretch -->
+    <section id="font-weight">
+      <h2 class="section-title">Font weight & stretch</h2>
+      <ul class="token-list">
+        <li><span class="token-name">font-weight-regular</span><span class="token-value">400</span></li>
+        <li><span class="token-name">font-weight-medium</span><span class="token-value">500</span></li>
+        <li><span class="token-name">font-weight-bold</span><span class="token-value">700</span></li>
+        <li><span class="token-name">font-stretch-condensed</span><span class="token-value">50%</span></li>
+        <li><span class="token-name">font-stretch-semi-condensed</span><span class="token-value">75%</span></li>
+        <li><span class="token-name">font-stretch-normal</span><span class="token-value">100%</span></li>
+        <li><span class="token-name">letter-spacing-tight</span><span class="token-value">-0.0313rem</span></li>
+        <li><span class="token-name">letter-spacing-wide</span><span class="token-value">0.0625rem</span></li>
+      </ul>
+    </section>
+
+    <!-- Grids -->
+    <section id="grids">
+      <h2 class="section-title">Grids</h2>
+      <p class="responsive-intro">Grid sets for each breakpoint. Each sample shows viewport width, margins (blue-tinted strips), column count, and gap between columns.</p>
+
+      <div class="grid-breakpoint">
+        <h3>390px</h3>
+        <p class="grid-breakpoint-meta">Margins: 20px · Gap: 12px · Column variants: 2, 3, 4, 5, 6</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--390">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--390">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--390">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 12px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--390">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 12px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">6 columns</p>
+          <div class="grid-viewport grid-viewport--390">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(6, 1fr); gap: 12px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-breakpoint">
+        <h3>768px</h3>
+        <p class="grid-breakpoint-meta">Margins: 20px · Gap: 16px · Column variants: 2, 3, 4, 5, 12</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--768">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--768">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--768">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--768">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">12 columns</p>
+          <div class="grid-viewport grid-viewport--768">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(12, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 20px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-breakpoint">
+        <h3>1024px — Standard</h3>
+        <p class="grid-breakpoint-meta">Margins: 40px · Gap: 24px · Column variants: 2, 3, 4, 5, 12</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">12 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(12, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-breakpoint">
+        <h3>1024px — Compact</h3>
+        <p class="grid-breakpoint-meta">Margins: 40px · Gap: 16px · Column variants: 2, 3, 4, 5, 12</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">12 columns</p>
+          <div class="grid-viewport grid-viewport--1024">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(12, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-breakpoint">
+        <h3>1440px — Standard</h3>
+        <p class="grid-breakpoint-meta">Margins: 40px · Gap: 24px · Column variants: 2, 3, 4, 5, 12</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">12 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(12, 1fr); gap: 24px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-breakpoint">
+        <h3>1440px — Compact</h3>
+        <p class="grid-breakpoint-meta">Margins: 40px · Gap: 16px · Column variants: 2, 3, 4, 5, 12</p>
+        <div class="grid-variant">
+          <p class="grid-variant-title">2 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">3 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">4 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">5 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(5, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grid-variant">
+          <p class="grid-variant-title">12 columns</p>
+          <div class="grid-viewport grid-viewport--1440">
+            <div class="grid-viewport__inner">
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+              <div class="grid-viewport__content" style="grid-template-columns: repeat(12, 1fr); gap: 16px;">
+                <div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div><div class="grid-viewport__col"></div>
+              </div>
+              <div class="grid-viewport__margin" style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top: var(--ap-spacing-800); padding-top: var(--ap-spacing-600); border-top: 1px solid var(--ap-color-elements-border-subtle); font-size: var(--ap-text-size-x-2); color: var(--ap-color-text-secondary);">
+      AP Design System styleguide — Light &amp; dark colors, full text styles from Figma (Maple).
+    </footer>
+  </div>
+</body>
+</html>
