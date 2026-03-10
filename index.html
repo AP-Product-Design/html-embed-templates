@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AP News HTML Embed Templates — Prototype</title>
+  <link rel="stylesheet" href="ap-design-tokens.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ap-red: var(--ap-color-brand-ap-accent-red);
+      --ap-red-dark: var(--ap-color-brand-ap-adaptive-red);
+      --ap-black: var(--ap-color-text-primary);
+      --ap-gray-100: var(--ap-color-backgrounds-secondary);
+      --ap-gray-300: var(--ap-color-elements-border-moderate);
+      --ap-gray-500: var(--ap-color-text-secondary);
+      --ap-gray-700: #3a3a3a;
+      --spacing-xs: var(--ap-spacing-100);
+      --spacing-sm: var(--ap-spacing-200);
+      --spacing-md: var(--ap-spacing-400);
+      --spacing-lg: var(--ap-spacing-600);
+      --spacing-xl: var(--ap-spacing-700);
+    }
+
+    body {
+      font-family: var(--ap-font-family);
+      background: #fff;
+      color: var(--ap-black);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--spacing-md);
+    }
+
+    header {
+      border-bottom: 2px solid var(--ap-red);
+      padding-bottom: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .subtitle {
+      font-size: var(--ap-text-size-body-sm);
+      color: var(--ap-gray-500);
+      font-weight: 500;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: var(--spacing-sm);
+      border-bottom: 1px solid var(--ap-gray-300);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .tab-button {
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: var(--ap-text-size-nav-link);
+      font-weight: 600;
+      color: var(--ap-gray-500);
+      transition: all 0.2s ease;
+    }
+
+    .tab-button:hover {
+      color: var(--ap-black);
+    }
+
+    .tab-button.active {
+      color: var(--ap-red);
+      border-bottom-color: var(--ap-red);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Sub-tabs for Form/Preview */
+    .sub-tabs {
+      display: flex;
+      gap: var(--spacing-sm);
+      background: var(--ap-gray-100);
+      padding: var(--spacing-sm);
+      border-radius: 4px;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .sub-tab-button {
+      flex: 1;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ap-gray-500);
+      border-radius: var(--ap-layout-border-radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .sub-tab-button:hover {
+      background: rgba(255, 24, 24, 0.1);
+    }
+
+    .sub-tab-button.active {
+      background: white;
+      color: var(--ap-red);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .sub-tab-content {
+      display: none;
+    }
+
+    .sub-tab-content.active {
+      display: block;
+    }
+
+    /* Layout: Form and Preview side-by-side */
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    @media (max-width: 1024px) {
+      .editor-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Form Styles */
+    .form-section {
+      background: var(--ap-gray-100);
+      padding: var(--spacing-lg);
+      border-radius: 4px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-sm);
+      color: var(--ap-black);
+    }
+
+    .form-group label .required {
+      color: var(--ap-red);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border: 1px solid var(--ap-gray-300);
+      border-radius: var(--ap-layout-border-radius-sm);
+      font-size: 13px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--ap-red);
+      box-shadow: 0 0 0 2px rgba(255, 24, 24, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-group input[type="number"] {
+      width: 100px;
+    }
+
+    .char-count {
+      font-size: 11px;
+      color: var(--ap-gray-500);
+      margin-top: 4px;
+    }
+
+    .form-group-nested {
+      background: white;
+      padding: var(--spacing-md);
+      border-radius: var(--ap-layout-border-radius-sm);
+      margin-top: var(--spacing-sm);
+      border: 1px solid var(--ap-gray-300);
+    }
+
+    .form-group-array {
+      background: white;
+      padding: var(--spacing-md);
+      border-radius: var(--ap-layout-border-radius-sm);
+      margin-top: var(--spacing-sm);
+    }
+
+    .array-item {
+      background: var(--ap-gray-100);
+      padding: var(--spacing-md);
+      border-radius: var(--ap-layout-border-radius-sm);
+      margin-bottom: var(--spacing-md);
+      border-left: 3px solid var(--ap-red);
+      position: relative;
+    }
+
+    .array-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 1px solid var(--ap-gray-300);
+    }
+
+    .array-item-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ap-gray-700);
+    }
+
+    .btn-remove {
+      background: #f5f5f5;
+      border: 1px solid var(--ap-gray-300);
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 2px;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .btn-remove:hover {
+      background: #f0f0f0;
+      border-color: var(--ap-red);
+      color: var(--ap-red);
+    }
+
+    .btn-add-item {
+      background: white;
+      border: 2px dashed var(--ap-gray-300);
+      padding: var(--spacing-md);
+      width: 100%;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ap-red);
+      border-radius: var(--ap-layout-border-radius-sm);
+      transition: all 0.2s;
+    }
+
+    .btn-add-item:hover {
+      border-color: var(--ap-red);
+      background: rgba(255, 24, 24, 0.05);
+    }
+
+    /* Preview Styles */
+    .preview-section {
+      background: white;
+      padding: var(--spacing-lg);
+      border: 1px solid var(--ap-gray-300);
+      border-radius: 4px;
+      min-height: 400px;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--ap-gray-500);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* Generic Embed Styles */
+    .ap-generic-embed {
+      border: 1px solid var(--ap-gray-300);
+      border-radius: 4px;
+      padding: var(--spacing-lg);
+      background: white;
+      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .ap-embed-prompt {
+      width: 40px;
+      height: 5px;
+      background: var(--ap-red);
+      margin-bottom: var(--spacing-md);
+      border-radius: 2px;
+    }
+
+    .ap-embed-title {
+      font-size: var(--ap-text-size-x1);
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+      color: var(--ap-black);
+    }
+
+    .ap-embed-description {
+      font-size: var(--ap-text-size-body-sm);
+      line-height: 1.6;
+      color: var(--ap-gray-700);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ap-embed-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ap-embed-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--ap-color-interactive-filled-background-enabled-bg);
+      color: var(--ap-color-interactive-filled-label-enabled-label);
+      text-decoration: none;
+      border-radius: var(--ap-layout-border-radius-lg);
+      font-weight: var(--ap-font-weight-bold);
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+
+    .ap-embed-button:hover {
+      background: var(--ap-color-interactive-filled-background-hover-bg);
+    }
+
+    /* Review Embed Styles */
+    .ap-review-embed {
+      border: 1px solid var(--ap-gray-300);
+      border-radius: 4px;
+      padding: var(--spacing-lg);
+      background: white;
+      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .ap-review-header {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--ap-gray-300);
+    }
+
+    @media (max-width: 600px) {
+      .ap-review-header {
+        grid-template-columns: 100px 1fr;
+        gap: var(--spacing-md);
+      }
+    }
+
+    .ap-review-cover {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      background: var(--ap-gray-100);
+    }
+
+    .ap-review-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .ap-review-album {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      font-stretch: var(--ap-font-stretch-condensed);
+      letter-spacing: var(--ap-letter-spacing-tight);
+      line-height: 1.1;
+      margin-bottom: var(--spacing-sm);
+      color: var(--ap-black);
+    }
+
+    .ap-review-artist {
+      font-size: var(--ap-text-size-body-sm);
+      color: var(--ap-gray-700);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ap-review-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .ap-stars {
+      font-size: var(--ap-text-size-fixed-lg);
+      color: var(--ap-red);
+      letter-spacing: 2px;
+    }
+
+    .ap-rating-value {
+      font-size: 13px;
+      color: var(--ap-gray-700);
+      font-weight: 600;
+    }
+
+    .ap-review-tracks {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .ap-review-track {
+      padding: var(--spacing-md);
+      background: var(--ap-gray-100);
+      border-radius: var(--ap-layout-border-radius-sm);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .ap-track-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--ap-red);
+      margin-bottom: 4px;
+    }
+
+    .ap-review-track a {
+      color: var(--ap-black);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .ap-review-track a:hover {
+      color: var(--ap-red);
+    }
+
+    .ap-review-for-fans {
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--ap-gray-300);
+    }
+
+    .ap-for-fans-label {
+      font-size: var(--ap-text-size-metadata);
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--ap-gray-700);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .ap-for-fans-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+    }
+
+    .ap-for-fans-list li {
+      display: inline-block;
+    }
+
+    .ap-for-fans-list a {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--ap-gray-100);
+      border-radius: var(--ap-layout-border-radius-lg);
+      font-size: var(--ap-text-size-metadata);
+      color: var(--ap-black);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .ap-for-fans-list a:hover {
+      background: var(--ap-red);
+      color: white;
+    }
+
+    /* Timeline Embed Styles */
+    .ap-timeline-embed {
+      border: 1px solid var(--ap-gray-300);
+      border-radius: 4px;
+      padding: var(--spacing-lg);
+      background: white;
+      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .ap-timeline-header {
+      margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--ap-gray-300);
+    }
+
+    .ap-timeline-title {
+      font-size: var(--ap-text-size-x1);
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+      color: var(--ap-black);
+    }
+
+    .ap-timeline-description {
+      font-size: var(--ap-text-size-body-sm);
+      color: var(--ap-gray-700);
+      line-height: 1.6;
+    }
+
+    .ap-timeline-container {
+      position: relative;
+      padding-left: var(--spacing-lg);
+    }
+
+    .ap-timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--ap-gray-300);
+    }
+
+    .ap-timeline-marker {
+      position: relative;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .ap-timeline-marker::before {
+      content: '';
+      position: absolute;
+      left: -21px;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border: 3px solid var(--ap-red);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .ap-timeline-date {
+      font-size: var(--ap-text-size-metadata);
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ap-red);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .ap-timeline-event {
+      background: var(--ap-gray-100);
+      padding: var(--spacing-md);
+      border-radius: var(--ap-layout-border-radius-sm);
+    }
+
+    .ap-timeline-event-title {
+      font-size: var(--ap-text-size-body-base);
+      font-weight: 700;
+      margin-bottom: var(--spacing-sm);
+      color: var(--ap-black);
+    }
+
+    .ap-timeline-event-description {
+      font-size: 13px;
+      color: var(--ap-gray-700);
+      line-height: 1.6;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ap-timeline-event-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: var(--ap-layout-border-radius-sm);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .ap-timeline-event-link {
+      display: inline-block;
+      color: var(--ap-red);
+      text-decoration: none;
+      font-size: var(--ap-text-size-metadata);
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .ap-timeline-event-link:hover {
+      color: var(--ap-red-dark);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-xl);
+      color: var(--ap-gray-500);
+    }
+
+    .empty-state p {
+      font-size: 14px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>AP News HTML Embed Templates</h1>
+    <p class="subtitle">Proof of Concept Prototype — Edit form values to see live embed preview</p>
+  </header>
+
+  <!-- Main Tabs -->
+  <div class="tabs-nav">
+    <button class="tab-button active" data-tab="generic">Generic Embed</button>
+    <button class="tab-button" data-tab="review">Review Embed</button>
+    <button class="tab-button" data-tab="timeline">Timeline Embed</button>
+  </div>
+
+  <!-- Generic Embed Tab -->
+  <div id="generic" class="tab-content active">
+    <div class="sub-tabs">
+      <button class="sub-tab-button active" data-subtab="generic-form">Form Editor</button>
+      <button class="sub-tab-button" data-subtab="generic-preview">Preview</button>
+    </div>
+
+    <!-- Form View -->
+    <div id="generic-form" class="sub-tab-content active">
+      <div class="editor-layout">
+        <div class="form-section">
+          <form id="genericForm">
+            <div class="form-group">
+              <label>Title <span class="required">*</span></label>
+              <input type="text" name="title" maxlength="100" placeholder="Enter embed title" required>
+              <div class="char-count"><span class="count">0</span>/100</div>
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="description" maxlength="500" placeholder="Enter description (optional)"></textarea>
+              <div class="char-count"><span class="count">0</span>/500</div>
+            </div>
+
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="url" name="image" placeholder="https://example.com/image.jpg">
+            </div>
+
+            <div class="form-group">
+              <label>Link URL</label>
+              <input type="url" name="link" placeholder="https://example.com">
+            </div>
+
+            <div class="form-group">
+              <label>CTA Button Label</label>
+              <input type="text" name="ctaButtonText" maxlength="50" placeholder="e.g., Read Full Story">
+              <div class="char-count"><span class="count">0</span>/50</div>
+            </div>
+
+            <div class="form-group">
+              <label>CTA Button URL</label>
+              <input type="url" name="ctaButtonUrl" placeholder="https://example.com">
+            </div>
+          </form>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-label">Live Preview</div>
+          <div id="genericPreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Only View -->
+    <div id="generic-preview" class="sub-tab-content">
+      <div class="preview-section" style="margin: 0;">
+        <div class="preview-label">Embed Preview</div>
+        <div id="genericPreviewOnly"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Embed Tab -->
+  <div id="review" class="tab-content">
+    <div class="sub-tabs">
+      <button class="sub-tab-button active" data-subtab="review-form">Form Editor</button>
+      <button class="sub-tab-button" data-subtab="review-preview">Preview</button>
+    </div>
+
+    <!-- Form View -->
+    <div id="review-form" class="sub-tab-content active">
+      <div class="editor-layout">
+        <div class="form-section">
+          <form id="reviewForm">
+            <div class="form-group">
+              <label>Album Name <span class="required">*</span></label>
+              <input type="text" name="albumName" maxlength="100" placeholder="e.g., Midnights" required>
+              <div class="char-count"><span class="count">0</span>/100</div>
+            </div>
+
+            <div class="form-group">
+              <label>Artist Name <span class="required">*</span></label>
+              <input type="text" name="artistName" maxlength="100" placeholder="e.g., Taylor Swift" required>
+              <div class="char-count"><span class="count">0</span>/100</div>
+            </div>
+
+            <div class="form-group">
+              <label>Rating (0-5 stars) <span class="required">*</span></label>
+              <input type="number" name="rating" min="0" max="5" step="0.5" placeholder="3.5" required>
+            </div>
+
+            <div class="form-group">
+              <label>Cover Art URL</label>
+              <input type="url" name="coverArt" placeholder="https://example.com/cover.jpg">
+            </div>
+
+            <div class="form-group">
+              <label>Best Track</label>
+              <div class="form-group-nested">
+                <div class="form-group">
+                  <label>Track Name</label>
+                  <input type="text" name="bestTrackLabel" maxlength="100" placeholder="e.g., Anti-Hero">
+                  <div class="char-count"><span class="count">0</span>/100</div>
+                </div>
+                <div class="form-group">
+                  <label>Track Link</label>
+                  <input type="url" name="bestTrackUrl" placeholder="https://example.com/track">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Skip Track</label>
+              <div class="form-group-nested">
+                <div class="form-group">
+                  <label>Track Name</label>
+                  <input type="text" name="skipTrackLabel" maxlength="100" placeholder="e.g., Snow On The Beach">
+                  <div class="char-count"><span class="count">0</span>/100</div>
+                </div>
+                <div class="form-group">
+                  <label>Track Link</label>
+                  <input type="url" name="skipTrackUrl" placeholder="https://example.com/track">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>For Fans Of (max 5)</label>
+              <div class="form-group-array" id="forFansContainer">
+                <!-- Items added dynamically -->
+              </div>
+              <button type="button" class="btn-add-item" onclick="addForFansItem('review')">+ Add Artist/Genre</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-label">Live Preview</div>
+          <div id="reviewPreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Only View -->
+    <div id="review-preview" class="sub-tab-content">
+      <div class="preview-section" style="margin: 0;">
+        <div class="preview-label">Embed Preview</div>
+        <div id="reviewPreviewOnly"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Embed Tab -->
+  <div id="timeline" class="tab-content">
+    <div class="sub-tabs">
+      <button class="sub-tab-button active" data-subtab="timeline-form">Form Editor</button>
+      <button class="sub-tab-button" data-subtab="timeline-preview">Preview</button>
+    </div>
+
+    <!-- Form View -->
+    <div id="timeline-form" class="sub-tab-content active">
+      <div class="editor-layout">
+        <div class="form-section">
+          <form id="timelineForm">
+            <div class="form-group">
+              <label>Timeline Title <span class="required">*</span></label>
+              <input type="text" name="title" maxlength="100" placeholder="e.g., Key Events in the Conflict" required>
+              <div class="char-count"><span class="count">0</span>/100</div>
+            </div>
+
+            <div class="form-group">
+              <label>Timeline Description</label>
+              <textarea name="description" maxlength="300" placeholder="Optional introduction to the timeline"></textarea>
+              <div class="char-count"><span class="count">0</span>/300</div>
+            </div>
+
+            <div class="form-group">
+              <label>Date Markers (3-10 required) <span class="required">*</span></label>
+              <div class="form-group-array" id="markersContainer">
+                <!-- Items added dynamically -->
+              </div>
+              <button type="button" class="btn-add-item" onclick="addTimelineMarker()">+ Add Date Marker</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-label">Live Preview</div>
+          <div id="timelinePreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Only View -->
+    <div id="timeline-preview" class="sub-tab-content">
+      <div class="preview-section" style="margin: 0;">
+        <div class="preview-label">Embed Preview</div>
+        <div id="timelinePreviewOnly"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Sample Data
+  const sampleData = {
+    generic: {
+      title: "Breaking News Alert",
+      description: "Stay informed about the latest developments in this ongoing story. Click below to read the full coverage and analysis.",
+      image: "https://via.placeholder.com/600x400?text=Breaking+News",
+      link: "https://apnews.com",
+      ctaButtonText: "Read Full Story",
+      ctaButtonUrl: "https://apnews.com"
+    },
+    review: {
+      albumName: "The Tortured Poets Department",
+      artistName: "Taylor Swift",
+      rating: 4.5,
+      coverArt: "https://via.placeholder.com/300x300?text=Album+Cover",
+      bestTrackLabel: "All Too Well (10 Min Version)",
+      bestTrackUrl: "https://apnews.com",
+      skipTrackLabel: "Vigilante Sh*t",
+      skipTrackUrl: "https://apnews.com",
+      forFansOf: [
+        { label: "Folklore", url: "https://apnews.com" },
+        { label: "Indie Folk", url: "https://apnews.com" }
+      ]
+    },
+    timeline: {
+      title: "Ukraine Crisis: Key Events",
+      description: "A chronology of major events since Russia's invasion of Ukraine in February 2022.",
+      markers: [
+        {
+          date: "February 24, 2022",
+          title: "Russia Invades Ukraine",
+          description: "Russian forces launch a full-scale military invasion across multiple fronts.",
+          image: "https://via.placeholder.com/400x300?text=Event+1",
+          link: "https://apnews.com"
+        },
+        {
+          date: "March 2, 2022",
+          title: "Kharkiv Offensive",
+          description: "Ukrainian forces mount counteroffensive near Kharkiv, pushing back Russian advances.",
+          image: "https://via.placeholder.com/400x300?text=Event+2",
+          link: "https://apnews.com"
+        },
+        {
+          date: "May 9, 2022",
+          title: "Victory Day Parade",
+          description: "Russia celebrates Victory Day with military parade in Moscow amid ongoing conflict.",
+          image: "https://via.placeholder.com/400x300?text=Event+3",
+          link: "https://apnews.com"
+        }
+      ]
+    }
+  };
+
+  // Escape HTML (define early so it can be used in other functions)
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Initialize with sample data
+  function initializePrototype() {
+    populateForm('generic', sampleData.generic);
+    populateForm('review', sampleData.review);
+    populateForm('timeline', sampleData.timeline);
+    
+    renderAllPreviews();
+  }
+
+  // Tab Navigation
+  document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const tabName = e.target.dataset.tab;
+      
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabName).classList.add('active');
+      e.target.classList.add('active');
+    });
+  });
+
+  // Sub-tab Navigation
+  document.querySelectorAll('.sub-tab-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const subtabName = e.target.dataset.subtab;
+      const tabGroup = e.target.closest('.tab-content');
+      
+      tabGroup.querySelectorAll('.sub-tab-content').forEach(tab => tab.classList.remove('active'));
+      tabGroup.querySelectorAll('.sub-tab-button').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(subtabName).classList.add('active');
+      e.target.classList.add('active');
+    });
+  });
+
+  // Form Population and Rendering
+  function populateForm(template, data) {
+    const form = document.getElementById(template + 'Form');
+    if (!form) return;
+
+    if (template === 'generic') {
+      form.querySelector('[name="title"]').value = data.title || '';
+      form.querySelector('[name="description"]').value = data.description || '';
+      form.querySelector('[name="image"]').value = data.image || '';
+      form.querySelector('[name="link"]').value = data.link || '';
+      form.querySelector('[name="ctaButtonText"]').value = data.ctaButtonText || '';
+      form.querySelector('[name="ctaButtonUrl"]').value = data.ctaButtonUrl || '';
+      
+      form.querySelectorAll('input, textarea').forEach(field => {
+        field.addEventListener('input', () => renderGenericPreview());
+      });
+      updateCharCounts(form);
+    } 
+    else if (template === 'review') {
+      form.querySelector('[name="albumName"]').value = data.albumName || '';
+      form.querySelector('[name="artistName"]').value = data.artistName || '';
+      form.querySelector('[name="rating"]').value = data.rating || '';
+      form.querySelector('[name="coverArt"]').value = data.coverArt || '';
+      form.querySelector('[name="bestTrackLabel"]').value = data.bestTrackLabel || '';
+      form.querySelector('[name="bestTrackUrl"]').value = data.bestTrackUrl || '';
+      form.querySelector('[name="skipTrackLabel"]').value = data.skipTrackLabel || '';
+      form.querySelector('[name="skipTrackUrl"]').value = data.skipTrackUrl || '';
+      
+      form.querySelectorAll('input, textarea').forEach(field => {
+        field.addEventListener('input', () => renderReviewPreview());
+      });
+      
+      data.forFansOf?.forEach(item => {
+        addForFansItem('review', item);
+      });
+      
+      updateCharCounts(form);
+    }
+    else if (template === 'timeline') {
+      form.querySelector('[name="title"]').value = data.title || '';
+      form.querySelector('[name="description"]').value = data.description || '';
+      
+      form.querySelectorAll('input, textarea').forEach(field => {
+        field.addEventListener('input', () => renderTimelinePreview());
+      });
+      
+      data.markers?.forEach((marker, index) => {
+        addTimelineMarker(marker);
+      });
+      
+      updateCharCounts(form);
+    }
+  }
+
+  // Character Counter
+  function updateCharCounts(form = document) {
+    form.querySelectorAll('input[maxlength], textarea[maxlength]').forEach(field => {
+      const counter = field.parentElement.querySelector('.char-count .count');
+      if (counter) {
+        counter.textContent = field.value.length;
+        field.addEventListener('input', () => {
+          counter.textContent = field.value.length;
+        });
+      }
+    });
+  }
+
+  // Generic Embed Rendering
+  function renderGenericPreview() {
+    const form = document.getElementById('genericForm');
+    const data = {
+      title: form.querySelector('[name="title"]').value,
+      description: form.querySelector('[name="description"]').value,
+      image: form.querySelector('[name="image"]').value,
+      link: form.querySelector('[name="link"]').value,
+      ctaButtonText: form.querySelector('[name="ctaButtonText"]').value,
+      ctaButtonUrl: form.querySelector('[name="ctaButtonUrl"]').value
+    };
+
+    const html = `
+      <div class="ap-generic-embed">
+        <div class="ap-embed-prompt"></div>
+        ${data.title ? `<h2 class="ap-embed-title">${escapeHtml(data.title)}</h2>` : '<p class="empty-state">Add a title to see preview</p>'}
+        ${data.description ? `<p class="ap-embed-description">${escapeHtml(data.description)}</p>` : ''}
+        ${data.image ? `<img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'">` : ''}
+        ${data.ctaButtonText && data.ctaButtonUrl ? `<a href="${data.ctaButtonUrl}" class="ap-embed-button">${escapeHtml(data.ctaButtonText)}</a>` : ''}
+      </div>
+    `;
+
+    document.getElementById('genericPreview').innerHTML = html;
+    document.getElementById('genericPreviewOnly').innerHTML = html;
+  }
+
+  // Review Embed Rendering
+  function renderReviewPreview() {
+    const form = document.getElementById('reviewForm');
+    const albumName = form.querySelector('[name="albumName"]').value;
+    const artistName = form.querySelector('[name="artistName"]').value;
+    const rating = parseFloat(form.querySelector('[name="rating"]').value) || 0;
+    const coverArt = form.querySelector('[name="coverArt"]').value;
+    const bestTrackLabel = form.querySelector('[name="bestTrackLabel"]').value;
+    const bestTrackUrl = form.querySelector('[name="bestTrackUrl"]').value;
+    const skipTrackLabel = form.querySelector('[name="skipTrackLabel"]').value;
+    const skipTrackUrl = form.querySelector('[name="skipTrackUrl"]').value;
+
+    const forFansItems = Array.from(form.querySelectorAll('.array-item')).map(item => ({
+      label: item.querySelector('[name*="Label"]')?.value || '',
+      url: item.querySelector('[name*="Url"]')?.value || ''
+    })).filter(item => item.label && item.url);
+
+    const stars = renderStars(rating);
+
+    if (!albumName || !artistName) {
+      document.getElementById('reviewPreview').innerHTML = '<p class="empty-state">Add album and artist names to see preview</p>';
+      document.getElementById('reviewPreviewOnly').innerHTML = '<p class="empty-state">Add album and artist names to see preview</p>';
+      return;
+    }
+
+    let html = `
+      <div class="ap-review-embed">
+        <h3 class="ap-review-album">${escapeHtml(albumName)}</h3>
+        <div class="ap-review-header">
+          ${coverArt ? `<img src="${coverArt}" alt="${escapeHtml(albumName)}" class="ap-review-cover" onerror="this.style.display='none'">` : '<div class="ap-review-cover" style="background: #f0f0f0;"></div>'}
+          <div class="ap-review-info">
+            <p class="ap-review-artist">${escapeHtml(artistName)}</p>
+            <div class="ap-review-rating">
+              <span class="ap-stars">${stars}</span>
+              <span class="ap-rating-value">${rating}/5</span>
+            </div>
+          </div>
+        </div>
+    `;
+
+    if (bestTrackLabel || skipTrackLabel) {
+      html += '<div class="ap-review-tracks">';
+      if (bestTrackLabel) {
+        html += `
+          <div class="ap-review-track ap-track-best">
+            <span class="ap-track-label">Best Track</span>
+            ${bestTrackUrl ? `<a href="${bestTrackUrl}">${escapeHtml(bestTrackLabel)}</a>` : `<span>${escapeHtml(bestTrackLabel)}</span>`}
+          </div>
+        `;
+      }
+      if (skipTrackLabel) {
+        html += `
+          <div class="ap-review-track ap-track-skip">
+            <span class="ap-track-label">Skip Track</span>
+            ${skipTrackUrl ? `<a href="${skipTrackUrl}">${escapeHtml(skipTrackLabel)}</a>` : `<span>${escapeHtml(skipTrackLabel)}</span>`}
+          </div>
+        `;
+      }
+      html += '</div>';
+    }
+
+    if (forFansItems.length > 0) {
+      html += `
+        <div class="ap-review-for-fans">
+          <p class="ap-for-fans-label">For fans of:</p>
+          <ul class="ap-for-fans-list">
+            ${forFansItems.map(item => `<li><a href="${item.url}">${escapeHtml(item.label)}</a></li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    html += '</div>';
+
+    document.getElementById('reviewPreview').innerHTML = html;
+    document.getElementById('reviewPreviewOnly').innerHTML = html;
+  }
+
+  // Timeline Embed Rendering
+  function renderTimelinePreview() {
+    const form = document.getElementById('timelineForm');
+    const title = form.querySelector('[name="title"]').value;
+    const description = form.querySelector('[name="description"]').value;
+    
+    const markers = Array.from(form.querySelectorAll('.array-item')).map(item => ({
+      date: item.querySelector('[name*="Date"]')?.value || '',
+      title: item.querySelector('[name*="Title"]')?.value || '',
+      description: item.querySelector('[name*="Description"]')?.value || '',
+      image: item.querySelector('[name*="Image"]')?.value || '',
+      link: item.querySelector('[name*="Link"]')?.value || ''
+    })).filter(m => m.date && m.title);
+
+    if (!title || markers.length === 0) {
+      document.getElementById('timelinePreview').innerHTML = '<p class="empty-state">Add a title and at least one date marker to see preview</p>';
+      document.getElementById('timelinePreviewOnly').innerHTML = '<p class="empty-state">Add a title and at least one date marker to see preview</p>';
+      return;
+    }
+
+    let html = `
+      <div class="ap-timeline-embed">
+        <div class="ap-timeline-header">
+          <h2 class="ap-timeline-title">${escapeHtml(title)}</h2>
+          ${description ? `<p class="ap-timeline-description">${escapeHtml(description)}</p>` : ''}
+        </div>
+        <div class="ap-timeline-container">
+    `;
+
+    markers.forEach(marker => {
+      html += `
+        <div class="ap-timeline-marker">
+          <div class="ap-timeline-date">${escapeHtml(marker.date)}</div>
+          <div class="ap-timeline-event">
+            <h3 class="ap-timeline-event-title">${escapeHtml(marker.title)}</h3>
+            ${marker.description ? `<p class="ap-timeline-event-description">${escapeHtml(marker.description)}</p>` : ''}
+            ${marker.image ? `<img src="${marker.image}" alt="" class="ap-timeline-event-image" onerror="this.style.display='none'">` : ''}
+            ${marker.link ? `<a href="${marker.link}" class="ap-timeline-event-link">Read Full Story</a>` : ''}
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+
+    document.getElementById('timelinePreview').innerHTML = html;
+    document.getElementById('timelinePreviewOnly').innerHTML = html;
+  }
+
+  // Helper: Render Stars
+  function renderStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 !== 0;
+    let stars = '★'.repeat(fullStars);
+    if (hasHalf) stars += '⯨';
+    stars += '☆'.repeat(5 - Math.ceil(rating));
+    return stars;
+  }
+
+  // Add For Fans Item
+  function addForFansItem(template, item = {}) {
+    const form = document.getElementById(template + 'Form');
+    const container = form.querySelector('#forFansContainer');
+    const itemId = Date.now() + Math.random();
+    
+    const html = `
+      <div class="array-item">
+        <div class="array-item-header">
+          <span class="array-item-title">Artist/Genre</span>
+          <button type="button" class="btn-remove" onclick="this.closest('.array-item').remove(); renderReviewPreview();">Remove</button>
+        </div>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="forFansLabel_${itemId}" maxlength="100" placeholder="e.g., The National" value="${escapeHtml(item.label || '')}">
+        </div>
+        <div class="form-group">
+          <label>Link</label>
+          <input type="url" name="forFansUrl_${itemId}" placeholder="https://example.com" value="${escapeHtml(item.url || '')}">
+        </div>
+      </div>
+    `;
+
+    const itemElement = document.createElement('div');
+    itemElement.innerHTML = html;
+    const newItem = itemElement.firstElementChild;
+    container.appendChild(newItem);
+    
+    newItem.querySelectorAll('input').forEach(field => {
+      field.addEventListener('input', () => renderReviewPreview());
+    });
+  }
+
+  // Add Timeline Marker
+  function addTimelineMarker(marker = {}) {
+    const form = document.getElementById('timelineForm');
+    const container = form.querySelector('#markersContainer');
+    const itemId = Date.now() + Math.random();
+    
+    const html = `
+      <div class="array-item">
+        <div class="array-item-header">
+          <span class="array-item-title">Date Marker</span>
+          <button type="button" class="btn-remove" onclick="this.closest('.array-item').remove(); renderTimelinePreview();">Remove</button>
+        </div>
+        <div class="form-group">
+          <label>Date <span class="required">*</span></label>
+          <input type="text" name="markerDate_${itemId}" placeholder="e.g., January 15, 2024" value="${escapeHtml(marker.date || '')}" required>
+        </div>
+        <div class="form-group">
+          <label>Event Title <span class="required">*</span></label>
+          <input type="text" name="markerTitle_${itemId}" maxlength="100" placeholder="Brief event headline" value="${escapeHtml(marker.title || '')}" required>
+        </div>
+        <div class="form-group">
+          <label>Event Description</label>
+          <textarea name="markerDescription_${itemId}" maxlength="300" placeholder="More detail about the event">${escapeHtml(marker.description || '')}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Event Image URL</label>
+          <input type="url" name="markerImage_${itemId}" placeholder="https://example.com/image.jpg" value="${escapeHtml(marker.image || '')}">
+        </div>
+        <div class="form-group">
+          <label>Related Article Link</label>
+          <input type="url" name="markerLink_${itemId}" placeholder="https://apnews.com/article" value="${escapeHtml(marker.link || '')}">
+        </div>
+      </div>
+    `;
+
+    const itemElement = document.createElement('div');
+    itemElement.innerHTML = html;
+    const newItem = itemElement.firstElementChild;
+    container.appendChild(newItem);
+    
+    newItem.querySelectorAll('input, textarea').forEach(field => {
+      field.addEventListener('input', () => renderTimelinePreview());
+    });
+  }
+
+  // Render all previews
+  function renderAllPreviews() {
+    renderGenericPreview();
+    renderReviewPreview();
+    renderTimelinePreview();
+  }
+
+  // Initialize on load
+  window.addEventListener('load', initializePrototype);
+</script>
+
+</body>
+</html>

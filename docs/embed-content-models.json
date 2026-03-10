@@ -1,0 +1,284 @@
+{
+  "templates": {
+    "generic": {
+      "id": "generic-embed",
+      "name": "Generic Embed",
+      "description": "A flexible embed with title, description, image, and call-to-action",
+      "variables": {
+        "title": {
+          "type": "text",
+          "label": "Title",
+          "required": true,
+          "maxLength": 100,
+          "placeholder": "Enter embed title"
+        },
+        "description": {
+          "type": "text",
+          "label": "Description",
+          "required": false,
+          "maxLength": 500,
+          "placeholder": "Enter description (optional)"
+        },
+        "image": {
+          "type": "url",
+          "label": "Image URL",
+          "required": false,
+          "placeholder": "https://example.com/image.jpg"
+        },
+        "link": {
+          "type": "url",
+          "label": "Link URL",
+          "required": false,
+          "placeholder": "https://example.com"
+        },
+        "ctaButtonText": {
+          "type": "text",
+          "label": "CTA Button Label",
+          "required": false,
+          "maxLength": 50,
+          "placeholder": "Read more"
+        },
+        "ctaButtonUrl": {
+          "type": "url",
+          "label": "CTA Button URL",
+          "required": false,
+          "placeholder": "https://example.com"
+        }
+      }
+    },
+    "review": {
+      "id": "review-embed",
+      "name": "Review Embed (Music)",
+      "description": "A music review embed with album info, rating, tracks, and recommendations",
+      "variables": {
+        "albumName": {
+          "type": "text",
+          "label": "Album Name",
+          "required": true,
+          "maxLength": 100,
+          "placeholder": "e.g., Midnights"
+        },
+        "artistName": {
+          "type": "text",
+          "label": "Artist Name",
+          "required": true,
+          "maxLength": 100,
+          "placeholder": "e.g., Taylor Swift"
+        },
+        "rating": {
+          "type": "number",
+          "label": "Rating (0-5 stars)",
+          "required": true,
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "placeholder": "3.5"
+        },
+        "coverArt": {
+          "type": "url",
+          "label": "Cover Art URL",
+          "required": false,
+          "placeholder": "https://example.com/cover.jpg"
+        },
+        "bestTrack": {
+          "type": "object",
+          "label": "Best Track",
+          "required": false,
+          "properties": {
+            "label": {
+              "type": "text",
+              "label": "Track Name",
+              "maxLength": 100,
+              "placeholder": "e.g., Anti-Hero"
+            },
+            "url": {
+              "type": "url",
+              "label": "Track Link",
+              "placeholder": "https://example.com/track"
+            }
+          }
+        },
+        "skipTrack": {
+          "type": "object",
+          "label": "Skip Track",
+          "required": false,
+          "properties": {
+            "label": {
+              "type": "text",
+              "label": "Track Name",
+              "maxLength": 100,
+              "placeholder": "e.g., Snow On The Beach"
+            },
+            "url": {
+              "type": "url",
+              "label": "Track Link",
+              "placeholder": "https://example.com/track"
+            }
+          }
+        },
+        "forFansOf": {
+          "type": "array",
+          "label": "For Fans Of",
+          "required": false,
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "text",
+                "label": "Artist/Genre Name",
+                "maxLength": 100,
+                "placeholder": "e.g., The National"
+              },
+              "url": {
+                "type": "url",
+                "label": "Link",
+                "placeholder": "https://example.com"
+              }
+            }
+          },
+          "maxItems": 5
+        }
+      }
+    },
+    "timeline": {
+      "id": "timeline-embed",
+      "name": "Timeline Embed",
+      "description": "A vertical timeline with dated events and details",
+      "variables": {
+        "title": {
+          "type": "text",
+          "label": "Timeline Title",
+          "required": true,
+          "maxLength": 100,
+          "placeholder": "e.g., Key Events in the Conflict"
+        },
+        "description": {
+          "type": "text",
+          "label": "Timeline Description",
+          "required": false,
+          "maxLength": 300,
+          "placeholder": "Optional introduction to the timeline"
+        },
+        "markers": {
+          "type": "array",
+          "label": "Date Markers",
+          "required": true,
+          "minItems": 3,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "text",
+                "label": "Date",
+                "required": true,
+                "placeholder": "e.g., January 15, 2024 or Feb 2024"
+              },
+              "title": {
+                "type": "text",
+                "label": "Event Title",
+                "required": true,
+                "maxLength": 100,
+                "placeholder": "Brief event headline"
+              },
+              "description": {
+                "type": "text",
+                "label": "Event Description",
+                "required": false,
+                "maxLength": 300,
+                "placeholder": "More detail about the event"
+              },
+              "image": {
+                "type": "url",
+                "label": "Event Image URL",
+                "required": false,
+                "placeholder": "https://example.com/image.jpg"
+              },
+              "link": {
+                "type": "url",
+                "label": "Related Article Link",
+                "required": false,
+                "placeholder": "https://apnews.com/article"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "sampleData": {
+    "generic": {
+      "title": "Breaking News Alert",
+      "description": "Stay informed about the latest developments in this ongoing story. Click below to read the full coverage and analysis.",
+      "image": "https://via.placeholder.com/600x400?text=Breaking+News",
+      "link": "https://apnews.com",
+      "ctaButtonText": "Read Full Story",
+      "ctaButtonUrl": "https://apnews.com"
+    },
+    "review": {
+      "albumName": "The Tortured Poets Department",
+      "artistName": "Taylor Swift",
+      "rating": 4.5,
+      "coverArt": "https://via.placeholder.com/300x300?text=Album+Cover",
+      "bestTrack": {
+        "label": "All Too Well (10 Min Version)",
+        "url": "https://apnews.com"
+      },
+      "skipTrack": {
+        "label": "Vigilante Sh*t",
+        "url": "https://apnews.com"
+      },
+      "forFansOf": [
+        {
+          "label": "Folklore",
+          "url": "https://apnews.com"
+        },
+        {
+          "label": "Indie Folk",
+          "url": "https://apnews.com"
+        }
+      ]
+    },
+    "timeline": {
+      "title": "Ukraine Crisis: Key Events",
+      "description": "A chronology of major events since Russia's invasion of Ukraine in February 2022.",
+      "markers": [
+        {
+          "date": "February 24, 2022",
+          "title": "Russia Invades Ukraine",
+          "description": "Russian forces launch a full-scale military invasion across multiple fronts.",
+          "image": "https://via.placeholder.com/400x300?text=Event+1",
+          "link": "https://apnews.com"
+        },
+        {
+          "date": "March 2, 2022",
+          "title": "Kharkiv Offensive",
+          "description": "Ukrainian forces mount counteroffensive near Kharkiv, pushing back Russian advances.",
+          "image": "https://via.placeholder.com/400x300?text=Event+2",
+          "link": "https://apnews.com"
+        },
+        {
+          "date": "May 9, 2022",
+          "title": "Victory Day Parade",
+          "description": "Russia celebrates Victory Day with military parade in Moscow amid ongoing conflict.",
+          "image": "https://via.placeholder.com/400x300?text=Event+3",
+          "link": "https://apnews.com"
+        },
+        {
+          "date": "September 21, 2022",
+          "title": "Russian Mobilization",
+          "description": "Putin announces partial military mobilization, calling up reserves.",
+          "image": "https://via.placeholder.com/400x300?text=Event+4",
+          "link": "https://apnews.com"
+        },
+        {
+          "date": "November 16, 2022",
+          "title": "Kherson Liberated",
+          "description": "Ukrainian forces retake Kherson as Russian troops withdraw across the Dnipro River.",
+          "image": null,
+          "link": "https://apnews.com"
+        }
+      ]
+    }
+  }
+}
