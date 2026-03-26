@@ -335,10 +335,20 @@
 
     .ap-embed-image {
       width: 100%;
-      max-height: 300px;
-      object-fit: cover;
       border-radius: 4px;
       margin-bottom: var(--spacing-md);
+      display: block;
+    }
+
+    .ap-embed-title-link,
+    .ap-embed-description-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .ap-embed-title-link:hover .ap-embed-title {
+      text-decoration: underline;
     }
 
     .ap-embed-button {
@@ -866,7 +876,7 @@
       skipTrackUrl: "https://apnews.com",
       forFansOf: [
         { label: "Folklore", url: "https://apnews.com" },
-        { label: "Indie Folk", url: "https://apnews.com" }
+        { label: "Indie Folk", url: "" }
       ]
     },
     timeline: {
@@ -1020,12 +1030,22 @@
       ctaButtonUrl: form.querySelector('[name="ctaButtonUrl"]').value
     };
 
+    const titleHtml = data.title
+      ? (data.link ? `<a href="${data.link}" class="ap-embed-title-link"><h2 class="ap-embed-title">${escapeHtml(data.title)}</h2></a>` : `<h2 class="ap-embed-title">${escapeHtml(data.title)}</h2>`)
+      : '<p class="empty-state">Add a title to see preview</p>';
+    const descriptionHtml = data.description
+      ? (data.link ? `<a href="${data.link}" class="ap-embed-description-link"><p class="ap-embed-description">${escapeHtml(data.description)}</p></a>` : `<p class="ap-embed-description">${escapeHtml(data.description)}</p>`)
+      : '';
+    const imageHtml = data.image
+      ? (data.link ? `<a href="${data.link}"><img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'"></a>` : `<img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'">`)
+      : '';
+
     const html = `
       <div class="ap-generic-embed">
         <div class="ap-embed-prompt"></div>
-        ${data.title ? `<h2 class="ap-embed-title">${escapeHtml(data.title)}</h2>` : '<p class="empty-state">Add a title to see preview</p>'}
-        ${data.description ? `<p class="ap-embed-description">${escapeHtml(data.description)}</p>` : ''}
-        ${data.image ? `<img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'">` : ''}
+        ${titleHtml}
+        ${descriptionHtml}
+        ${imageHtml}
         ${data.ctaButtonText && data.ctaButtonUrl ? `<a href="${data.ctaButtonUrl}" class="ap-embed-button">${escapeHtml(data.ctaButtonText)}</a>` : ''}
       </div>
     `;
@@ -1049,7 +1069,7 @@
     const forFansItems = Array.from(form.querySelectorAll('.array-item')).map(item => ({
       label: item.querySelector('[name*="Label"]')?.value || '',
       url: item.querySelector('[name*="Url"]')?.value || ''
-    })).filter(item => item.label && item.url);
+    })).filter(item => item.label);
 
     const stars = renderStars(rating);
 
@@ -1100,7 +1120,7 @@
         <div class="ap-review-for-fans">
           <p class="ap-for-fans-label">For fans of:</p>
           <ul class="ap-for-fans-list">
-            ${forFansItems.map(item => `<li><a href="${item.url}">${escapeHtml(item.label)}</a></li>`).join('')}
+            ${forFansItems.map(item => item.url ? `<li><a href="${item.url}">${escapeHtml(item.label)}</a></li>` : `<li>${escapeHtml(item.label)}</li>`).join('')}
           </ul>
         </div>
       `;
