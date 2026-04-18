@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AP News HTML Embed Templates — Prototype</title>
+  <title>AP News Embed Templates — Prototype</title>
   <link rel="stylesheet" href="ap-design-tokens.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* ── RESET ─────────────────────────────────────────── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --ap-red: var(--ap-color-brand-ap-accent-red);
@@ -20,683 +17,962 @@
       --ap-gray-300: var(--ap-color-elements-border-moderate);
       --ap-gray-500: var(--ap-color-text-secondary);
       --ap-gray-700: #3a3a3a;
-      --spacing-xs: var(--ap-spacing-100);
-      --spacing-sm: var(--ap-spacing-200);
-      --spacing-md: var(--ap-spacing-400);
-      --spacing-lg: var(--ap-spacing-600);
-      --spacing-xl: var(--ap-spacing-700);
+      --sp-xs: var(--ap-spacing-100);
+      --sp-sm: var(--ap-spacing-200);
+      --sp-md: var(--ap-spacing-400);
+      --sp-lg: var(--ap-spacing-600);
+      --sp-xl: var(--ap-spacing-700);
+      --cms-blue: #0052cc;
+      --cms-blue-hover: #0065ff;
+      --cms-text: #172b4d;
+      --cms-sub: #6b778c;
+      --cms-border: #dfe1e6;
+      --cms-bg: #f4f5f7;
     }
 
     body {
       font-family: var(--ap-font-family);
-      background: #fff;
       color: var(--ap-black);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: var(--spacing-md);
-    }
-
-    header {
-      border-bottom: 2px solid var(--ap-red);
-      padding-bottom: var(--spacing-lg);
-      margin-bottom: var(--spacing-xl);
-    }
-
-    h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .subtitle {
-      font-size: var(--ap-text-size-body-sm);
-      color: var(--ap-gray-500);
-      font-weight: 500;
-    }
-
-    /* Tabs Navigation */
-    .tabs-nav {
-      display: flex;
-      gap: var(--spacing-sm);
-      border-bottom: 1px solid var(--ap-gray-300);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .tab-button {
-      padding: var(--spacing-md) var(--spacing-lg);
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      cursor: pointer;
-      font-size: var(--ap-text-size-nav-link);
-      font-weight: 600;
-      color: var(--ap-gray-500);
-      transition: all 0.2s ease;
-    }
-
-    .tab-button:hover {
-      color: var(--ap-black);
-    }
-
-    .tab-button.active {
-      color: var(--ap-red);
-      border-bottom-color: var(--ap-red);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    /* Sub-tabs for Form/Preview */
-    .sub-tabs {
-      display: flex;
-      gap: var(--spacing-sm);
-      background: var(--ap-gray-100);
-      padding: var(--spacing-sm);
-      border-radius: 4px;
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .sub-tab-button {
-      flex: 1;
-      padding: var(--spacing-sm) var(--spacing-md);
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ap-gray-500);
-      border-radius: var(--ap-layout-border-radius-sm);
-      transition: all 0.2s ease;
-    }
-
-    .sub-tab-button:hover {
-      background: rgba(255, 24, 24, 0.1);
-    }
-
-    .sub-tab-button.active {
       background: white;
-      color: var(--ap-red);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
     }
 
-    .sub-tab-content {
-      display: none;
-    }
+    /* ── SCREEN SYSTEM ─────────────────────────────────── */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; }
+    #screen-s2-confirm.active { display: flex; }
 
-    .sub-tab-content.active {
-      display: block;
-    }
-
-    /* Layout: Form and Preview side-by-side */
-    .editor-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    @media (max-width: 1024px) {
-      .editor-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Form Styles */
-    .form-section {
-      background: var(--ap-gray-100);
-      padding: var(--spacing-lg);
-      border-radius: 4px;
-      max-height: 70vh;
-      overflow-y: auto;
-    }
-
-    .form-group {
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: var(--spacing-sm);
-      color: var(--ap-black);
-    }
-
-    .form-group label .required {
-      color: var(--ap-red);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: var(--spacing-sm) var(--spacing-md);
-      border: 1px solid var(--ap-gray-300);
-      border-radius: var(--ap-layout-border-radius-sm);
-      font-size: 13px;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--ap-red);
-      box-shadow: 0 0 0 2px rgba(255, 24, 24, 0.1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-
-    .form-group input[type="number"] {
-      width: 100px;
-    }
-
-    .char-count {
-      font-size: 11px;
-      color: var(--ap-gray-500);
-      margin-top: 4px;
-    }
-
-    .form-group-nested {
-      background: white;
-      padding: var(--spacing-md);
-      border-radius: var(--ap-layout-border-radius-sm);
-      margin-top: var(--spacing-sm);
-      border: 1px solid var(--ap-gray-300);
-    }
-
-    .form-group-array {
-      background: white;
-      padding: var(--spacing-md);
-      border-radius: var(--ap-layout-border-radius-sm);
-      margin-top: var(--spacing-sm);
-    }
-
-    .array-item {
-      background: var(--ap-gray-100);
-      padding: var(--spacing-md);
-      border-radius: var(--ap-layout-border-radius-sm);
-      margin-bottom: var(--spacing-md);
-      border-left: 3px solid var(--ap-red);
-      position: relative;
-    }
-
-    .array-item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-md);
-      padding-bottom: var(--spacing-sm);
-      border-bottom: 1px solid var(--ap-gray-300);
-    }
-
-    .array-item-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ap-gray-700);
-    }
-
-    .btn-remove {
-      background: #f5f5f5;
-      border: 1px solid var(--ap-gray-300);
-      padding: 4px 8px;
-      font-size: 11px;
-      cursor: pointer;
-      border-radius: 2px;
-      color: #666;
-      transition: all 0.2s;
-    }
-
-    .btn-remove:hover {
-      background: #f0f0f0;
-      border-color: var(--ap-red);
-      color: var(--ap-red);
-    }
-
-    .btn-add-item {
-      background: white;
-      border: 2px dashed var(--ap-gray-300);
-      padding: var(--spacing-md);
-      width: 100%;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ap-red);
-      border-radius: var(--ap-layout-border-radius-sm);
-      transition: all 0.2s;
-    }
-
-    .btn-add-item:hover {
-      border-color: var(--ap-red);
-      background: rgba(255, 24, 24, 0.05);
-    }
-
-    /* Preview Styles */
-    .preview-section {
-      background: white;
-      padding: var(--spacing-lg);
-      border: 1px solid var(--ap-gray-300);
-      border-radius: 4px;
-      min-height: 400px;
-      overflow-y: auto;
-      max-height: 70vh;
-    }
-
-    .preview-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--ap-gray-500);
-      margin-bottom: var(--spacing-lg);
-    }
-
-    /* Generic Embed Styles */
-    .ap-generic-embed {
-      border: 1px solid var(--ap-gray-300);
-      border-radius: 4px;
-      padding: var(--spacing-lg);
-      background: white;
-      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .ap-embed-prompt {
-      width: 40px;
-      height: 5px;
-      background: var(--ap-red);
-      margin-bottom: var(--spacing-md);
-      border-radius: 2px;
-    }
-
-    .ap-embed-title {
-      font-size: var(--ap-text-size-x1);
-      font-weight: 700;
-      margin-bottom: var(--spacing-md);
-      color: var(--ap-black);
-    }
-
-    .ap-embed-description {
-      font-size: var(--ap-text-size-body-sm);
-      line-height: 1.6;
-      color: var(--ap-gray-700);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .ap-embed-image {
-      width: 100%;
-      border-radius: 4px;
-      margin-bottom: var(--spacing-md);
-      display: block;
-    }
-
-    .ap-embed-title-link,
-    .ap-embed-description-link {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .ap-embed-title-link:hover .ap-embed-title {
-      text-decoration: underline;
-    }
-
-    .ap-embed-button {
-      display: inline-block;
-      padding: 10px 20px;
-      background: var(--ap-color-interactive-filled-background-enabled-bg);
-      color: var(--ap-color-interactive-filled-label-enabled-label);
-      text-decoration: none;
-      border-radius: var(--ap-layout-border-radius-lg);
-      font-weight: var(--ap-font-weight-bold);
-      font-size: 13px;
-      transition: background 0.2s;
-    }
-
-    .ap-embed-button:hover {
-      background: var(--ap-color-interactive-filled-background-hover-bg);
-    }
-
-    /* Review Embed Styles */
-    .ap-review-embed {
-      border: 1px solid var(--ap-gray-300);
-      border-radius: 4px;
-      padding: var(--spacing-lg);
-      background: white;
-      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .ap-review-header {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      gap: var(--spacing-lg);
-      margin-bottom: var(--spacing-lg);
-      padding-bottom: var(--spacing-lg);
-      border-bottom: 1px solid var(--ap-gray-300);
-    }
-
-    @media (max-width: 600px) {
-      .ap-review-header {
-        grid-template-columns: 100px 1fr;
-        gap: var(--spacing-md);
-      }
-    }
-
-    .ap-review-cover {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      border-radius: 4px;
-      background: var(--ap-gray-100);
-    }
-
-    .ap-review-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-width: 0;
-    }
-
-    .ap-review-album {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      font-weight: 700;
-      font-stretch: var(--ap-font-stretch-condensed);
-      letter-spacing: var(--ap-letter-spacing-tight);
-      line-height: 1.1;
-      margin-bottom: var(--spacing-sm);
-      color: var(--ap-black);
-    }
-
-    .ap-review-artist {
-      font-size: var(--ap-text-size-body-sm);
-      color: var(--ap-gray-700);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .ap-review-rating {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-sm);
-    }
-
-    .ap-stars {
-      font-size: var(--ap-text-size-fixed-lg);
-      color: var(--ap-red);
-      letter-spacing: 2px;
-    }
-
-    .ap-rating-value {
-      font-size: 13px;
-      color: var(--ap-gray-700);
-      font-weight: 600;
-    }
-
-    .ap-review-tracks {
-      margin-bottom: var(--spacing-lg);
-    }
-
-    .ap-review-track {
-      padding: var(--spacing-md);
-      background: var(--ap-gray-100);
-      border-radius: var(--ap-layout-border-radius-sm);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .ap-track-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--ap-red);
-      margin-bottom: 4px;
-    }
-
-    .ap-review-track a {
-      color: var(--ap-black);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .ap-review-track a:hover {
-      color: var(--ap-red);
-    }
-
-    .ap-review-for-fans {
-      padding-top: var(--spacing-lg);
-      border-top: 1px solid var(--ap-gray-300);
-    }
-
-    .ap-for-fans-label {
-      font-size: var(--ap-text-size-metadata);
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--ap-gray-700);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .ap-for-fans-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--spacing-sm);
-    }
-
-    .ap-for-fans-list li {
-      display: inline-block;
-    }
-
-    .ap-for-fans-list a {
-      display: inline-block;
-      padding: 4px 12px;
-      background: var(--ap-gray-100);
-      border-radius: var(--ap-layout-border-radius-lg);
-      font-size: var(--ap-text-size-metadata);
-      color: var(--ap-black);
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .ap-for-fans-list a:hover {
-      background: var(--ap-red);
-      color: white;
-    }
-
-    /* Timeline Embed Styles */
-    .ap-timeline-embed {
-      border: 1px solid var(--ap-gray-300);
-      border-radius: 4px;
-      padding: var(--spacing-lg);
-      background: white;
-      box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    .ap-timeline-header {
-      margin-bottom: var(--spacing-xl);
-      padding-bottom: var(--spacing-lg);
-      border-bottom: 1px solid var(--ap-gray-300);
-    }
-
-    .ap-timeline-title {
-      font-size: var(--ap-text-size-x1);
-      font-weight: 700;
-      margin-bottom: var(--spacing-sm);
-      color: var(--ap-black);
-    }
-
-    .ap-timeline-description {
-      font-size: var(--ap-text-size-body-sm);
-      color: var(--ap-gray-700);
-      line-height: 1.6;
-    }
-
-    .ap-timeline-container {
-      position: relative;
-      padding-left: var(--spacing-lg);
-    }
-
-    .ap-timeline-container::before {
-      content: '';
-      position: absolute;
-      left: 8px;
+    /* ── FLOW HEADER (shared by story screens) ─────────── */
+    .flow-header {
+      position: sticky;
       top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--ap-gray-300);
-    }
-
-    .ap-timeline-marker {
-      position: relative;
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .ap-timeline-marker::before {
-      content: '';
-      position: absolute;
-      left: calc(-1 * var(--spacing-lg));
-      top: 6px;
-      width: 18px;
-      height: 18px;
+      z-index: 100;
       background: white;
-      border: 3px solid var(--ap-red);
-      border-radius: 50%;
-      z-index: 1;
+      border-bottom: 1px solid var(--cms-border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      gap: 0;
+    }
+    .flow-back {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; color: var(--cms-sub); margin-right: 20px;
+      padding: 0; font-family: inherit; white-space: nowrap;
+    }
+    .flow-back:hover { color: var(--cms-text); }
+    .flow-story-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--ap-red);
+      margin-right: 20px; white-space: nowrap;
+      padding-right: 20px; border-right: 1px solid var(--cms-border);
+    }
+    .flow-steps { display: flex; align-items: center; }
+    .flow-step {
+      font-size: 12px; color: var(--cms-sub); padding: 0 14px;
+      height: 48px; display: flex; align-items: center;
+      border-bottom: 2px solid transparent; white-space: nowrap;
+    }
+    .flow-step.active { color: var(--cms-text); border-bottom-color: var(--ap-red); font-weight: 600; }
+    .flow-step.done { color: var(--cms-sub); }
+    .flow-step.done::after { content: ' ✓'; color: #36b37e; font-size: 11px; }
+
+    /* ── HOME SCREEN ───────────────────────────────────── */
+    .home-header {
+      background: var(--ap-black);
+      padding: 20px 40px;
+      display: flex; align-items: center; gap: 16px;
+      border-bottom: 4px solid var(--ap-red);
+    }
+    .ap-wordmark-img { height: 40px; width: auto; display: block; }
+    .home-header-label {
+      color: rgba(255,255,255,0.6); font-size: 13px;
+      border-left: 1px solid rgba(255,255,255,0.2); padding-left: 16px;
+    }
+    .home-body { max-width: 880px; margin: 0 auto; padding: 72px 40px 80px; }
+    .home-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--ap-red); margin-bottom: 14px;
+    }
+    .home-title { font-size: 44px; font-weight: 800; line-height: 1.05; margin-bottom: 16px; color: var(--ap-black); }
+    .home-subtitle { font-size: 16px; color: var(--cms-sub); margin-bottom: 56px; max-width: 540px; line-height: 1.65; }
+    .story-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .story-card {
+      border: 1px solid var(--cms-border); border-radius: 8px; padding: 36px;
+      cursor: pointer; transition: all 0.2s; background: white; text-align: left;
+    }
+    .story-card:hover { border-color: var(--ap-red); box-shadow: 0 6px 24px rgba(255,24,24,0.1); transform: translateY(-2px); }
+    .story-card-number { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ap-red); margin-bottom: 10px; }
+    .story-card-persona { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--cms-sub); margin-bottom: 10px; }
+    .story-card-title { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+    .story-card-desc { font-size: 14px; color: var(--cms-sub); line-height: 1.6; margin-bottom: 24px; }
+    .story-card-steps { list-style: none; margin-bottom: 32px; }
+    .story-card-steps li { font-size: 13px; color: var(--cms-sub); padding: 5px 0 5px 18px; position: relative; }
+    .story-card-steps li::before { content: '→'; position: absolute; left: 0; color: var(--ap-red); }
+    .story-card-cta {
+      display: inline-block; padding: 10px 22px;
+      background: var(--ap-red); color: white;
+      border-radius: 4px; font-weight: 700; font-size: 13px;
     }
 
-    .ap-timeline-date {
-      font-size: var(--ap-text-size-metadata);
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--ap-red);
-      margin-bottom: var(--spacing-sm);
+    /* ── CMS MOCK ──────────────────────────────────────── */
+    .cms-screen { background: var(--cms-bg); }
+    .cms-topbar {
+      background: var(--cms-blue); height: 44px;
+      display: flex; align-items: center; padding: 0 16px; gap: 16px;
+    }
+    .cms-topbar-logo { color: white; font-weight: 700; font-size: 14px; }
+    .cms-topbar-sep { width: 1px; height: 18px; background: rgba(255,255,255,0.3); }
+    .cms-topbar-item { color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer; }
+    .cms-topbar-item.on { color: white; font-weight: 600; }
+    .cms-layout { display: flex; height: calc(100vh - 48px - 44px); }
+    .cms-sidebar { width: 220px; background: white; border-right: 1px solid var(--cms-border); padding: 12px 0; flex-shrink: 0; overflow-y: auto; }
+    .cms-sidebar-section { padding: 8px 16px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--cms-sub); margin-top: 6px; }
+    .cms-sidebar-item { padding: 7px 16px; font-size: 13px; color: var(--cms-text); cursor: pointer; }
+    .cms-sidebar-item:hover { background: var(--cms-bg); }
+    .cms-sidebar-item.on { background: #e4ebff; color: var(--cms-blue); font-weight: 600; border-left: 3px solid var(--cms-blue); padding-left: 13px; }
+    .cms-main { flex: 1; overflow-y: auto; padding: 24px 28px; }
+    .cms-article-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .cms-article-toolbar-label { font-size: 13px; color: var(--cms-sub); }
+    .cms-article-actions { display: flex; gap: 8px; }
+    .cms-btn { padding: 6px 14px; font-size: 13px; font-weight: 500; border-radius: 3px; cursor: pointer; border: 1px solid var(--cms-border); background: white; color: var(--cms-text); font-family: inherit; }
+    .cms-btn:hover { background: var(--cms-bg); }
+    .cms-btn.primary { background: var(--cms-blue); color: white; border-color: var(--cms-blue); }
+    .cms-btn.primary:hover { background: var(--cms-blue-hover); }
+    .cms-article-body { background: white; border-radius: 4px; border: 1px solid var(--cms-border); }
+    .cms-article-meta { padding: 20px 28px; border-bottom: 1px solid var(--cms-border); }
+    .cms-article-title-display { font-size: 22px; font-weight: 700; color: var(--cms-text); margin-bottom: 6px; line-height: 1.25; }
+    .cms-article-byline { font-size: 12px; color: var(--cms-sub); }
+    .cms-article-content { padding: 20px 28px; }
+    .cms-text-block { font-size: 14px; line-height: 1.75; color: var(--cms-text); margin-bottom: 18px; }
+    .cms-embed-block {
+      border: 2px dashed var(--cms-border); border-radius: 4px;
+      padding: 18px 20px; margin: 20px 0; background: #fafbfc;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cms-embed-block-info { display: flex; align-items: center; gap: 12px; }
+    .cms-embed-icon { width: 34px; height: 34px; background: #e4ebff; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+    .cms-embed-label { font-size: 13px; color: var(--cms-text); font-weight: 600; }
+    .cms-embed-sublabel { font-size: 12px; color: var(--cms-sub); }
+    .cms-embed-edit-btn {
+      padding: 6px 14px; background: white; border: 1px solid var(--cms-border);
+      border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer;
+      color: var(--cms-text); transition: all 0.15s; font-family: inherit;
+    }
+    .cms-embed-edit-btn:hover { border-color: var(--cms-blue); color: var(--cms-blue); background: #e4ebff; }
+    .cms-hint {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.78); color: white; padding: 10px 20px;
+      border-radius: 20px; font-size: 13px; pointer-events: none; white-space: nowrap;
+      transition: opacity 0.3s;
     }
 
-    .ap-timeline-event {
-      background: var(--ap-gray-100);
-      padding: var(--spacing-md);
-      border-radius: var(--ap-layout-border-radius-sm);
+    /* ── MODAL ─────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 500; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
     }
-
-    .ap-timeline-event-title {
-      font-size: var(--ap-text-size-body-base);
-      font-weight: 700;
-      margin-bottom: var(--spacing-sm);
-      color: var(--ap-black);
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: white; border-radius: 4px; width: 580px;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
     }
-
-    .ap-timeline-event-description {
-      font-size: 13px;
-      color: var(--ap-gray-700);
-      line-height: 1.6;
-      margin-bottom: var(--spacing-md);
+    .modal-header {
+      background: var(--cms-text); color: white; padding: 13px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-radius: 4px 4px 0 0;
     }
-
-    .ap-timeline-event-image {
-      width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-      border-radius: var(--ap-layout-border-radius-sm);
-      margin-bottom: var(--spacing-md);
+    .modal-title { font-size: 14px; font-weight: 600; }
+    .modal-close { background: none; border: none; color: rgba(255,255,255,0.65); cursor: pointer; font-size: 18px; line-height: 1; padding: 0; }
+    .modal-close:hover { color: white; }
+    .modal-tabs { display: flex; border-bottom: 2px solid var(--cms-border); padding: 0 20px; }
+    .modal-tab {
+      padding: 11px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--cms-sub); border-bottom: 2px solid transparent;
+      margin-bottom: -2px; cursor: pointer; background: none; border-top: none;
+      border-left: none; border-right: none; font-family: inherit;
     }
-
-    .ap-timeline-event-link {
-      display: inline-block;
-      color: var(--ap-red);
-      text-decoration: none;
-      font-size: var(--ap-text-size-metadata);
-      font-weight: 600;
-      transition: color 0.2s;
+    .modal-tab.on { color: var(--cms-blue); border-bottom-color: var(--cms-blue); }
+    .modal-body { padding: 22px 24px; }
+    .modal-field { margin-bottom: 20px; }
+    .modal-field label { display: block; font-size: 12px; font-weight: 600; color: var(--cms-text); margin-bottom: 6px; }
+    .modal-field label .req { color: var(--cms-sub); font-weight: 400; }
+    .modal-select-wrap { position: relative; }
+    .modal-select {
+      width: 100%; padding: 8px 12px; border: 1px solid var(--cms-border);
+      border-radius: 3px; font-size: 14px; font-family: inherit;
+      color: var(--cms-text); background: white; appearance: none; cursor: pointer;
     }
-
-    .ap-timeline-event-link:hover {
-      color: var(--ap-red-dark);
+    .modal-select:focus { outline: none; border-color: var(--cms-blue); box-shadow: 0 0 0 2px rgba(0,82,204,0.15); }
+    .modal-select-arrow { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--cms-sub); font-size: 11px; }
+    .modal-template-callout {
+      margin-top: 10px; padding: 14px 16px; background: var(--cms-bg);
+      border-radius: 3px; border: 1px solid var(--cms-border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: var(--spacing-xl);
-      color: var(--ap-gray-500);
+    .modal-template-callout-text { font-size: 13px; color: var(--cms-text); font-weight: 600; }
+    .modal-template-callout-sub { font-size: 12px; color: var(--cms-sub); margin-top: 2px; }
+    .modal-template-callout-btn {
+      padding: 7px 14px; background: var(--cms-blue); color: white;
+      border: none; border-radius: 3px; font-size: 13px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; font-family: inherit;
     }
-
-    .empty-state p {
-      font-size: 14px;
+    .modal-template-callout-btn:hover { background: var(--cms-blue-hover); }
+    .modal-textarea {
+      width: 100%; min-height: 90px; padding: 8px 12px;
+      border: 1px solid var(--cms-border); border-radius: 3px;
+      font-size: 13px; font-family: monospace; color: var(--cms-text); resize: vertical;
     }
+    .modal-caption-toolbar {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 2px;
+      padding: 6px 8px; border: 1px solid var(--cms-border);
+      border-bottom: none; border-radius: 3px 3px 0 0; background: var(--cms-bg);
+    }
+    .modal-caption-tool { padding: 3px 7px; font-size: 12px; border: none; background: none; color: var(--cms-text); cursor: pointer; border-radius: 2px; font-family: inherit; }
+    .modal-caption-tool:hover { background: var(--cms-border); }
+    .modal-caption-sep { width: 1px; height: 14px; background: var(--cms-border); margin: 0 3px; }
+    .modal-caption-meta { font-size: 11px; color: var(--cms-sub); padding: 0 6px; }
+    .modal-caption-input {
+      width: 100%; padding: 8px 12px; border: 1px solid var(--cms-border);
+      border-top: none; border-radius: 0 0 3px 3px; font-size: 13px; font-family: inherit;
+    }
+    .modal-footer { padding: 14px 24px; border-top: 1px solid var(--cms-border); display: flex; justify-content: space-between; align-items: center; }
+    .modal-save-btn { padding: 8px 18px; background: var(--cms-blue); color: white; border: none; border-radius: 3px; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; font-family: inherit; }
+    .modal-save-btn:hover { background: var(--cms-blue-hover); }
 
+    /* ── TEMPLATE LIBRARY ──────────────────────────────── */
+    .library-screen { background: var(--cms-bg); }
+    .library-body { max-width: 1080px; margin: 0 auto; padding: 32px; }
+    .library-header { margin-bottom: 24px; }
+    .library-title { font-size: 22px; font-weight: 700; color: var(--cms-text); margin-bottom: 6px; }
+    .library-subtitle { font-size: 14px; color: var(--cms-sub); }
+    .library-filters { display: flex; gap: 8px; margin-bottom: 24px; }
+    .library-filter { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--cms-border); background: white; font-size: 13px; cursor: pointer; color: var(--cms-text); font-family: inherit; }
+    .library-filter.on { background: var(--cms-blue); color: white; border-color: var(--cms-blue); }
+    .library-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .tpl-card { background: white; border: 1px solid var(--cms-border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: all 0.18s; }
+    .tpl-card:hover { border-color: var(--cms-blue); box-shadow: 0 4px 20px rgba(0,82,204,0.15); transform: translateY(-2px); }
+    .tpl-thumb { height: 156px; background: var(--cms-bg); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--cms-border); overflow: hidden; }
+    .tpl-thumb-inner { width: 78%; background: white; border: 1px solid var(--cms-border); border-radius: 4px; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .tpl-meta { padding: 16px; }
+    .tpl-name { font-size: 15px; font-weight: 700; color: var(--cms-text); margin-bottom: 4px; }
+    .tpl-desc { font-size: 12px; color: var(--cms-sub); line-height: 1.45; margin-bottom: 12px; }
+    .tpl-tag { display: inline-block; padding: 2px 8px; background: #e4ebff; color: var(--cms-blue); border-radius: 3px; font-size: 11px; font-weight: 600; }
+    .tpl-tag.new { background: #e3fcef; color: #006644; }
+
+    /* ── EDITOR SCREEN ─────────────────────────────────── */
+    .editor-screen { background: var(--cms-bg); }
+    .editor-chrome {
+      background: white; border-bottom: 1px solid var(--cms-border);
+      padding: 0 28px; height: 56px; display: flex; align-items: center;
+      justify-content: space-between;
+    }
+    .editor-chrome-meta { min-width: 0; }
+    .editor-chrome-template-name { font-size: 15px; font-weight: 700; color: var(--cms-text); }
+    .editor-chrome-sub { font-size: 12px; color: var(--cms-sub); display: block; margin-top: 2px; }
+    .editor-chrome-actions { display: flex; gap: 8px; }
+    .editor-body { padding: 20px 28px; }
+    .editor-panel { display: none; }
+    .editor-panel.on { display: block; }
+    .editor-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .editor-layout { grid-template-columns: 1fr; } }
+
+    /* ── FORM STYLES ───────────────────────────────────── */
+    .form-section {
+      background: white; padding: var(--sp-lg); border-radius: 4px;
+      border: 1px solid var(--cms-border);
+      max-height: calc(100vh - 48px - 56px - 40px);
+      overflow-y: auto;
+    }
+    .form-group { margin-bottom: var(--sp-lg); }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: var(--sp-sm); color: var(--cms-text); }
+    .form-group label .required { color: var(--ap-red); }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: var(--sp-sm) var(--sp-md);
+      border: 1px solid var(--cms-border); border-radius: 3px;
+      font-size: 13px; font-family: inherit; transition: border-color 0.2s;
+      color: var(--cms-text);
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--ap-red);
+      box-shadow: 0 0 0 2px rgba(255,24,24,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 72px; }
+    .form-group input[type="number"] { width: 110px; }
+    .char-count { font-size: 11px; color: var(--cms-sub); margin-top: 4px; }
+    .form-group-nested { background: var(--cms-bg); padding: var(--sp-md); border-radius: 3px; margin-top: var(--sp-sm); border: 1px solid var(--cms-border); }
+    .form-group-array { background: var(--cms-bg); padding: var(--sp-md); border-radius: 3px; margin-top: var(--sp-sm); }
+    .array-item { background: white; padding: var(--sp-md); border-radius: 3px; margin-bottom: var(--sp-md); border-left: 3px solid var(--ap-red); }
+    .array-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-md); padding-bottom: var(--sp-sm); border-bottom: 1px solid var(--cms-border); }
+    .array-item-title { font-size: 12px; font-weight: 600; color: var(--cms-sub); }
+    .btn-remove { background: white; border: 1px solid var(--cms-border); padding: 3px 8px; font-size: 11px; cursor: pointer; border-radius: 2px; color: #666; transition: all 0.15s; font-family: inherit; }
+    .btn-remove:hover { border-color: var(--ap-red); color: var(--ap-red); }
+    .btn-add-item { background: white; border: 2px dashed var(--cms-border); padding: var(--sp-md); width: 100%; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--ap-red); border-radius: 3px; transition: all 0.15s; font-family: inherit; }
+    .btn-add-item:hover { border-color: var(--ap-red); background: rgba(255,24,24,0.03); }
+
+    /* ── PREVIEW SECTION ───────────────────────────────── */
+    .preview-section {
+      background: white; padding: var(--sp-lg);
+      border: 1px solid var(--cms-border); border-radius: 4px;
+      max-height: calc(100vh - 48px - 56px - 40px);
+      overflow-y: auto;
+    }
+    .preview-label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--cms-sub); margin-bottom: var(--sp-lg); letter-spacing: 1px; }
+    .empty-state { text-align: center; padding: var(--sp-xl); color: var(--cms-sub); font-size: 14px; }
+
+    /* ── EMBED: GENERIC ────────────────────────────────── */
+    .ap-generic-embed { border: 1px solid var(--ap-gray-300); border-radius: 4px; padding: var(--sp-lg); background: white; box-shadow: 3px 4px 6px rgba(0,0,0,0.07); }
+    .ap-embed-prompt { width: 40px; height: 5px; background: var(--ap-red); margin-bottom: var(--sp-md); border-radius: 2px; }
+    .ap-embed-title { font-size: var(--ap-text-size-x1); font-weight: 700; margin-bottom: var(--sp-md); color: var(--ap-black); }
+    .ap-embed-description { font-size: var(--ap-text-size-body-sm); line-height: 1.6; color: var(--ap-gray-700); margin-bottom: var(--sp-md); }
+    .ap-embed-image { width: 100%; border-radius: 4px; margin-bottom: var(--sp-md); display: block; }
+    .ap-embed-title-link, .ap-embed-description-link { display: block; text-decoration: none; color: inherit; }
+    .ap-embed-title-link:hover .ap-embed-title { text-decoration: underline; }
+    .ap-embed-button { display: inline-block; padding: 10px 20px; background: var(--ap-color-interactive-filled-background-enabled-bg); color: var(--ap-color-interactive-filled-label-enabled-label); text-decoration: none; border-radius: var(--ap-layout-border-radius-lg); font-weight: var(--ap-font-weight-bold); font-size: 13px; transition: background 0.2s; }
+    .ap-embed-button:hover { background: var(--ap-color-interactive-filled-background-hover-bg); }
+
+    /* ── EMBED: REVIEW ─────────────────────────────────── */
+    .ap-review-embed { border: 1px solid var(--ap-gray-300); border-radius: 4px; padding: var(--sp-lg); background: white; box-shadow: 3px 4px 6px rgba(0,0,0,0.07); }
+    .ap-review-album { font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 700; font-stretch: var(--ap-font-stretch-condensed); letter-spacing: var(--ap-letter-spacing-tight); line-height: 1.1; margin-bottom: var(--sp-md); color: var(--ap-black); }
+    .ap-review-header { display: grid; grid-template-columns: 130px 1fr; gap: var(--sp-lg); margin-bottom: var(--sp-lg); padding-bottom: var(--sp-lg); border-bottom: 1px solid var(--ap-gray-300); }
+    @media (max-width: 500px) { .ap-review-header { grid-template-columns: 90px 1fr; } }
+    .ap-review-cover { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; background: var(--ap-gray-100); }
+    .ap-review-info { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+    .ap-review-artist { font-size: var(--ap-text-size-body-sm); color: var(--ap-gray-700); margin-bottom: var(--sp-md); }
+    .ap-review-rating { display: flex; align-items: center; gap: var(--sp-sm); }
+    .ap-stars { font-size: var(--ap-text-size-fixed-lg); color: var(--ap-red); letter-spacing: 2px; }
+    .ap-rating-value { font-size: 13px; color: var(--ap-gray-700); font-weight: 600; }
+    .ap-review-tracks { margin-bottom: var(--sp-lg); }
+    .ap-review-track { padding: var(--sp-md); background: var(--ap-gray-100); border-radius: 3px; margin-bottom: var(--sp-sm); }
+    .ap-track-label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--ap-red); margin-bottom: 4px; }
+    .ap-review-track a { color: var(--ap-black); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+    .ap-review-track a:hover { color: var(--ap-red); }
+    .ap-review-for-fans { padding-top: var(--sp-lg); border-top: 1px solid var(--ap-gray-300); }
+    .ap-for-fans-label { font-size: var(--ap-text-size-metadata); font-weight: 600; text-transform: uppercase; color: var(--ap-gray-700); margin-bottom: var(--sp-sm); }
+    .ap-for-fans-list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-sm); }
+    .ap-for-fans-list li { display: inline-block; }
+    .ap-for-fans-list a { display: inline-block; padding: 4px 12px; background: var(--ap-gray-100); border-radius: var(--ap-layout-border-radius-lg); font-size: var(--ap-text-size-metadata); color: var(--ap-black); text-decoration: none; transition: all 0.2s; }
+    .ap-for-fans-list a:hover { background: var(--ap-red); color: white; }
+
+    /* ── EMBED: TIMELINE ───────────────────────────────── */
+    .ap-timeline-embed { border: 1px solid var(--ap-gray-300); border-radius: 4px; padding: var(--sp-lg); background: white; box-shadow: 3px 4px 6px rgba(0,0,0,0.07); }
+    .ap-timeline-header { margin-bottom: var(--sp-xl); padding-bottom: 0; border-bottom: 1px solid var(--ap-gray-300); overflow: hidden; }
+    .ap-timeline-hero-image { display: block; width: calc(100% + 2 * var(--sp-lg)); margin: var(--sp-md) calc(-1 * var(--sp-lg)) 0; max-height: 240px; object-fit: cover; }
+    .ap-timeline-title { font-size: var(--ap-text-size-x1); font-weight: 700; margin-bottom: var(--sp-sm); color: var(--ap-black); }
+    .ap-timeline-description { font-size: var(--ap-text-size-body-sm); color: var(--ap-gray-700); line-height: 1.6; }
+    .ap-timeline-container { position: relative; padding-left: 28px; }
+    .ap-timeline-marker { position: relative; margin-bottom: var(--sp-xl); }
+    .ap-timeline-marker::before { content: ''; position: absolute; left: -28px; top: 3px; width: 16px; height: 16px; background: var(--ap-red); border: none; border-radius: 50%; z-index: 1; }
+    .ap-timeline-marker:not(:last-child)::after { content: ''; position: absolute; left: -21px; width: 2px; top: 25px; bottom: -28px; background: var(--ap-gray-300); z-index: 0; }
+    .ap-timeline-date { font-size: var(--ap-text-size-metadata); font-weight: 700; text-transform: uppercase; color: var(--ap-red); margin-bottom: var(--sp-sm); }
+    .ap-timeline-event { background: var(--ap-gray-100); padding: var(--sp-md); border-radius: 3px; overflow: hidden; }
+    .ap-timeline-event-title { font-size: var(--ap-text-size-body-base); font-weight: 700; margin-bottom: var(--sp-sm); color: var(--ap-black); }
+    .ap-timeline-event-description { font-size: 13px; color: var(--ap-gray-700); line-height: 1.6; margin-bottom: var(--sp-md); }
+    .ap-timeline-event-image { display: block; width: calc(100% + 2 * var(--sp-md)); max-height: 200px; object-fit: cover; margin: calc(-1 * var(--sp-md)) calc(-1 * var(--sp-md)) var(--sp-md); }
+    .ap-timeline-event-link { display: inline-block; color: var(--ap-red); text-decoration: none; font-size: var(--ap-text-size-metadata); font-weight: 600; }
+    .ap-timeline-event-link:hover { text-decoration: underline; }
+
+    /* ── ARTICLE PREVIEW ───────────────────────────────── */
+    .article-screen { background: white; }
+    .ap-article-topbar { background: white; border-bottom: 3px solid var(--ap-red); padding: 12px 0; }
+    .ap-article-topbar-inner { max-width: 960px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+    .ap-news-logo { font-size: 28px; font-weight: 900; color: black; letter-spacing: -1px; }
+    .ap-news-logo span { color: var(--ap-red); }
+    .ap-nav { display: flex; gap: 20px; }
+    .ap-nav a { font-size: 12px; font-weight: 600; color: #333; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+    .ap-article-main { max-width: 680px; margin: 0 auto; padding: 40px 24px 80px; }
+    .ap-article-category { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--ap-red); margin-bottom: 12px; }
+    .ap-article-h1 { font-size: 30px; font-weight: 800; line-height: 1.15; margin-bottom: 14px; color: black; }
+    .ap-article-byline { font-size: 13px; color: #555; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e0e0e0; }
+    .ap-article-body p { font-size: 17px; line-height: 1.75; color: #222; margin-bottom: 20px; font-family: Georgia, serif; }
+    .ap-article-embed-container { margin: 32px 0; }
+    .article-end-actions { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e0e0e0; display: flex; gap: 12px; }
+
+    /* ── STORY 2: BUILDER ──────────────────────────────── */
+    .builder-screen { background: var(--cms-bg); }
+    .builder-body { max-width: 1160px; margin: 0 auto; padding: 24px 28px; }
+    .builder-meta-bar { background: white; border: 1px solid var(--cms-border); border-radius: 6px; padding: 18px 20px; margin-bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .builder-meta-label { font-size: 12px; font-weight: 600; color: var(--cms-text); display: block; margin-bottom: 5px; }
+    .builder-meta-input { width: 100%; padding: 7px 10px; border: 1px solid var(--cms-border); border-radius: 3px; font-size: 13px; font-family: inherit; color: var(--cms-text); }
+    .builder-meta-input:focus { outline: none; border-color: var(--ap-red); }
+    .builder-status-toggle { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+    .toggle-track { position: relative; width: 36px; height: 20px; cursor: pointer; }
+    .toggle-track input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-thumb { position: absolute; inset: 0; background: var(--ap-gray-300); border-radius: 20px; transition: background 0.2s; }
+    .toggle-thumb::after { content: ''; position: absolute; width: 14px; height: 14px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.25); }
+    .toggle-track input:checked + .toggle-thumb { background: #22a06b; }
+    .toggle-track input:checked + .toggle-thumb::after { transform: translateX(16px); }
+    .toggle-status-label { font-size: 12px; font-weight: 600; color: var(--cms-sub); }
+    .builder-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .builder-panel { background: white; border: 1px solid var(--cms-border); border-radius: 6px; overflow: hidden; }
+    .builder-panel-head { padding: 12px 18px; border-bottom: 1px solid var(--cms-border); background: var(--cms-bg); font-size: 12px; font-weight: 600; color: var(--cms-text); display: flex; justify-content: space-between; align-items: center; }
+    .builder-panel-body { padding: 16px 18px; }
+    .builder-field-item { border: 1px solid var(--cms-border); border-radius: 4px; padding: 10px 14px; margin-bottom: 8px; background: var(--cms-bg); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .builder-drag-handle { display: flex; flex-direction: column; gap: 3px; cursor: grab; padding: 2px 0; flex-shrink: 0; }
+    .builder-drag-handle span { display: block; width: 14px; height: 2px; background: #999; border-radius: 1px; }
+    .builder-field-name { font-size: 13px; font-weight: 600; color: var(--cms-text); }
+    .builder-field-meta { font-size: 11px; color: var(--cms-sub); margin-top: 2px; }
+    .builder-field-badges { display: flex; gap: 4px; align-items: center; }
+    .badge { padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+    .badge-text { background: #e4ebff; color: var(--cms-blue); }
+    .badge-url { background: #fff0b3; color: #ff8b00; }
+    .badge-number { background: #e3fcef; color: #006644; }
+    .badge-array { background: #ffe2e0; color: #bf2600; }
+    .badge-bool { background: #f3f0ff; color: #403294; }
+    .badge-req { background: var(--cms-bg); color: var(--cms-sub); border: 1px solid var(--cms-border); }
+    .builder-remove-btn { background: none; border: none; cursor: pointer; color: var(--cms-sub); font-size: 14px; padding: 0 4px; font-family: inherit; }
+    .builder-remove-btn:hover { color: #bf2600; }
+    .builder-add-btn { width: 100%; padding: 9px; border: 2px dashed var(--cms-border); border-radius: 4px; background: none; color: var(--cms-blue); font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px; font-family: inherit; }
+    .builder-add-btn:hover { border-color: var(--cms-blue); background: #f4f5f7; }
+    .json-output { font-family: monospace; font-size: 12px; line-height: 1.65; color: var(--cms-text); background: #fafbfc; padding: 16px 18px; white-space: pre; overflow-x: auto; max-height: 440px; overflow-y: auto; border-radius: 0; }
+    .builder-actions { margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px; }
+
+    /* ── STORY 2: CONFIRM ──────────────────────────────── */
+    #screen-s2-confirm { background: white; align-items: center; justify-content: center; }
+    .confirm-body { text-align: center; max-width: 460px; padding: 40px; }
+    .confirm-icon { width: 64px; height: 64px; background: #e3fcef; border-radius: 50%; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .confirm-title { font-size: 26px; font-weight: 700; margin-bottom: 12px; }
+    .confirm-desc { font-size: 15px; color: var(--cms-sub); line-height: 1.65; margin-bottom: 32px; }
+    .confirm-actions { display: flex; gap: 12px; justify-content: center; }
+
+    /* ── SHARED BUTTONS ────────────────────────────────── */
+    .btn { padding: 9px 20px; border-radius: 3px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; }
+    .btn-red { background: var(--ap-red); color: white; }
+    .btn-red:hover { opacity: 0.9; }
+    .btn-outline { background: white; color: var(--cms-text); border: 1px solid var(--cms-border); }
+    .btn-outline:hover { background: var(--cms-bg); }
+    .btn-cms { background: var(--cms-blue); color: white; }
+    .btn-cms:hover { background: var(--cms-blue-hover); }
+
+    /* ── ADD FIELD MODAL ───────────────────────────────── */
+    .field-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 600;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .field-modal-overlay.open { opacity: 1; pointer-events: all; }
+    .field-modal { background: white; border-radius: 6px; width: 420px; padding: 0; box-shadow: 0 8px 30px rgba(0,0,0,0.25); overflow: hidden; }
+    .field-modal-header { background: var(--cms-text); color: white; padding: 13px 18px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+    .field-modal-body { padding: 20px; }
+    .field-modal-footer { padding: 14px 20px; border-top: 1px solid var(--cms-border); display: flex; justify-content: flex-end; gap: 8px; }
+    .field-form-group { margin-bottom: 16px; }
+    .field-form-label { display: block; font-size: 12px; font-weight: 600; color: var(--cms-text); margin-bottom: 5px; }
+    .field-form-input, .field-form-select { width: 100%; padding: 8px 10px; border: 1px solid var(--cms-border); border-radius: 3px; font-size: 13px; font-family: inherit; color: var(--cms-text); }
+    .field-form-input:focus, .field-form-select:focus { outline: none; border-color: var(--ap-red); }
+    .field-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-form-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--cms-text); }
+    .field-form-check input { width: auto; }
+
+    /* ── GENERIC VARIANT SWITCHER ──────────────────────── */
+    .variant-switcher { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--cms-border); }
+    .variant-switcher-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--cms-sub); margin-bottom: 10px; }
+    .variant-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .variant-option { background: white; border: 2px solid var(--cms-border); border-radius: 6px; padding: 10px 8px 9px; cursor: pointer; font-family: inherit; text-align: center; transition: all 0.15s; }
+    .variant-option:hover { border-color: var(--ap-red); }
+    .variant-option.active { border-color: var(--ap-red); background: rgba(255,24,24,0.03); }
+    .variant-option-name { display: block; font-size: 11px; font-weight: 700; color: var(--cms-sub); margin-top: 8px; }
+    .variant-option.active .variant-option-name { color: var(--ap-red); }
+    .variant-thumb { height: 50px; background: var(--cms-bg); border-radius: 3px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+    /* ── VARIANT 1: HEADLINE CARD (horizontal) ─────────── */
+    .ap-generic-v1 {
+      border: 1px solid var(--ap-gray-300); border-radius: 4px; background: white;
+      box-shadow: 3px 4px 8px rgba(0,0,0,0.08); display: grid;
+      grid-template-columns: 1fr 140px; min-height: 140px; overflow: hidden;
+    }
+    .v1-content {
+      padding: 18px 20px; border-left: 4px solid var(--ap-red);
+      display: flex; flex-direction: column; gap: 8px; justify-content: center;
+    }
+    .v1-content .ap-embed-prompt { margin-bottom: 0; }
+    .v1-title { font-size: 17px; font-weight: 700; line-height: 1.2; color: var(--ap-black); }
+    .v1-title a { color: inherit; text-decoration: none; }
+    .v1-title a:hover { text-decoration: underline; }
+    .v1-desc { font-size: 12px; line-height: 1.55; color: var(--ap-gray-700); }
+    .v1-cta { margin-top: 2px; }
+    .v1-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .v1-img-placeholder { width: 100%; height: 100%; background: var(--ap-gray-100); display: block; }
+
+    /* ── VARIANT 2: PHOTO FEATURE (image-forward) ──────── */
+    .ap-generic-v2 {
+      border: 1px solid var(--ap-gray-300); border-radius: 4px;
+      overflow: hidden; background: white; box-shadow: 3px 4px 8px rgba(0,0,0,0.08);
+    }
+    .v2-img-wrap {
+      width: 100%; aspect-ratio: 16/7; overflow: hidden;
+      background: var(--ap-gray-100); position: relative;
+    }
+    .v2-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .v2-img-empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #eee; }
+    .v2-img-empty-label { font-size: 11px; color: #999; }
+    .v2-category {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--ap-red); margin-bottom: 10px;
+    }
+    .v2-body { padding: 20px 22px 22px; }
+    .v2-title { font-size: var(--ap-text-size-x1); font-weight: 700; line-height: 1.2; margin-bottom: 10px; color: var(--ap-black); }
+    .v2-title a { color: inherit; text-decoration: none; }
+    .v2-title a:hover { text-decoration: underline; }
+    .v2-desc { font-size: var(--ap-text-size-body-sm); line-height: 1.65; color: var(--ap-gray-700); margin-bottom: 14px; }
+    .v2-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--ap-gray-300); }
+    .v2-ap-credit { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ap-gray-500); }
+
+    /* ── VARIANT 3: VIDEO FEATURE ──────────────────────── */
+    .ap-generic-v3 {
+      border: 1px solid var(--ap-gray-300); border-radius: 4px;
+      overflow: hidden; background: white; box-shadow: 3px 4px 8px rgba(0,0,0,0.08);
+    }
+    .v3-video-wrap {
+      width: 100%; aspect-ratio: 16/9; position: relative;
+      background: #111; overflow: hidden;
+    }
+    .v3-video-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.82; }
+    .v3-video-empty { width: 100%; height: 100%; background: #1a1a1a; display: flex; align-items: center; justify-content: center; }
+    .v3-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.65) 100%);
+    }
+    .v3-play-btn {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      width: 54px; height: 54px; background: rgba(255,255,255,0.92);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .v3-play-triangle {
+      width: 0; height: 0;
+      border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+      border-left: 18px solid #111; margin-left: 4px;
+    }
+    .v3-video-title {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 14px 16px; font-size: 17px; font-weight: 700;
+      color: white; line-height: 1.2;
+    }
+    .v3-body { padding: 14px 18px 18px; }
+    .v3-desc { font-size: 13px; line-height: 1.6; color: var(--ap-gray-700); margin-bottom: 14px; }
+    .v3-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--ap-gray-300); }
+    .v3-ap-credit { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ap-gray-500); }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>AP News HTML Embed Templates</h1>
-    <p class="subtitle">Proof of Concept Prototype — Edit form values to see live embed preview</p>
-  </header>
+<!-- ════════════════════════════════════════════════════════
+     HOME SCREEN
+════════════════════════════════════════════════════════ -->
+<div id="screen-home" class="screen active">
+  <div class="home-header">
+    <img src="images/ap-logo.png" alt="AP" class="ap-wordmark-img">
+    <div class="home-header-label">Embed Templates — Internal Prototype</div>
+  </div>
+  <div class="home-body">
+    <div class="home-eyebrow">Two Stories to Explore</div>
+    <h1 class="home-title">AP News HTML<br>Embed Templates</h1>
+    <p class="home-subtitle">This prototype demonstrates how embed templates work for two different users. Choose a story to walk through the experience.</p>
+    <div class="story-cards">
+      <div class="story-card" onclick="goTo('screen-s1-cms')">
+        <div class="story-card-number">Story 1</div>
+        <div class="story-card-persona">Persona: Embed Author</div>
+        <div class="story-card-title">Creating an Embed</div>
+        <div class="story-card-desc">An editor adds an interactive embed to an AP News article by choosing from the template library and filling in content.</div>
+        <ul class="story-card-steps">
+          <li>Open the HTML embed editor in the CMS</li>
+          <li>Select "Template" and browse the library</li>
+          <li>Fill in template fields with live preview</li>
+          <li>See the finished embed in a mock article</li>
+        </ul>
+        <div class="story-card-cta">Begin Story 1 →</div>
+      </div>
+      <div class="story-card" onclick="goTo('screen-s2-builder')">
+        <div class="story-card-number">Story 2</div>
+        <div class="story-card-persona">Persona: Template Creator</div>
+        <div class="story-card-title">Building a Template</div>
+        <div class="story-card-desc">A developer or designer defines a new embed template structure and publishes it so authors can use it in any article.</div>
+        <ul class="story-card-steps">
+          <li>Name the template and add fields</li>
+          <li>Set field types, labels, and constraints</li>
+          <li>Review the generated JSON schema</li>
+          <li>Submit to the CMS template library</li>
+        </ul>
+        <div class="story-card-cta">Begin Story 2 →</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- Main Tabs -->
-  <div class="tabs-nav">
-    <button class="tab-button active" data-tab="generic">Generic Embed</button>
-    <button class="tab-button" data-tab="review">Review Embed</button>
-    <button class="tab-button" data-tab="timeline">Timeline Embed</button>
+<!-- ════════════════════════════════════════════════════════
+     STORY 1 — STEP 1: CMS MOCK
+════════════════════════════════════════════════════════ -->
+<div id="screen-s1-cms" class="screen">
+  <div class="flow-header">
+    <button class="flow-back" onclick="goTo('screen-home')">← Home</button>
+    <span class="flow-story-label">Story 1: Embed Author</span>
+    <div class="flow-steps">
+      <div class="flow-step active">CMS Editor</div>
+      <div class="flow-step">Template Library</div>
+      <div class="flow-step">Fill Content</div>
+      <div class="flow-step">Article Preview</div>
+    </div>
   </div>
 
-  <!-- Generic Embed Tab -->
-  <div id="generic" class="tab-content active">
-    <div class="sub-tabs">
-      <button class="sub-tab-button active" data-subtab="generic-form">Form Editor</button>
-      <button class="sub-tab-button" data-subtab="generic-preview">Preview</button>
+  <div class="cms-topbar">
+    <div class="cms-topbar-logo">AP CMS</div>
+    <div class="cms-topbar-sep"></div>
+    <div class="cms-topbar-item on">Content</div>
+    <div class="cms-topbar-item">Assets</div>
+    <div class="cms-topbar-item">Analytics</div>
+    <div class="cms-topbar-item">Publish</div>
+  </div>
+
+  <div class="cms-layout">
+    <div class="cms-sidebar">
+      <div class="cms-sidebar-section">Content</div>
+      <div class="cms-sidebar-item">All Stories</div>
+      <div class="cms-sidebar-item on">My Stories</div>
+      <div class="cms-sidebar-item">Drafts</div>
+      <div class="cms-sidebar-item">Scheduled</div>
+      <div class="cms-sidebar-section">Tools</div>
+      <div class="cms-sidebar-item">Media Library</div>
+      <div class="cms-sidebar-item">Embed Templates</div>
+      <div class="cms-sidebar-item">Substitutions</div>
     </div>
 
-    <!-- Form View -->
-    <div id="generic-form" class="sub-tab-content active">
+    <div class="cms-main">
+      <div class="cms-article-toolbar">
+        <div class="cms-article-toolbar-label">Editing: Draft · Last saved 3 minutes ago</div>
+        <div class="cms-article-actions">
+          <button class="cms-btn">Preview</button>
+          <button class="cms-btn">Save Draft</button>
+          <button class="cms-btn primary">Publish</button>
+        </div>
+      </div>
+
+      <div class="cms-article-body">
+        <div class="cms-article-meta">
+          <div class="cms-article-title-display">Taylor Swift's 'The Tortured Poets Department': A nuanced look at celebrity grief</div>
+          <div class="cms-article-byline">By Mesfin Fekadu, AP Music Writer · April 18, 2026 · Entertainment</div>
+        </div>
+        <div class="cms-article-content">
+          <div class="cms-text-block">Taylor Swift's 11th studio album arrives weighed with expectation — a meditation on public heartbreak that manages to feel both sprawling and intimate. At 31 tracks across two discs, it asks a great deal of the listener's patience.</div>
+
+          <div class="cms-embed-block">
+            <div class="cms-embed-block-info">
+              <div class="cms-embed-icon">⬜</div>
+              <div>
+                <div class="cms-embed-label">HTML Embed</div>
+                <div class="cms-embed-sublabel">No template selected · Click Edit HTML to configure</div>
+              </div>
+            </div>
+            <button class="cms-embed-edit-btn" onclick="openModal()">Edit HTML</button>
+          </div>
+
+          <div class="cms-text-block">The album's first disc leans into the confessional mode that Swift has perfected over two decades, while the second introduces experimental textures that feel genuinely new for the artist.</div>
+          <div class="cms-text-block">Whether the whole is greater than the sum of its parts is a question the album raises but doesn't fully answer.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cms-hint" id="cms-hint">Click <strong>Edit HTML</strong> on the embed block to open the editor</div>
+</div>
+
+<!-- MODAL overlays CMS screen -->
+<div id="embed-modal" class="modal-overlay" onclick="handleModalBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit HTML</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab on">MAIN</button>
+      <button class="modal-tab">OVERRIDES</button>
+      <button class="modal-tab">ADVANCED</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>HTML Embed <span class="req">(Required)</span></label>
+        <div class="modal-select-wrap">
+          <select class="modal-select" id="embedTypeSelect" onchange="onEmbedTypeChange(this.value)">
+            <option value="">Search…</option>
+            <option value="inline">Inline</option>
+            <option value="shared">Shared</option>
+            <option value="template" selected>Template</option>
+          </select>
+          <span class="modal-select-arrow">▾</span>
+        </div>
+        <div id="templateCallout" class="modal-template-callout">
+          <div>
+            <div class="modal-template-callout-text">Use a reusable template</div>
+            <div class="modal-template-callout-sub">Choose a structured template from the library to populate this embed</div>
+          </div>
+          <button class="modal-template-callout-btn" onclick="goToLibrary()">Browse Templates →</button>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label>Raw HTML <span class="req">(Required)</span></label>
+        <textarea class="modal-textarea" placeholder="Paste raw HTML, or use a template above to generate it…"></textarea>
+      </div>
+      <div class="modal-field">
+        <label>Caption</label>
+        <div class="modal-caption-toolbar">
+          <button class="modal-caption-tool"><strong>B</strong></button>
+          <button class="modal-caption-tool"><em>I</em></button>
+          <button class="modal-caption-tool"><u>U</u></button>
+          <div class="modal-caption-sep"></div>
+          <button class="modal-caption-tool">≡</button>
+          <button class="modal-caption-tool" style="text-align:right;">≡</button>
+          <button class="modal-caption-tool">≡</button>
+          <div class="modal-caption-sep"></div>
+          <button class="modal-caption-tool">⋮≡</button>
+          <button class="modal-caption-tool">≡⋮</button>
+          <div class="modal-caption-sep"></div>
+          <span class="modal-caption-meta">Substitutions ▾</span>
+          <div class="modal-caption-sep"></div>
+          <span class="modal-caption-meta">⤢</span>
+          <div style="flex:1;"></div>
+          <span class="modal-caption-meta">0w 0c</span>
+        </div>
+        <input type="text" class="modal-caption-input" placeholder="">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="modal-save-btn">SAVE &amp; CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STORY 1 — STEP 2: TEMPLATE LIBRARY
+════════════════════════════════════════════════════════ -->
+<div id="screen-s1-library" class="screen">
+  <div class="flow-header">
+    <button class="flow-back" onclick="goTo('screen-s1-cms')">← CMS Editor</button>
+    <span class="flow-story-label">Story 1: Embed Author</span>
+    <div class="flow-steps">
+      <div class="flow-step done">CMS Editor</div>
+      <div class="flow-step active">Template Library</div>
+      <div class="flow-step">Fill Content</div>
+      <div class="flow-step">Article Preview</div>
+    </div>
+  </div>
+
+  <div class="library-body">
+    <div class="library-header">
+      <h2 class="library-title">Template Library</h2>
+      <p class="library-subtitle">Choose a template to use in your embed. Each template defines the fields and structure for a specific content type.</p>
+    </div>
+
+    <div class="library-filters">
+      <button class="library-filter on">All Templates</button>
+      <button class="library-filter">News</button>
+      <button class="library-filter">Entertainment</button>
+      <button class="library-filter">Sports</button>
+    </div>
+
+    <div class="library-grid">
+
+      <!-- Generic -->
+      <div class="tpl-card" onclick="selectTemplate('generic')">
+        <div class="tpl-thumb">
+          <div class="tpl-thumb-inner">
+            <div style="width:32px;height:4px;background:#ff1818;border-radius:2px;margin-bottom:7px;"></div>
+            <div style="height:9px;background:#1a1a1a;border-radius:2px;margin-bottom:5px;"></div>
+            <div style="height:6px;background:#ddd;border-radius:2px;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#ddd;border-radius:2px;width:75%;margin-bottom:3px;"></div>
+            <div style="height:6px;background:#ddd;border-radius:2px;width:55%;margin-bottom:10px;"></div>
+            <div style="height:60px;background:#f0f0f0;border-radius:2px;margin-bottom:10px;"></div>
+            <div style="width:72px;height:22px;background:#ff1818;border-radius:10px;"></div>
+          </div>
+        </div>
+        <div class="tpl-meta">
+          <div class="tpl-name">Generic Embed</div>
+          <div class="tpl-desc">Flexible embed for breaking news, alerts, and promotional content with optional image and CTA button.</div>
+          <span class="tpl-tag">News</span>
+        </div>
+      </div>
+
+      <!-- Review -->
+      <div class="tpl-card" onclick="selectTemplate('review')">
+        <div class="tpl-thumb">
+          <div class="tpl-thumb-inner">
+            <div style="height:9px;background:#1a1a1a;border-radius:2px;margin-bottom:8px;width:90%;"></div>
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <div style="width:44px;height:44px;background:#e0e0e0;border-radius:3px;flex-shrink:0;"></div>
+              <div style="flex:1;">
+                <div style="height:7px;background:#444;border-radius:2px;margin-bottom:4px;"></div>
+                <div style="height:6px;background:#ddd;border-radius:2px;margin-bottom:6px;width:80%;"></div>
+                <div style="font-size:13px;color:#ff1818;letter-spacing:1px;">★★★★½</div>
+              </div>
+            </div>
+            <div style="height:1px;background:#e0e0e0;margin:8px 0;"></div>
+            <div style="height:20px;background:#f5f5f5;border-radius:2px;margin-bottom:4px;"></div>
+            <div style="height:20px;background:#f5f5f5;border-radius:2px;"></div>
+          </div>
+        </div>
+        <div class="tpl-meta">
+          <div class="tpl-name">Review Embed</div>
+          <div class="tpl-desc">Music review with album art, star rating, best and skip tracks, and "for fans of" recommendations.</div>
+          <span class="tpl-tag">Entertainment</span>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="tpl-card" onclick="selectTemplate('timeline')">
+        <div class="tpl-thumb">
+          <div class="tpl-thumb-inner">
+            <div style="height:9px;background:#1a1a1a;border-radius:2px;margin-bottom:10px;"></div>
+            <div style="display:flex;gap:7px;margin-bottom:8px;align-items:flex-start;">
+              <div style="width:11px;height:11px;border:2px solid #ff1818;border-radius:50%;flex-shrink:0;margin-top:1px;"></div>
+              <div>
+                <div style="height:5px;background:#ff1818;border-radius:2px;width:44px;margin-bottom:3px;opacity:0.6;"></div>
+                <div style="height:7px;background:#222;border-radius:2px;width:80px;"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;margin-bottom:8px;align-items:flex-start;">
+              <div style="width:11px;height:11px;border:2px solid #ff1818;border-radius:50%;flex-shrink:0;margin-top:1px;"></div>
+              <div>
+                <div style="height:5px;background:#ff1818;border-radius:2px;width:38px;margin-bottom:3px;opacity:0.6;"></div>
+                <div style="height:7px;background:#222;border-radius:2px;width:72px;"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:7px;align-items:flex-start;">
+              <div style="width:11px;height:11px;border:2px solid #ff1818;border-radius:50%;flex-shrink:0;margin-top:1px;"></div>
+              <div>
+                <div style="height:5px;background:#ff1818;border-radius:2px;width:50px;margin-bottom:3px;opacity:0.6;"></div>
+                <div style="height:7px;background:#222;border-radius:2px;width:60px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tpl-meta">
+          <div class="tpl-name">Timeline Embed</div>
+          <div class="tpl-desc">Vertical timeline of dated events with descriptions, images, and article links for developing stories.</div>
+          <span class="tpl-tag">News</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STORY 1 — STEP 3: TEMPLATE EDITOR
+════════════════════════════════════════════════════════ -->
+<div id="screen-s1-editor" class="screen">
+  <div class="flow-header">
+    <button class="flow-back" onclick="goTo('screen-s1-library')">← Library</button>
+    <span class="flow-story-label">Story 1: Embed Author</span>
+    <div class="flow-steps">
+      <div class="flow-step done">CMS Editor</div>
+      <div class="flow-step done">Template Library</div>
+      <div class="flow-step active">Fill Content</div>
+      <div class="flow-step">Article Preview</div>
+    </div>
+  </div>
+
+  <div class="editor-chrome">
+    <div class="editor-chrome-meta">
+      <div class="editor-chrome-template-name" id="editorTemplateName">Template Editor</div>
+      <span class="editor-chrome-sub">Edit fields on the left · Live preview updates on the right</span>
+    </div>
+    <div class="editor-chrome-actions">
+      <button class="btn btn-outline" onclick="goTo('screen-s1-library')">← Change Template</button>
+      <button class="btn btn-red" onclick="saveAndPreview()">Save &amp; Preview in Article →</button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+
+    <!-- GENERIC PANEL -->
+    <div id="editor-generic" class="editor-panel">
       <div class="editor-layout">
         <div class="form-section">
           <form id="genericForm">
+
+            <!-- Variant Switcher -->
+            <div class="variant-switcher">
+              <div class="variant-switcher-label">Template Variant</div>
+              <div class="variant-options">
+
+                <button type="button" class="variant-option active" onclick="setVariant('v1', this)">
+                  <div class="variant-thumb">
+                    <div style="width:88%;height:38px;display:flex;border:1px solid #ddd;border-radius:2px;overflow:hidden;background:white;">
+                      <div style="width:3px;background:#ff1818;flex-shrink:0;"></div>
+                      <div style="flex:1;padding:5px 6px;display:flex;flex-direction:column;justify-content:center;gap:3px;">
+                        <div style="height:5px;background:#222;border-radius:1px;"></div>
+                        <div style="height:4px;background:#ddd;border-radius:1px;width:75%;"></div>
+                      </div>
+                      <div style="width:26px;background:#e0e0e0;flex-shrink:0;"></div>
+                    </div>
+                  </div>
+                  <span class="variant-option-name">Headline Card</span>
+                </button>
+
+                <button type="button" class="variant-option" onclick="setVariant('v2', this)">
+                  <div class="variant-thumb">
+                    <div style="width:88%;border:1px solid #ddd;border-radius:2px;overflow:hidden;">
+                      <div style="height:22px;background:#d8d8d8;"></div>
+                      <div style="padding:4px 6px;background:white;">
+                        <div style="height:5px;background:#222;border-radius:1px;margin-bottom:2px;"></div>
+                        <div style="height:3px;background:#ddd;border-radius:1px;width:70%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="variant-option-name">Photo Feature</span>
+                </button>
+
+                <button type="button" class="variant-option" onclick="setVariant('v3', this)">
+                  <div class="variant-thumb">
+                    <div style="width:88%;border:1px solid #ddd;border-radius:2px;overflow:hidden;">
+                      <div style="background:#1a1a1a;aspect-ratio:16/9;position:relative;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:14px;height:14px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                          <div style="width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:7px solid #111;margin-left:1px;"></div>
+                        </div>
+                      </div>
+                      <div style="background:white;padding:4px 6px;">
+                        <div style="height:4px;background:#222;border-radius:1px;margin-bottom:2px;"></div>
+                        <div style="height:3px;background:#ddd;border-radius:1px;width:70%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="variant-option-name">Video Feature</span>
+                </button>
+
+              </div>
+            </div>
+
             <div class="form-group">
               <label>Title <span class="required">*</span></label>
               <input type="text" name="title" maxlength="100" placeholder="Enter embed title" required>
               <div class="char-count"><span class="count">0</span>/100</div>
             </div>
-
             <div class="form-group">
               <label>Description</label>
               <textarea name="description" maxlength="500" placeholder="Enter description (optional)"></textarea>
               <div class="char-count"><span class="count">0</span>/500</div>
             </div>
-
             <div class="form-group">
               <label>Image URL</label>
               <input type="url" name="image" placeholder="https://example.com/image.jpg">
             </div>
-
             <div class="form-group">
               <label>Link URL</label>
               <input type="url" name="link" placeholder="https://example.com">
             </div>
-
             <div class="form-group">
               <label>CTA Button Label</label>
               <input type="text" name="ctaButtonText" maxlength="50" placeholder="e.g., Read Full Story">
               <div class="char-count"><span class="count">0</span>/50</div>
             </div>
-
             <div class="form-group">
               <label>CTA Button URL</label>
               <input type="url" name="ctaButtonUrl" placeholder="https://example.com">
             </div>
           </form>
         </div>
-
         <div class="preview-section">
           <div class="preview-label">Live Preview</div>
           <div id="genericPreview"></div>
@@ -704,24 +980,8 @@
       </div>
     </div>
 
-    <!-- Preview Only View -->
-    <div id="generic-preview" class="sub-tab-content">
-      <div class="preview-section" style="margin: 0;">
-        <div class="preview-label">Embed Preview</div>
-        <div id="genericPreviewOnly"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Review Embed Tab -->
-  <div id="review" class="tab-content">
-    <div class="sub-tabs">
-      <button class="sub-tab-button active" data-subtab="review-form">Form Editor</button>
-      <button class="sub-tab-button" data-subtab="review-preview">Preview</button>
-    </div>
-
-    <!-- Form View -->
-    <div id="review-form" class="sub-tab-content active">
+    <!-- REVIEW PANEL -->
+    <div id="editor-review" class="editor-panel">
       <div class="editor-layout">
         <div class="form-section">
           <form id="reviewForm">
@@ -730,23 +990,19 @@
               <input type="text" name="albumName" maxlength="100" placeholder="e.g., Midnights" required>
               <div class="char-count"><span class="count">0</span>/100</div>
             </div>
-
             <div class="form-group">
               <label>Artist Name <span class="required">*</span></label>
               <input type="text" name="artistName" maxlength="100" placeholder="e.g., Taylor Swift" required>
               <div class="char-count"><span class="count">0</span>/100</div>
             </div>
-
             <div class="form-group">
-              <label>Rating (0-5 stars) <span class="required">*</span></label>
+              <label>Rating (0–5 stars) <span class="required">*</span></label>
               <input type="number" name="rating" min="0" max="5" step="0.5" placeholder="3.5" required>
             </div>
-
             <div class="form-group">
               <label>Cover Art URL</label>
               <input type="url" name="coverArt" placeholder="https://example.com/cover.jpg">
             </div>
-
             <div class="form-group">
               <label>Best Track</label>
               <div class="form-group-nested">
@@ -761,7 +1017,6 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group">
               <label>Skip Track</label>
               <div class="form-group-nested">
@@ -776,17 +1031,13 @@
                 </div>
               </div>
             </div>
-
             <div class="form-group">
-              <label>For Fans Of (max 5)</label>
-              <div class="form-group-array" id="forFansContainer">
-                <!-- Items added dynamically -->
-              </div>
-              <button type="button" class="btn-add-item" onclick="addForFansItem('review')">+ Add Artist/Genre</button>
+              <label>For Fans Of <span style="font-weight:400;color:var(--cms-sub);">(max 5)</span></label>
+              <div class="form-group-array" id="forFansContainer"></div>
+              <button type="button" class="btn-add-item" onclick="addForFansItem('review')">+ Add Artist / Genre</button>
             </div>
           </form>
         </div>
-
         <div class="preview-section">
           <div class="preview-label">Live Preview</div>
           <div id="reviewPreview"></div>
@@ -794,24 +1045,8 @@
       </div>
     </div>
 
-    <!-- Preview Only View -->
-    <div id="review-preview" class="sub-tab-content">
-      <div class="preview-section" style="margin: 0;">
-        <div class="preview-label">Embed Preview</div>
-        <div id="reviewPreviewOnly"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Timeline Embed Tab -->
-  <div id="timeline" class="tab-content">
-    <div class="sub-tabs">
-      <button class="sub-tab-button active" data-subtab="timeline-form">Form Editor</button>
-      <button class="sub-tab-button" data-subtab="timeline-preview">Preview</button>
-    </div>
-
-    <!-- Form View -->
-    <div id="timeline-form" class="sub-tab-content active">
+    <!-- TIMELINE PANEL -->
+    <div id="editor-timeline" class="editor-panel">
       <div class="editor-layout">
         <div class="form-section">
           <form id="timelineForm">
@@ -820,23 +1055,18 @@
               <input type="text" name="title" maxlength="100" placeholder="e.g., Key Events in the Conflict" required>
               <div class="char-count"><span class="count">0</span>/100</div>
             </div>
-
             <div class="form-group">
-              <label>Timeline Description</label>
+              <label>Description</label>
               <textarea name="description" maxlength="300" placeholder="Optional introduction to the timeline"></textarea>
               <div class="char-count"><span class="count">0</span>/300</div>
             </div>
-
             <div class="form-group">
-              <label>Date Markers (3-10 required) <span class="required">*</span></label>
-              <div class="form-group-array" id="markersContainer">
-                <!-- Items added dynamically -->
-              </div>
+              <label>Date Markers <span class="required">*</span> <span style="font-weight:400;color:var(--cms-sub);">(3–10)</span></label>
+              <div class="form-group-array" id="markersContainer"></div>
               <button type="button" class="btn-add-item" onclick="addTimelineMarker()">+ Add Date Marker</button>
             </div>
           </form>
         </div>
-
         <div class="preview-section">
           <div class="preview-label">Live Preview</div>
           <div id="timelinePreview"></div>
@@ -844,25 +1074,310 @@
       </div>
     </div>
 
-    <!-- Preview Only View -->
-    <div id="timeline-preview" class="sub-tab-content">
-      <div class="preview-section" style="margin: 0;">
-        <div class="preview-label">Embed Preview</div>
-        <div id="timelinePreviewOnly"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STORY 1 — STEP 4: ARTICLE PREVIEW
+════════════════════════════════════════════════════════ -->
+<div id="screen-s1-article" class="screen">
+  <div class="flow-header">
+    <button class="flow-back" onclick="goTo('screen-s1-editor')">← Editor</button>
+    <span class="flow-story-label">Story 1: Embed Author</span>
+    <div class="flow-steps">
+      <div class="flow-step done">CMS Editor</div>
+      <div class="flow-step done">Template Library</div>
+      <div class="flow-step done">Fill Content</div>
+      <div class="flow-step active">Article Preview</div>
+    </div>
+  </div>
+
+  <div class="ap-article-topbar">
+    <div class="ap-article-topbar-inner">
+      <div class="ap-news-logo"><span>AP</span> News</div>
+      <nav class="ap-nav">
+        <a href="#">World</a>
+        <a href="#">U.S.</a>
+        <a href="#">Entertainment</a>
+        <a href="#">Sports</a>
+        <a href="#">Science</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="ap-article-main">
+    <div class="ap-article-category" id="articleCategory">Entertainment</div>
+    <h1 class="ap-article-h1" id="articleHeadline">Taylor Swift's 'The Tortured Poets Department': A nuanced look at celebrity grief</h1>
+    <div class="ap-article-byline" id="articleByline">By Mesfin Fekadu, AP Music Writer · April 18, 2026</div>
+
+    <div class="ap-article-body">
+      <p id="articleBodyBefore">Taylor Swift's 11th studio album arrives weighed with expectation — a meditation on public heartbreak that manages to feel both sprawling and intimate. At 31 tracks across two discs, it asks a great deal of the listener's patience.</p>
+
+      <div class="ap-article-embed-container" id="articleEmbedContainer">
+        <div class="empty-state">No embed yet — go back to the editor to create one.</div>
       </div>
+
+      <p id="articleBodyAfter1">The album's first disc leans into the confessional mode that Swift has perfected over two decades, while the second introduces experimental textures that feel genuinely new for the artist.</p>
+      <p id="articleBodyAfter2">Whether the whole is greater than the sum of its parts is a question the album raises but doesn't fully answer. What isn't in question is Swift's ability to command attention — and on this record, she demands it at full volume.</p>
+    </div>
+
+    <div class="article-end-actions">
+      <button class="btn btn-outline" onclick="goTo('screen-home')">← Home</button>
+      <button class="btn btn-cms" onclick="goTo('screen-s2-builder')">Explore Story 2 →</button>
     </div>
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════════════════
+     STORY 2 — STEP 1: TEMPLATE BUILDER
+════════════════════════════════════════════════════════ -->
+<div id="screen-s2-builder" class="screen builder-screen">
+  <div class="flow-header">
+    <button class="flow-back" onclick="goTo('screen-home')">← Home</button>
+    <span class="flow-story-label">Story 2: Template Creator</span>
+    <div class="flow-steps">
+      <div class="flow-step active">Build Template</div>
+      <div class="flow-step">Review JSON</div>
+      <div class="flow-step">Submit to CMS</div>
+    </div>
+  </div>
+
+  <div class="builder-body">
+    <div style="margin-bottom:18px;">
+      <div style="font-size:20px;font-weight:700;color:var(--cms-text);margin-bottom:4px;">Template Builder</div>
+      <div style="font-size:13px;color:var(--cms-sub);">Define the structure and fields for a new embed template. The JSON schema generates automatically as you build.</div>
+    </div>
+
+    <div class="builder-meta-bar">
+      <div>
+        <label class="builder-meta-label">Template Name</label>
+        <input type="text" id="builderName" class="builder-meta-input" value="Election Results" oninput="updateJsonPreview()">
+        <div class="builder-status-toggle">
+          <label class="toggle-track">
+            <input type="checkbox" id="builderActive" checked onchange="updateToggleLabel()">
+            <span class="toggle-thumb"></span>
+          </label>
+          <span class="toggle-status-label" id="toggleLabel">Active</span>
+        </div>
+      </div>
+      <div>
+        <label class="builder-meta-label">Description</label>
+        <input type="text" id="builderDesc" class="builder-meta-input" value="Live election results with candidate vote totals and projected winner" oninput="updateJsonPreview()">
+      </div>
+    </div>
+
+    <div class="builder-panels">
+      <div class="builder-panel">
+        <div class="builder-panel-head">
+          <span>Fields</span>
+          <span style="font-weight:400;color:var(--cms-sub);font-size:11px;">drag to reorder</span>
+        </div>
+        <div class="builder-panel-body">
+          <div id="builderFieldList"></div>
+          <button class="builder-add-btn" onclick="openFieldModal()">+ Add Field</button>
+        </div>
+      </div>
+
+      <div class="builder-panel">
+        <div class="builder-panel-head">
+          <span>JSON Schema Preview</span>
+          <button onclick="copyJson()" style="padding:4px 10px;font-size:11px;font-weight:600;background:white;border:1px solid var(--cms-border);border-radius:3px;cursor:pointer;font-family:inherit;">Copy</button>
+        </div>
+        <pre class="json-output" id="jsonPreview"></pre>
+      </div>
+    </div>
+
+    <div class="builder-actions">
+      <button class="btn btn-outline" onclick="goTo('screen-home')">Cancel</button>
+      <button class="btn btn-cms" onclick="submitTemplate()">Submit to CMS →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Field Modal -->
+<div id="field-modal" class="field-modal-overlay" onclick="handleFieldModalBg(event)">
+  <div class="field-modal">
+    <div class="field-modal-header">
+      <span>Add Field</span>
+      <button onclick="closeFieldModal()" style="background:none;border:none;color:rgba(255,255,255,0.7);cursor:pointer;font-size:17px;padding:0;">✕</button>
+    </div>
+    <div class="field-modal-body">
+      <div class="field-form-row">
+        <div class="field-form-group">
+          <label class="field-form-label">Field Key <span style="color:var(--ap-red);">*</span></label>
+          <input type="text" id="newFieldKey" class="field-form-input" placeholder="e.g., contestName">
+        </div>
+        <div class="field-form-group">
+          <label class="field-form-label">Label <span style="color:var(--ap-red);">*</span></label>
+          <input type="text" id="newFieldLabel" class="field-form-input" placeholder="e.g., Contest Name">
+        </div>
+      </div>
+      <div class="field-form-row">
+        <div class="field-form-group">
+          <label class="field-form-label">Type</label>
+          <select id="newFieldType" class="field-form-select">
+            <option value="text">Text</option>
+            <option value="url">URL</option>
+            <option value="number">Number</option>
+            <option value="array">Array (repeatable)</option>
+            <option value="boolean">Boolean (toggle)</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
+            <option value="button">Button</option>
+            <option value="icon">Icon</option>
+          </select>
+        </div>
+        <div class="field-form-group">
+          <label class="field-form-label">Max Length <span style="font-weight:400;color:var(--cms-sub);">(text only)</span></label>
+          <input type="number" id="newFieldMax" class="field-form-input" placeholder="e.g., 100" min="1">
+        </div>
+      </div>
+      <div class="field-form-group">
+        <label class="field-form-check">
+          <input type="checkbox" id="newFieldRequired"> Required field
+        </label>
+      </div>
+    </div>
+    <div class="field-modal-footer">
+      <button class="btn btn-outline" onclick="closeFieldModal()">Cancel</button>
+      <button class="btn btn-cms" onclick="confirmAddField()">Add Field</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     STORY 2 — STEP 3: CONFIRM
+════════════════════════════════════════════════════════ -->
+<div id="screen-s2-confirm" class="screen">
+  <div class="confirm-body">
+    <div class="confirm-icon">✓</div>
+    <div class="confirm-title">Template Published!</div>
+    <div class="confirm-desc">
+      The <strong id="confirmedName">Election Results</strong> template has been submitted and added to the CMS template library. Embed authors can now select it when inserting HTML embeds into any article.
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" onclick="goTo('screen-home')">← Back to Home</button>
+      <button class="btn btn-red" onclick="viewNewInLibrary()">See it in the Library →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
 <script>
-  // Sample Data
+  // ── NAVIGATION ─────────────────────────────────────────
+  let currentScreen = 'screen-home';
+
+  function goTo(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    currentScreen = id;
+    window.scrollTo(0, 0);
+  }
+
+  // ── MODAL (CMS) ─────────────────────────────────────────
+  function openModal() {
+    document.getElementById('embed-modal').classList.add('open');
+    document.getElementById('cms-hint').style.opacity = '0';
+  }
+  function closeModal() {
+    document.getElementById('embed-modal').classList.remove('open');
+  }
+  function handleModalBg(e) {
+    if (e.target === document.getElementById('embed-modal')) closeModal();
+  }
+  function onEmbedTypeChange(val) {
+    document.getElementById('templateCallout').style.display = val === 'template' ? 'flex' : 'none';
+  }
+  function goToLibrary() {
+    closeModal();
+    goTo('screen-s1-library');
+  }
+
+  // ── TEMPLATE SELECTION ─────────────────────────────────
+  let selectedTemplate = null;
+  const templateNames = { generic: 'Generic Embed', review: 'Review Embed', timeline: 'Timeline Embed' };
+
+  function selectTemplate(id) {
+    selectedTemplate = id;
+    document.querySelectorAll('.editor-panel').forEach(p => p.classList.remove('on'));
+    document.getElementById('editor-' + id).classList.add('on');
+    document.getElementById('editorTemplateName').textContent = templateNames[id];
+    goTo('screen-s1-editor');
+
+    if (id === 'generic' && !document.getElementById('genericForm').dataset.init) {
+      populateGeneric(sampleData.generic);
+      document.getElementById('genericForm').dataset.init = '1';
+    }
+    if (id === 'review' && !document.getElementById('reviewForm').dataset.init) {
+      populateReview(sampleData.review);
+      document.getElementById('reviewForm').dataset.init = '1';
+    }
+    if (id === 'timeline' && !document.getElementById('timelineForm').dataset.init) {
+      populateTimeline(sampleData.timeline);
+      document.getElementById('timelineForm').dataset.init = '1';
+    }
+
+    if (id === 'generic') renderGenericPreview();
+    if (id === 'review') renderReviewPreview();
+    if (id === 'timeline') renderTimelinePreview();
+  }
+
+  // ── ARTICLE PREVIEW ────────────────────────────────────
+  const articleContent = {
+    generic: {
+      category: 'Politics',
+      headline: '2026 midterms: Inside the races that will decide control of Congress',
+      byline: 'By Lisa Mascaro and Farnoush Amiri, AP Congressional Correspondents · April 18, 2026',
+      before: 'With control of the House and Senate up for grabs, AP\'s political team is tracking dozens of battleground races as candidates make their closing arguments to voters across key districts.',
+      after1: 'Democratic strategists say enthusiasm among suburban voters — particularly women — could tip the balance in several toss-up races, while Republicans are banking on economic anxieties and immigration to drive turnout.',
+      after2: 'The final weeks of the campaign have brought a surge in outside spending, with political action committees pouring record sums into advertising from Arizona to Pennsylvania.'
+    },
+    review: {
+      category: 'Entertainment',
+      headline: 'Taylor Swift\'s \'The Tortured Poets Department\': A nuanced look at celebrity grief',
+      byline: 'By Mesfin Fekadu, AP Music Writer · April 18, 2026',
+      before: 'Taylor Swift\'s 11th studio album arrives weighed with expectation — a meditation on public heartbreak that manages to feel both sprawling and intimate. At 31 tracks across two discs, it asks a great deal of the listener\'s patience.',
+      after1: 'The album\'s first disc leans into the confessional mode that Swift has perfected over two decades, while the second introduces experimental textures that feel genuinely new for the artist.',
+      after2: 'Whether the whole is greater than the sum of its parts is a question the album raises but doesn\'t fully answer. What isn\'t in question is Swift\'s ability to command attention — and on this record, she demands it at full volume.'
+    },
+    timeline: {
+      category: 'World',
+      headline: 'Iran\'s Strait of Hormuz closure reshapes global energy markets and tests U.S. resolve',
+      byline: 'By Amir Vahdat and Matthew Lee, AP Foreign Policy Writers · April 18, 2026',
+      before: 'The closure of the Strait of Hormuz — through which nearly a fifth of the world\'s oil flows — has sent shockwaves through commodity markets and forced a rapid diplomatic response from Washington and its allies.',
+      after1: 'Analysts say the standoff marks one of the most serious tests of Iranian resolve since the 2019 tanker attacks, with U.S. officials scrambling to avoid a military confrontation while keeping allied nations reassured.',
+      after2: 'The crisis has exposed the fragility of global energy supply chains and reignited debate over the pace of the energy transition, with oil-importing nations racing to tap their strategic reserves.'
+    }
+  };
+
+  function saveAndPreview() {
+    let html = '';
+    if (selectedTemplate === 'generic') html = document.getElementById('genericPreview').innerHTML;
+    else if (selectedTemplate === 'review') html = document.getElementById('reviewPreview').innerHTML;
+    else if (selectedTemplate === 'timeline') html = document.getElementById('timelinePreview').innerHTML;
+    document.getElementById('articleEmbedContainer').innerHTML = html || '<div class="empty-state">No content — go back and fill in the form.</div>';
+
+    const a = articleContent[selectedTemplate] || articleContent.review;
+    document.getElementById('articleCategory').textContent = a.category;
+    document.getElementById('articleHeadline').textContent = a.headline;
+    document.getElementById('articleByline').textContent = a.byline;
+    document.getElementById('articleBodyBefore').textContent = a.before;
+    document.getElementById('articleBodyAfter1').textContent = a.after1;
+    document.getElementById('articleBodyAfter2').textContent = a.after2;
+
+    goTo('screen-s1-article');
+  }
+
+  // ── SAMPLE DATA ────────────────────────────────────────
   const sampleData = {
     generic: {
-      title: "Breaking News Alert",
-      description: "Stay informed about the latest developments in this ongoing story. Click below to read the full coverage and analysis.",
-      image: "https://via.placeholder.com/600x400?text=Breaking+News",
+      title: "Ground Game Newsletter",
+      description: "Exclusive insights and key stories from the world of politics.",
+      image: "https://via.placeholder.com/600x340?text=Ground+Game",
       link: "https://apnews.com",
-      ctaButtonText: "Read Full Story",
+      ctaButtonText: "Subscribe Free",
       ctaButtonUrl: "https://apnews.com"
     },
     review: {
@@ -870,275 +1385,243 @@
       artistName: "Taylor Swift",
       rating: 4.5,
       coverArt: "https://via.placeholder.com/300x300?text=Album+Cover",
-      bestTrackLabel: "All Too Well (10 Min Version)",
+      bestTrackLabel: "The Smallest Man Who Ever Lived",
       bestTrackUrl: "https://apnews.com",
-      skipTrackLabel: "Vigilante Sh*t",
+      skipTrackLabel: "I Hate It Here",
       skipTrackUrl: "https://apnews.com",
       forFansOf: [
         { label: "Folklore", url: "https://apnews.com" },
-        { label: "Indie Folk", url: "" }
+        { label: "Lana Del Rey", url: "https://apnews.com" },
+        { label: "Phoebe Bridgers", url: "" }
       ]
     },
     timeline: {
-      title: "Ukraine Crisis: Key Events",
-      description: "A chronology of major events since Russia's invasion of Ukraine in February 2022.",
+      title: "Strait of Hormuz Crisis: Key Events",
+      description: "A timeline of the escalating crisis after Iran moved to restrict shipping through one of the world's most critical oil chokepoints.",
       markers: [
-        {
-          date: "February 24, 2022",
-          title: "Russia Invades Ukraine",
-          description: "Russian forces launch a full-scale military invasion across multiple fronts.",
-          image: "https://via.placeholder.com/400x300?text=Event+1",
-          link: "https://apnews.com"
-        },
-        {
-          date: "March 2, 2022",
-          title: "Kharkiv Offensive",
-          description: "Ukrainian forces mount counteroffensive near Kharkiv, pushing back Russian advances.",
-          image: "https://via.placeholder.com/400x300?text=Event+2",
-          link: "https://apnews.com"
-        },
-        {
-          date: "May 9, 2022",
-          title: "Victory Day Parade",
-          description: "Russia celebrates Victory Day with military parade in Moscow amid ongoing conflict.",
-          image: "https://via.placeholder.com/400x300?text=Event+3",
-          link: "https://apnews.com"
-        }
+        { date: "June 12, 2025", title: "Iran Closes the Strait", description: "Iranian naval forces move to block commercial shipping through the Strait of Hormuz following the collapse of nuclear negotiations in Vienna.", image: "https://via.placeholder.com/600x260?text=June+12", link: "https://apnews.com" },
+        { date: "June 14, 2025", title: "Oil Prices Surge 18%", description: "Global crude markets spike as traders price in a prolonged blockade. Brent crude surpasses $120 per barrel for the first time since 2022.", image: "https://via.placeholder.com/600x260?text=June+14", link: "https://apnews.com" },
+        { date: "June 17, 2025", title: "U.S. Fifth Fleet Mobilizes", description: "The Pentagon deploys additional destroyers and carrier strike groups to the Persian Gulf, vowing to keep international waters open.", image: "https://via.placeholder.com/600x260?text=June+17", link: "https://apnews.com" },
+        { date: "June 20, 2025", title: "UN Emergency Session", description: "The Security Council convenes as member nations call for an immediate end to the blockade. China and Russia abstain from a resolution condemning Iran.", image: "https://via.placeholder.com/600x260?text=June+20", link: "https://apnews.com" },
+        { date: "June 24, 2025", title: "Partial Reopening Agreed", description: "Iran announces civilian vessels may pass following back-channel talks with European mediators. Military standoff continues as full resolution remains elusive.", image: "https://via.placeholder.com/600x260?text=June+24", link: "https://apnews.com" }
       ]
     }
   };
 
-  // Escape HTML (define early so it can be used in other functions)
+  // ── UTILITIES ──────────────────────────────────────────
   function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
   }
 
-  // Initialize with sample data
-  function initializePrototype() {
-    populateForm('generic', sampleData.generic);
-    populateForm('review', sampleData.review);
-    populateForm('timeline', sampleData.timeline);
-    
-    renderAllPreviews();
-  }
-
-  // Tab Navigation
-  document.querySelectorAll('.tab-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const tabName = e.target.dataset.tab;
-      
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-      
-      document.getElementById(tabName).classList.add('active');
-      e.target.classList.add('active');
-    });
-  });
-
-  // Sub-tab Navigation
-  document.querySelectorAll('.sub-tab-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const subtabName = e.target.dataset.subtab;
-      const tabGroup = e.target.closest('.tab-content');
-      
-      tabGroup.querySelectorAll('.sub-tab-content').forEach(tab => tab.classList.remove('active'));
-      tabGroup.querySelectorAll('.sub-tab-button').forEach(btn => btn.classList.remove('active'));
-      
-      document.getElementById(subtabName).classList.add('active');
-      e.target.classList.add('active');
-    });
-  });
-
-  // Form Population and Rendering
-  function populateForm(template, data) {
-    const form = document.getElementById(template + 'Form');
-    if (!form) return;
-
-    if (template === 'generic') {
-      form.querySelector('[name="title"]').value = data.title || '';
-      form.querySelector('[name="description"]').value = data.description || '';
-      form.querySelector('[name="image"]').value = data.image || '';
-      form.querySelector('[name="link"]').value = data.link || '';
-      form.querySelector('[name="ctaButtonText"]').value = data.ctaButtonText || '';
-      form.querySelector('[name="ctaButtonUrl"]').value = data.ctaButtonUrl || '';
-      
-      form.querySelectorAll('input, textarea').forEach(field => {
-        field.addEventListener('input', () => renderGenericPreview());
-      });
-      updateCharCounts(form);
-    } 
-    else if (template === 'review') {
-      form.querySelector('[name="albumName"]').value = data.albumName || '';
-      form.querySelector('[name="artistName"]').value = data.artistName || '';
-      form.querySelector('[name="rating"]').value = data.rating || '';
-      form.querySelector('[name="coverArt"]').value = data.coverArt || '';
-      form.querySelector('[name="bestTrackLabel"]').value = data.bestTrackLabel || '';
-      form.querySelector('[name="bestTrackUrl"]').value = data.bestTrackUrl || '';
-      form.querySelector('[name="skipTrackLabel"]').value = data.skipTrackLabel || '';
-      form.querySelector('[name="skipTrackUrl"]').value = data.skipTrackUrl || '';
-      
-      form.querySelectorAll('input, textarea').forEach(field => {
-        field.addEventListener('input', () => renderReviewPreview());
-      });
-      
-      data.forFansOf?.forEach(item => {
-        addForFansItem('review', item);
-      });
-      
-      updateCharCounts(form);
-    }
-    else if (template === 'timeline') {
-      form.querySelector('[name="title"]').value = data.title || '';
-      form.querySelector('[name="description"]').value = data.description || '';
-      
-      form.querySelectorAll('input, textarea').forEach(field => {
-        field.addEventListener('input', () => renderTimelinePreview());
-      });
-      
-      data.markers?.forEach((marker, index) => {
-        addTimelineMarker(marker);
-      });
-      
-      updateCharCounts(form);
-    }
-  }
-
-  // Character Counter
-  function updateCharCounts(form = document) {
+  function updateCharCounts(form) {
     form.querySelectorAll('input[maxlength], textarea[maxlength]').forEach(field => {
       const counter = field.parentElement.querySelector('.char-count .count');
       if (counter) {
         counter.textContent = field.value.length;
-        field.addEventListener('input', () => {
-          counter.textContent = field.value.length;
-        });
+        field.addEventListener('input', () => { counter.textContent = field.value.length; });
       }
     });
   }
 
-  // Generic Embed Rendering
-  function renderGenericPreview() {
-    const form = document.getElementById('genericForm');
-    const data = {
-      title: form.querySelector('[name="title"]').value,
-      description: form.querySelector('[name="description"]').value,
-      image: form.querySelector('[name="image"]').value,
-      link: form.querySelector('[name="link"]').value,
-      ctaButtonText: form.querySelector('[name="ctaButtonText"]').value,
-      ctaButtonUrl: form.querySelector('[name="ctaButtonUrl"]').value
-    };
-
-    const titleHtml = data.title
-      ? (data.link ? `<a href="${data.link}" class="ap-embed-title-link"><h2 class="ap-embed-title">${escapeHtml(data.title)}</h2></a>` : `<h2 class="ap-embed-title">${escapeHtml(data.title)}</h2>`)
-      : '<p class="empty-state">Add a title to see preview</p>';
-    const descriptionHtml = data.description
-      ? (data.link ? `<a href="${data.link}" class="ap-embed-description-link"><p class="ap-embed-description">${escapeHtml(data.description)}</p></a>` : `<p class="ap-embed-description">${escapeHtml(data.description)}</p>`)
-      : '';
-    const imageHtml = data.image
-      ? (data.link ? `<a href="${data.link}"><img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'"></a>` : `<img src="${data.image}" alt="" class="ap-embed-image" onerror="this.style.display='none'">`)
-      : '';
-
-    const html = `
-      <div class="ap-generic-embed">
-        <div class="ap-embed-prompt"></div>
-        ${titleHtml}
-        ${descriptionHtml}
-        ${imageHtml}
-        ${data.ctaButtonText && data.ctaButtonUrl ? `<a href="${data.ctaButtonUrl}" class="ap-embed-button">${escapeHtml(data.ctaButtonText)}</a>` : ''}
-      </div>
-    `;
-
-    document.getElementById('genericPreview').innerHTML = html;
-    document.getElementById('genericPreviewOnly').innerHTML = html;
+  function renderStars(rating) {
+    const full = Math.floor(rating);
+    const half = rating % 1 !== 0;
+    return '★'.repeat(full) + (half ? '⯨' : '') + '☆'.repeat(5 - Math.ceil(rating));
   }
 
-  // Review Embed Rendering
-  function renderReviewPreview() {
-    const form = document.getElementById('reviewForm');
-    const albumName = form.querySelector('[name="albumName"]').value;
-    const artistName = form.querySelector('[name="artistName"]').value;
-    const rating = parseFloat(form.querySelector('[name="rating"]').value) || 0;
-    const coverArt = form.querySelector('[name="coverArt"]').value;
-    const bestTrackLabel = form.querySelector('[name="bestTrackLabel"]').value;
-    const bestTrackUrl = form.querySelector('[name="bestTrackUrl"]').value;
-    const skipTrackLabel = form.querySelector('[name="skipTrackLabel"]').value;
-    const skipTrackUrl = form.querySelector('[name="skipTrackUrl"]').value;
+  // ── POPULATE FORMS ─────────────────────────────────────
+  function populateGeneric(d) {
+    const f = document.getElementById('genericForm');
+    f.querySelector('[name="title"]').value = d.title || '';
+    f.querySelector('[name="description"]').value = d.description || '';
+    f.querySelector('[name="image"]').value = d.image || '';
+    f.querySelector('[name="link"]').value = d.link || '';
+    f.querySelector('[name="ctaButtonText"]').value = d.ctaButtonText || '';
+    f.querySelector('[name="ctaButtonUrl"]').value = d.ctaButtonUrl || '';
+    f.querySelectorAll('input,textarea').forEach(el => el.addEventListener('input', renderGenericPreview));
+    updateCharCounts(f);
+  }
 
-    const forFansItems = Array.from(form.querySelectorAll('.array-item')).map(item => ({
+  function populateReview(d) {
+    const f = document.getElementById('reviewForm');
+    f.querySelector('[name="albumName"]').value = d.albumName || '';
+    f.querySelector('[name="artistName"]').value = d.artistName || '';
+    f.querySelector('[name="rating"]').value = d.rating || '';
+    f.querySelector('[name="coverArt"]').value = d.coverArt || '';
+    f.querySelector('[name="bestTrackLabel"]').value = d.bestTrackLabel || '';
+    f.querySelector('[name="bestTrackUrl"]').value = d.bestTrackUrl || '';
+    f.querySelector('[name="skipTrackLabel"]').value = d.skipTrackLabel || '';
+    f.querySelector('[name="skipTrackUrl"]').value = d.skipTrackUrl || '';
+    f.querySelectorAll('input,textarea').forEach(el => el.addEventListener('input', renderReviewPreview));
+    (d.forFansOf || []).forEach(item => addForFansItem('review', item));
+    updateCharCounts(f);
+  }
+
+  function populateTimeline(d) {
+    const f = document.getElementById('timelineForm');
+    f.querySelector('[name="title"]').value = d.title || '';
+    f.querySelector('[name="description"]').value = d.description || '';
+    f.querySelectorAll('input,textarea').forEach(el => el.addEventListener('input', renderTimelinePreview));
+    (d.markers || []).forEach(m => addTimelineMarker(m));
+    updateCharCounts(f);
+  }
+
+  // ── GENERIC VARIANT STATE ──────────────────────────────
+  let selectedGenericVariant = 'v1';
+
+  function setVariant(v, btn) {
+    selectedGenericVariant = v;
+    document.querySelectorAll('.variant-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGenericPreview();
+  }
+
+  function getGenericData() {
+    const f = document.getElementById('genericForm');
+    return {
+      title: f.querySelector('[name="title"]').value,
+      description: f.querySelector('[name="description"]').value,
+      image: f.querySelector('[name="image"]').value,
+      link: f.querySelector('[name="link"]').value,
+      ctaButtonText: f.querySelector('[name="ctaButtonText"]').value,
+      ctaButtonUrl: f.querySelector('[name="ctaButtonUrl"]').value
+    };
+  }
+
+  // ── RENDER: GENERIC (dispatches to variant) ────────────
+  function renderGenericPreview() {
+    const d = getGenericData();
+    let html = '';
+    if (selectedGenericVariant === 'v1') html = renderGenericV1(d);
+    else if (selectedGenericVariant === 'v2') html = renderGenericV2(d);
+    else if (selectedGenericVariant === 'v3') html = renderGenericV3(d);
+    document.getElementById('genericPreview').innerHTML = html;
+  }
+
+  // Variant 1 — Headline Card (horizontal, left accent bar, image right)
+  function renderGenericV1(d) {
+    if (!d.title) return '<p class="empty-state">Add a title to see preview</p>';
+    const titleEl = d.link
+      ? `<div class="v1-title"><a href="${d.link}">${escapeHtml(d.title)}</a></div>`
+      : `<div class="v1-title">${escapeHtml(d.title)}</div>`;
+    const descEl = d.description ? `<div class="v1-desc">${escapeHtml(d.description)}</div>` : '';
+    const ctaEl = d.ctaButtonText && d.ctaButtonUrl
+      ? `<div class="v1-cta"><a href="${d.ctaButtonUrl}" class="ap-embed-button" style="font-size:12px;padding:7px 16px;">${escapeHtml(d.ctaButtonText)}</a></div>` : '';
+    const imgEl = d.image
+      ? `<img src="${d.image}" alt="" class="v1-img" onerror="this.style.display='none'">`
+      : `<div class="v1-img-placeholder"></div>`;
+    return `<div class="ap-generic-v1">
+      <div class="v1-content">
+        <div class="ap-embed-prompt"></div>
+        ${titleEl}${descEl}${ctaEl}
+      </div>
+      <div style="overflow:hidden;">${imgEl}</div>
+    </div>`;
+  }
+
+  // Variant 2 — Photo Feature (full-width image top, editorial body below)
+  function renderGenericV2(d) {
+    if (!d.title) return '<p class="empty-state">Add a title to see preview</p>';
+    const imgEl = d.image
+      ? `<div class="v2-img-wrap"><img src="${d.image}" alt="" onerror="this.parentElement.innerHTML='<div class=v2-img-empty><span class=v2-img-empty-label>Image unavailable</span></div>'"></div>`
+      : `<div class="v2-img-wrap"><div class="v2-img-empty"><span class="v2-img-empty-label">No image URL provided</span></div></div>`;
+    const titleEl = d.link
+      ? `<div class="v2-title"><a href="${d.link}">${escapeHtml(d.title)}</a></div>`
+      : `<div class="v2-title">${escapeHtml(d.title)}</div>`;
+    const descEl = d.description ? `<p class="v2-desc">${escapeHtml(d.description)}</p>` : '';
+    const ctaEl = d.ctaButtonText && d.ctaButtonUrl
+      ? `<a href="${d.ctaButtonUrl}" class="ap-embed-button">${escapeHtml(d.ctaButtonText)}</a>` : '';
+    return `<div class="ap-generic-v2">
+      ${imgEl}
+      <div class="v2-body">
+        <div class="ap-embed-prompt"></div>
+        ${titleEl}${descEl}
+        ${ctaEl ? `<div class="v2-footer"><span class="v2-ap-credit">AP News</span>${ctaEl}</div>` : '<div class="v2-footer"><span class="v2-ap-credit">AP News</span></div>'}
+      </div>
+    </div>`;
+  }
+
+  // Variant 3 — Video Feature
+  function renderGenericV3(d) {
+    if (!d.title) return '<p class="empty-state">Add a title to see preview</p>';
+    const imgEl = d.image
+      ? `<img src="${d.image}" alt="">`
+      : `<div class="v3-video-empty"><div style="opacity:0.3;font-size:12px;color:white;">Video</div></div>`;
+    const titleOverlay = d.link
+      ? `<div class="v3-video-title"><a href="${d.link}" style="color:white;text-decoration:none;">${escapeHtml(d.title)}</a></div>`
+      : `<div class="v3-video-title">${escapeHtml(d.title)}</div>`;
+    const descEl = d.description ? `<p class="v3-desc">${escapeHtml(d.description)}</p>` : '';
+    const ctaEl = d.ctaButtonText && d.ctaButtonUrl
+      ? `<a href="${d.ctaButtonUrl}" class="ap-embed-button">${escapeHtml(d.ctaButtonText)}</a>` : '';
+    const footer = `<div class="v3-footer"><span class="v3-ap-credit">AP News</span>${ctaEl}</div>`;
+    return `<div class="ap-generic-v3">
+      <div class="v3-video-wrap">
+        ${imgEl}
+        <div class="v3-gradient"></div>
+        <div class="v3-play-btn"><div class="v3-play-triangle"></div></div>
+        ${titleOverlay}
+      </div>
+      <div class="v3-body">
+        ${descEl}
+        ${footer}
+      </div>
+    </div>`;
+  }
+
+  // ── RENDER: REVIEW ─────────────────────────────────────
+  function renderReviewPreview() {
+    const f = document.getElementById('reviewForm');
+    const albumName = f.querySelector('[name="albumName"]').value;
+    const artistName = f.querySelector('[name="artistName"]').value;
+    const rating = parseFloat(f.querySelector('[name="rating"]').value) || 0;
+    const coverArt = f.querySelector('[name="coverArt"]').value;
+    const bestLabel = f.querySelector('[name="bestTrackLabel"]').value;
+    const bestUrl = f.querySelector('[name="bestTrackUrl"]').value;
+    const skipLabel = f.querySelector('[name="skipTrackLabel"]').value;
+    const skipUrl = f.querySelector('[name="skipTrackUrl"]').value;
+    const fans = Array.from(f.querySelectorAll('.array-item')).map(item => ({
       label: item.querySelector('[name*="Label"]')?.value || '',
       url: item.querySelector('[name*="Url"]')?.value || ''
-    })).filter(item => item.label);
-
-    const stars = renderStars(rating);
+    })).filter(i => i.label);
 
     if (!albumName || !artistName) {
       document.getElementById('reviewPreview').innerHTML = '<p class="empty-state">Add album and artist names to see preview</p>';
-      document.getElementById('reviewPreviewOnly').innerHTML = '<p class="empty-state">Add album and artist names to see preview</p>';
       return;
     }
 
-    let html = `
-      <div class="ap-review-embed">
-        <h3 class="ap-review-album">${escapeHtml(albumName)}</h3>
-        <div class="ap-review-header">
-          ${coverArt ? `<img src="${coverArt}" alt="${escapeHtml(albumName)}" class="ap-review-cover" onerror="this.style.display='none'">` : '<div class="ap-review-cover" style="background: #f0f0f0;"></div>'}
-          <div class="ap-review-info">
-            <p class="ap-review-artist">${escapeHtml(artistName)}</p>
-            <div class="ap-review-rating">
-              <span class="ap-stars">${stars}</span>
-              <span class="ap-rating-value">${rating}/5</span>
-            </div>
-          </div>
+    let html = `<div class="ap-review-embed">
+      <h3 class="ap-review-album">${escapeHtml(albumName)}</h3>
+      <div class="ap-review-header">
+        ${coverArt ? `<img src="${coverArt}" alt="${escapeHtml(albumName)}" class="ap-review-cover" onerror="this.style.display='none'">` : '<div class="ap-review-cover"></div>'}
+        <div class="ap-review-info">
+          <p class="ap-review-artist">${escapeHtml(artistName)}</p>
+          <div class="ap-review-rating"><span class="ap-stars">${renderStars(rating)}</span><span class="ap-rating-value">${rating}/5</span></div>
         </div>
-    `;
+      </div>`;
 
-    if (bestTrackLabel || skipTrackLabel) {
+    if (bestLabel || skipLabel) {
       html += '<div class="ap-review-tracks">';
-      if (bestTrackLabel) {
-        html += `
-          <div class="ap-review-track ap-track-best">
-            <span class="ap-track-label">Best Track</span>
-            ${bestTrackUrl ? `<a href="${bestTrackUrl}">${escapeHtml(bestTrackLabel)}</a>` : `<span>${escapeHtml(bestTrackLabel)}</span>`}
-          </div>
-        `;
-      }
-      if (skipTrackLabel) {
-        html += `
-          <div class="ap-review-track ap-track-skip">
-            <span class="ap-track-label">Skip Track</span>
-            ${skipTrackUrl ? `<a href="${skipTrackUrl}">${escapeHtml(skipTrackLabel)}</a>` : `<span>${escapeHtml(skipTrackLabel)}</span>`}
-          </div>
-        `;
-      }
+      if (bestLabel) html += `<div class="ap-review-track"><span class="ap-track-label">Best Track</span>${bestUrl ? `<a href="${bestUrl}">${escapeHtml(bestLabel)}</a>` : `<span>${escapeHtml(bestLabel)}</span>`}</div>`;
+      if (skipLabel) html += `<div class="ap-review-track"><span class="ap-track-label">Skip Track</span>${skipUrl ? `<a href="${skipUrl}">${escapeHtml(skipLabel)}</a>` : `<span>${escapeHtml(skipLabel)}</span>`}</div>`;
       html += '</div>';
     }
 
-    if (forFansItems.length > 0) {
-      html += `
-        <div class="ap-review-for-fans">
-          <p class="ap-for-fans-label">For fans of:</p>
-          <ul class="ap-for-fans-list">
-            ${forFansItems.map(item => item.url ? `<li><a href="${item.url}">${escapeHtml(item.label)}</a></li>` : `<li>${escapeHtml(item.label)}</li>`).join('')}
-          </ul>
-        </div>
-      `;
+    if (fans.length) {
+      html += `<div class="ap-review-for-fans"><p class="ap-for-fans-label">For fans of:</p><ul class="ap-for-fans-list">${fans.map(i => i.url ? `<li><a href="${i.url}">${escapeHtml(i.label)}</a></li>` : `<li>${escapeHtml(i.label)}</li>`).join('')}</ul></div>`;
     }
 
     html += '</div>';
-
     document.getElementById('reviewPreview').innerHTML = html;
-    document.getElementById('reviewPreviewOnly').innerHTML = html;
   }
 
-  // Timeline Embed Rendering
+  // ── RENDER: TIMELINE ───────────────────────────────────
   function renderTimelinePreview() {
-    const form = document.getElementById('timelineForm');
-    const title = form.querySelector('[name="title"]').value;
-    const description = form.querySelector('[name="description"]').value;
-    
-    const markers = Array.from(form.querySelectorAll('.array-item')).map(item => ({
+    const f = document.getElementById('timelineForm');
+    const title = f.querySelector('[name="title"]').value;
+    const desc = f.querySelector('[name="description"]').value;
+    const markers = Array.from(f.querySelectorAll('.array-item')).map(item => ({
       date: item.querySelector('[name*="Date"]')?.value || '',
       title: item.querySelector('[name*="Title"]')?.value || '',
       description: item.querySelector('[name*="Description"]')?.value || '',
@@ -1146,142 +1629,200 @@
       link: item.querySelector('[name*="Link"]')?.value || ''
     })).filter(m => m.date && m.title);
 
-    if (!title || markers.length === 0) {
+    if (!title || !markers.length) {
       document.getElementById('timelinePreview').innerHTML = '<p class="empty-state">Add a title and at least one date marker to see preview</p>';
-      document.getElementById('timelinePreviewOnly').innerHTML = '<p class="empty-state">Add a title and at least one date marker to see preview</p>';
       return;
     }
 
-    let html = `
-      <div class="ap-timeline-embed">
-        <div class="ap-timeline-header">
-          <h2 class="ap-timeline-title">${escapeHtml(title)}</h2>
-          ${description ? `<p class="ap-timeline-description">${escapeHtml(description)}</p>` : ''}
-        </div>
-        <div class="ap-timeline-container">
-    `;
-
-    markers.forEach(marker => {
-      html += `
-        <div class="ap-timeline-marker">
-          <div class="ap-timeline-date">${escapeHtml(marker.date)}</div>
-          <div class="ap-timeline-event">
-            <h3 class="ap-timeline-event-title">${escapeHtml(marker.title)}</h3>
-            ${marker.description ? `<p class="ap-timeline-event-description">${escapeHtml(marker.description)}</p>` : ''}
-            ${marker.image ? `<img src="${marker.image}" alt="" class="ap-timeline-event-image" onerror="this.style.display='none'">` : ''}
-            ${marker.link ? `<a href="${marker.link}" class="ap-timeline-event-link">Read Full Story</a>` : ''}
-          </div>
-        </div>
-      `;
+    let html = `<div class="ap-timeline-embed"><div class="ap-timeline-header"><h2 class="ap-timeline-title">${escapeHtml(title)}</h2>${desc ? `<p class="ap-timeline-description">${escapeHtml(desc)}</p>` : ''}<img src="https://via.placeholder.com/600x260?text=Featured+Image" alt="" class="ap-timeline-hero-image"></div><div class="ap-timeline-container">`;
+    markers.forEach(m => {
+      const imgHtml = m.image ? `<img src="${m.image}" alt="" class="ap-timeline-event-image" onerror="this.style.display='none'">` : '';
+      html += `<div class="ap-timeline-marker"><div class="ap-timeline-date">${escapeHtml(m.date)}</div><div class="ap-timeline-event">${imgHtml}<h3 class="ap-timeline-event-title">${escapeHtml(m.title)}</h3>${m.description ? `<p class="ap-timeline-event-description">${escapeHtml(m.description)}</p>` : ''}${m.link ? `<a href="${m.link}" class="ap-timeline-event-link">Read Full Story →</a>` : ''}</div></div>`;
     });
-
-    html += `
-        </div>
-      </div>
-    `;
-
+    html += '</div></div>';
     document.getElementById('timelinePreview').innerHTML = html;
-    document.getElementById('timelinePreviewOnly').innerHTML = html;
   }
 
-  // Helper: Render Stars
-  function renderStars(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalf = rating % 1 !== 0;
-    let stars = '★'.repeat(fullStars);
-    if (hasHalf) stars += '⯨';
-    stars += '☆'.repeat(5 - Math.ceil(rating));
-    return stars;
-  }
-
-  // Add For Fans Item
+  // ── DYNAMIC ARRAY ITEMS ─────────────────────────────────
   function addForFansItem(template, item = {}) {
-    const form = document.getElementById(template + 'Form');
-    const container = form.querySelector('#forFansContainer');
-    const itemId = Date.now() + Math.random();
-    
-    const html = `
-      <div class="array-item">
-        <div class="array-item-header">
-          <span class="array-item-title">Artist/Genre</span>
-          <button type="button" class="btn-remove" onclick="this.closest('.array-item').remove(); renderReviewPreview();">Remove</button>
-        </div>
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" name="forFansLabel_${itemId}" maxlength="100" placeholder="e.g., The National" value="${escapeHtml(item.label || '')}">
-        </div>
-        <div class="form-group">
-          <label>Link</label>
-          <input type="url" name="forFansUrl_${itemId}" placeholder="https://example.com" value="${escapeHtml(item.url || '')}">
-        </div>
-      </div>
-    `;
-
-    const itemElement = document.createElement('div');
-    itemElement.innerHTML = html;
-    const newItem = itemElement.firstElementChild;
+    const container = document.getElementById('forFansContainer');
+    const id = Date.now() + Math.random();
+    const el = document.createElement('div');
+    el.innerHTML = `<div class="array-item"><div class="array-item-header"><span class="array-item-title">Artist / Genre</span><button type="button" class="btn-remove" onclick="this.closest('.array-item').remove();renderReviewPreview();">Remove</button></div><div class="form-group"><label>Name</label><input type="text" name="forFansLabel_${id}" maxlength="100" placeholder="e.g., Phoebe Bridgers" value="${escapeHtml(item.label || '')}"></div><div class="form-group"><label>Link</label><input type="url" name="forFansUrl_${id}" placeholder="https://example.com" value="${escapeHtml(item.url || '')}"></div></div>`;
+    const newItem = el.firstElementChild;
     container.appendChild(newItem);
-    
-    newItem.querySelectorAll('input').forEach(field => {
-      field.addEventListener('input', () => renderReviewPreview());
-    });
+    newItem.querySelectorAll('input').forEach(f => f.addEventListener('input', renderReviewPreview));
   }
 
-  // Add Timeline Marker
   function addTimelineMarker(marker = {}) {
-    const form = document.getElementById('timelineForm');
-    const container = form.querySelector('#markersContainer');
-    const itemId = Date.now() + Math.random();
-    
-    const html = `
-      <div class="array-item">
-        <div class="array-item-header">
-          <span class="array-item-title">Date Marker</span>
-          <button type="button" class="btn-remove" onclick="this.closest('.array-item').remove(); renderTimelinePreview();">Remove</button>
-        </div>
-        <div class="form-group">
-          <label>Date <span class="required">*</span></label>
-          <input type="text" name="markerDate_${itemId}" placeholder="e.g., January 15, 2024" value="${escapeHtml(marker.date || '')}" required>
-        </div>
-        <div class="form-group">
-          <label>Event Title <span class="required">*</span></label>
-          <input type="text" name="markerTitle_${itemId}" maxlength="100" placeholder="Brief event headline" value="${escapeHtml(marker.title || '')}" required>
-        </div>
-        <div class="form-group">
-          <label>Event Description</label>
-          <textarea name="markerDescription_${itemId}" maxlength="300" placeholder="More detail about the event">${escapeHtml(marker.description || '')}</textarea>
-        </div>
-        <div class="form-group">
-          <label>Event Image URL</label>
-          <input type="url" name="markerImage_${itemId}" placeholder="https://example.com/image.jpg" value="${escapeHtml(marker.image || '')}">
-        </div>
-        <div class="form-group">
-          <label>Related Article Link</label>
-          <input type="url" name="markerLink_${itemId}" placeholder="https://apnews.com/article" value="${escapeHtml(marker.link || '')}">
-        </div>
-      </div>
-    `;
-
-    const itemElement = document.createElement('div');
-    itemElement.innerHTML = html;
-    const newItem = itemElement.firstElementChild;
+    const container = document.getElementById('markersContainer');
+    const id = Date.now() + Math.random();
+    const el = document.createElement('div');
+    el.innerHTML = `<div class="array-item"><div class="array-item-header"><span class="array-item-title">Date Marker</span><button type="button" class="btn-remove" onclick="this.closest('.array-item').remove();renderTimelinePreview();">Remove</button></div><div class="form-group"><label>Date <span class="required">*</span></label><input type="text" name="markerDate_${id}" placeholder="e.g., January 15, 2024" value="${escapeHtml(marker.date || '')}"></div><div class="form-group"><label>Event Title <span class="required">*</span></label><input type="text" name="markerTitle_${id}" maxlength="100" placeholder="Brief headline" value="${escapeHtml(marker.title || '')}"></div><div class="form-group"><label>Event Description</label><textarea name="markerDescription_${id}" maxlength="300" placeholder="More detail about the event">${escapeHtml(marker.description || '')}</textarea></div><div class="form-group"><label>Event Image URL</label><input type="url" name="markerImage_${id}" placeholder="https://example.com/image.jpg" value="${escapeHtml(marker.image || '')}"></div><div class="form-group"><label>Related Article Link</label><input type="url" name="markerLink_${id}" placeholder="https://apnews.com/article" value="${escapeHtml(marker.link || '')}"></div></div>`;
+    const newItem = el.firstElementChild;
     container.appendChild(newItem);
-    
-    newItem.querySelectorAll('input, textarea').forEach(field => {
-      field.addEventListener('input', () => renderTimelinePreview());
+    newItem.querySelectorAll('input,textarea').forEach(f => f.addEventListener('input', renderTimelinePreview));
+  }
+
+  // ── STORY 2: BUILDER ────────────────────────────────────
+  let builderFields = [
+    { id: 1, key: 'contestName',  label: 'Contest Name',   type: 'text',    required: true,  maxLength: 100 },
+    { id: 2, key: 'electionDate', label: 'Election Date',  type: 'text',    required: true,  maxLength: null },
+    { id: 3, key: 'headline',     label: 'Headline',       type: 'text',    required: false, maxLength: 150 },
+    { id: 4, key: 'candidates',   label: 'Candidates',     type: 'array',   required: true,  maxLength: null },
+    { id: 5, key: 'isProjected',  label: 'Result Is Projected', type: 'boolean', required: false, maxLength: null },
+  ];
+  let nextFieldId = 6;
+
+  function badgeClass(type) {
+    return { text: 'badge-text', url: 'badge-url', number: 'badge-number', array: 'badge-array', boolean: 'badge-bool' }[type] || 'badge-text';
+  }
+
+  function renderBuilderFields() {
+    const list = document.getElementById('builderFieldList');
+    if (!builderFields.length) {
+      list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--cms-sub);font-size:13px;">No fields yet — add one below</div>';
+      return;
+    }
+    list.innerHTML = builderFields.map(f => `
+      <div class="builder-field-item">
+        <div class="builder-drag-handle"><span></span><span></span><span></span></div>
+        <div style="flex:1;">
+          <div class="builder-field-name">${escapeHtml(f.label)}</div>
+          <div class="builder-field-meta">${f.key}${f.maxLength ? ' · max ' + f.maxLength : ''}</div>
+        </div>
+        <div class="builder-field-badges">
+          <span class="badge ${badgeClass(f.type)}">${f.type}</span>
+          ${f.required ? '<span class="badge badge-req">required</span>' : ''}
+          <button class="builder-remove-btn" onclick="removeBuilderField(${f.id})">✕</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function removeBuilderField(id) {
+    builderFields = builderFields.filter(f => f.id !== id);
+    renderBuilderFields();
+    updateJsonPreview();
+  }
+
+  function updateToggleLabel() {
+    const active = document.getElementById('builderActive').checked;
+    const label = document.getElementById('toggleLabel');
+    label.textContent = active ? 'Active' : 'Inactive';
+    label.style.color = active ? '#22a06b' : 'var(--cms-sub)';
+  }
+
+  function updateJsonPreview() {
+    const name = document.getElementById('builderName').value.trim() || 'Untitled Template';
+    const desc = document.getElementById('builderDesc').value.trim();
+    const id = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '-embed';
+
+    const vars = {};
+    builderFields.forEach(f => {
+      const v = { type: f.type, label: f.label, required: f.required };
+      if (f.maxLength) v.maxLength = f.maxLength;
+      if (f.type === 'array') {
+        v.items = { type: 'object', properties: { value: { type: 'text', label: 'Value' } } };
+        v.maxItems = 10;
+      }
+      vars[f.key] = v;
+    });
+
+    const schema = { id, name, description: desc, variables: vars };
+    document.getElementById('jsonPreview').textContent = JSON.stringify(schema, null, 2);
+  }
+
+  function openFieldModal() {
+    document.getElementById('newFieldKey').value = '';
+    document.getElementById('newFieldLabel').value = '';
+    document.getElementById('newFieldType').value = 'text';
+    document.getElementById('newFieldMax').value = '';
+    document.getElementById('newFieldRequired').checked = false;
+    document.getElementById('field-modal').classList.add('open');
+    setTimeout(() => document.getElementById('newFieldLabel').focus(), 50);
+  }
+
+  function closeFieldModal() {
+    document.getElementById('field-modal').classList.remove('open');
+  }
+
+  function handleFieldModalBg(e) {
+    if (e.target === document.getElementById('field-modal')) closeFieldModal();
+  }
+
+  function confirmAddField() {
+    const label = document.getElementById('newFieldLabel').value.trim();
+    const key = document.getElementById('newFieldKey').value.trim()
+      || label.replace(/\s+(.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, c => c.toLowerCase()).replace(/[^a-zA-Z0-9]/g, '');
+    const type = document.getElementById('newFieldType').value;
+    const maxLength = parseInt(document.getElementById('newFieldMax').value) || null;
+    const required = document.getElementById('newFieldRequired').checked;
+
+    if (!label) { alert('Please enter a field label.'); return; }
+
+    builderFields.push({ id: nextFieldId++, key: key || 'field' + nextFieldId, label, type, required, maxLength });
+    closeFieldModal();
+    renderBuilderFields();
+    updateJsonPreview();
+  }
+
+  function copyJson() {
+    const text = document.getElementById('jsonPreview').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
     });
   }
 
-  // Render all previews
-  function renderAllPreviews() {
-    renderGenericPreview();
-    renderReviewPreview();
-    renderTimelinePreview();
+  function submitTemplate() {
+    const name = document.getElementById('builderName').value.trim() || 'Untitled Template';
+    document.getElementById('confirmedName').textContent = name;
+    newlyAddedTemplate = {
+      id: 'custom-' + Date.now(),
+      name,
+      desc: document.getElementById('builderDesc').value.trim(),
+      tag: 'Custom'
+    };
+    goTo('screen-s2-confirm');
   }
 
-  // Initialize on load
-  window.addEventListener('load', initializePrototype);
-</script>
+  // ── STORY 2 CONFIRM: ADD TO LIBRARY ────────────────────
+  let newlyAddedTemplate = null;
 
+  function viewNewInLibrary() {
+    if (newlyAddedTemplate) {
+      const grid = document.querySelector('.library-grid');
+      const existing = document.getElementById('new-tpl-card');
+      if (!existing) {
+        const card = document.createElement('div');
+        card.id = 'new-tpl-card';
+        card.className = 'tpl-card';
+        card.innerHTML = `
+          <div class="tpl-thumb">
+            <div class="tpl-thumb-inner" style="text-align:center;padding:20px 10px;">
+              <div style="font-size:28px;margin-bottom:8px;">✦</div>
+              <div style="height:7px;background:#1a1a1a;border-radius:2px;margin-bottom:4px;"></div>
+              <div style="height:6px;background:#ddd;border-radius:2px;width:70%;margin:0 auto;"></div>
+            </div>
+          </div>
+          <div class="tpl-meta">
+            <div class="tpl-name">${escapeHtml(newlyAddedTemplate.name)}</div>
+            <div class="tpl-desc">${escapeHtml(newlyAddedTemplate.desc || 'Custom template added via Template Builder.')}</div>
+            <span class="tpl-tag new">New ✓</span>
+          </div>`;
+        grid.appendChild(card);
+      }
+    }
+    goTo('screen-s1-library');
+  }
+
+  // ── INIT ───────────────────────────────────────────────
+  window.addEventListener('load', () => {
+    renderBuilderFields();
+    updateJsonPreview();
+    document.getElementById('embedTypeSelect').value = 'template';
+  });
+</script>
 </body>
 </html>
